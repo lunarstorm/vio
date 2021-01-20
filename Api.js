@@ -91,7 +91,7 @@ class Api {
 			};
 		}
 
-		console.log('o', o.busyFlag);
+		//console.log('o', o.busyFlag);
 
 		o.busyFlag = true;
 

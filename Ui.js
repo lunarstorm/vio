@@ -1,11 +1,7 @@
 define([
 	'jquery',
-	'knockout',
-	'underscore',
-	'io/app',
-	'io/Modal',
-	'knockout-postbox'
-], function ($, ko, _, io, Modal) {
+	'lodash'
+], function ($, _) {
 	var Z = 9200;
 	var affixBottomCalibrated = false;
 	var $viewport = $('.io-viewport');
@@ -20,12 +16,12 @@ define([
 
 		self.getContainingElement = function () {
 			var $element = $('html, body');
-			if (Modal && Modal.container) {
-				var lastModal = Modal.container.lastModal();
+			if (window.$Modal && window.$Modal.nItems > 0) {
+				/*var lastModal = Modal.container.lastModal();
 				if (lastModal) {
 					var $modal = $('#' + lastModal.id() + ' .io-modal-content');
 					$element = $modal.length > 0 ? $modal : $element;
-				}
+				}*/
 			}
 			return $element;
 		};
@@ -42,7 +38,14 @@ define([
 		self.scrollToBottom = function (speed, offset) {
 			var $element = self.getContainingElement();
 			var scrollTop = $element.prop('scrollHeight') + $element.prop('clientHeight');
-			//var scrollTop = $(document).height() - $(window).height();
+
+			if (self.hasScroll($element)) {
+				$element.animate({scrollTop: scrollTop}, speed || 600, 'swing');
+			}
+		};
+
+		self.scrollToTop = function (speed, offset) {
+			var $element = $('html, body');
 
 			/*if (Modal && Modal.container) {
 				var lastModal = Modal.container.lastModal();
@@ -50,29 +53,7 @@ define([
 					var $modal = $('#' + lastModal.id() + ' .io-modal-content');
 					$element = $modal.length > 0 ? $modal : $element;
 				}
-			}
-			else{
-				scrollTop = $element.outerHeight() - $(window).height();
 			}*/
-
-			//console.log('scrollTop', scrollTop);
-
-			if (self.hasScroll($element)) {
-				$element.animate({scrollTop: scrollTop}, speed || 600, 'swing');
-				//$element.scrollTop(scrollTop);
-			}
-		};
-
-		self.scrollToTop = function (speed, offset) {
-			var $element = $('html, body');
-
-			if (Modal && Modal.container) {
-				var lastModal = Modal.container.lastModal();
-				if (lastModal) {
-					var $modal = $('#' + lastModal.id() + ' .io-modal-content');
-					$element = $modal.length > 0 ? $modal : $element;
-				}
-			}
 
 			$element.animate({
 				scrollTop: offset || 0
@@ -130,9 +111,14 @@ define([
 		};
 
 		self.affixBottom = function ($target, parent, options) {
-			options = $.extend({
-				fluid: false
-			}, options);
+			options = {
+				...options,
+				fluid: false,
+			};
+
+			$target = $($target);
+
+			//console.log('affixBottom', $target);
 
 			var $this = $target, $parent, parentHeight;
 			var fixedStyle = {
@@ -214,284 +200,6 @@ define([
 		};
 
 		self.init = _.once(function () {
-			ko.bindingHandlers['$element'] = {
-				init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-					var val = valueAccessor();
-					val = $(element);
-				}
-			};
-
-			ko.bindingHandlers['scrollId'] = {
-				init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-					var val = valueAccessor();
-					var $element = $(element);
-					var sub;
-
-					var scroll = function () {
-						/*$element.animate({
-						 scrollTop: 0
-						 }, 'fast');*/
-
-						$('html, body').animate({
-							scrollTop: $element.offset().top
-						}, 'fast');
-					};
-
-					if (ko.isObservable(val)) {
-
-					} else {
-						sub = ko.postbox.subscribe(val, function (toggle) {
-							console.log(val, toggle);
-							if (toggle == true) {
-								scroll();
-								ko.postbox.publish(val, false);
-							}
-						});
-					}
-
-					ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-						if (sub) {
-							sub.dispose();
-						}
-					});
-				}
-			};
-
-			ko.bindingHandlers['affix-bottom'] = {
-				init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-					var parent = ko.unwrap(valueAccessor());
-					var affixed = self.affixBottom($(element), parent, {fluid: true});
-
-					ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-						affixed.reset();
-					});
-				}
-			};
-			ko.bindingHandlers['affix-bottom'].preprocess = function (val) {
-				return val || "'#page-content'";
-			};
-
-			ko.bindingHandlers['fix-bottom'] = {
-				init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-					var parent = ko.unwrap(valueAccessor());
-					var options = ko.unwrap(allBindings()) || {};
-					var affixed = self.affixBottom($(element), parent, options);
-
-					ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-						affixed.reset();
-					});
-				}
-			};
-
-			ko.bindingHandlers['affix-top'] = {
-				init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-					//var options = ko.utils.unwrapObservable(valueAccessor()) || {};
-					var parent = ko.unwrap(valueAccessor());
-					self.affixTop($(element), parent);
-				}
-			};
-
-			ko.bindingHandlers['stickyTop'] = {
-				init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-					var $element = $(element);
-					var stickyOffset = $element.offset().top;
-					var $modal = $element.closest('.io-modal');
-					var inModal = $modal.length > 0;
-					var $window = $(window);
-					var $scrollTarget = $window;
-
-					if (inModal) {
-						$scrollTarget = $element.closest('.io-modal-content');
-					}
-
-					// Locate closest .sticky-parent
-					var $parent = $element.closest('.sticky-parent');
-					if ($parent.length == 0) {
-						// Fallback
-						$parent = $('body');
-					}
-
-					var $child = $parent.first('.sticky-child');
-
-					//console.log('Parent of', $element, $parent);
-
-					var elementWidth = $element.outerWidth();
-					var elementHeight = $element.outerHeight();
-					var parentWidth = $parent.outerWidth();
-					var parentPos = $parent.position();
-
-					/*console.log('Element Offset Top', stickyOffset);
-					console.log('Element W', elementWidth);
-					console.log('Parent W', parentWidth);
-					console.log('Parent Pos', parentPos);
-					console.log('Parent Offset', $parent.offset());
-					console.log('Viewport', $viewport.offset());*/
-
-					var handler = _.throttle(function () {
-						var elementHeight = $element.outerHeight();
-						var scrollTop = $scrollTarget.scrollTop() + elementHeight;
-						var top = 50;
-						var width = $element.outerWidth();
-						var left = $element.offset().left;
-
-						if (inModal) {
-							top = $scrollTarget.offset().top;
-							//console.log('Parent Margin',$parent.css('marginLeft'));
-							//console.log('Element Margin', $element.css('marginLeft'));
-							//console.log('$modal', $modal.position());
-							//left = $modal.position().left;
-							//top += $modal.position().top;
-							// width = $scrollTarget.outerWidth();
-						}
-
-						if (scrollTop >= stickyOffset) {
-							//console.log("Adding sticky");
-							$element.addClass("sticky");
-							$element.css({
-								top: top + 'px',
-								width: width + 'px',
-								left: left + 'px'
-							});
-
-							$element.find('.sticky-visible').show();
-							$parent.css({
-								'padding-top': 50 + elementHeight + 'px'
-							});
-						} else {
-							//console.log("Remove sticky")
-							$element.removeClass("sticky");
-							$element.removeAttr('style');
-							$parent.removeAttr('style');
-							$element.find('.sticky-visible').hide();
-						}
-
-					}, 10);
-
-					$scrollTarget.on('scroll', handler);
-					//$window.resize(handler);
-
-					ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-						$scrollTarget.off('scroll', handler);
-						//$window.unbind('resize', handler);
-					});
-				}
-			};
-
-			ko.bindingHandlers['stickyTop2'] = {
-				init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-					var $element = $(element);
-					var stickyOffset = $element.offset().top;
-					var $modal = $element.closest('.io-modal');
-					var inModal = $modal.length > 0;
-					var $window = $(window);
-					var $scrollTarget = $window;
-
-					if (inModal) {
-						$scrollTarget = $element.closest('.io-modal-content');
-					}
-
-					// Locate closest .sticky-parent
-					var $parent = $element.closest('.sticky-parent');
-					if ($parent.length == 0) {
-						// Fallback
-						$parent = $('body');
-					}
-
-					var $child = $parent.first('.sticky-child');
-
-					//console.log('Parent of', $element, $parent);
-
-					var elementWidth = $element.outerWidth();
-					var elementHeight = $element.outerHeight();
-					var parentWidth = $parent.outerWidth();
-					var parentPos = $parent.position();
-
-					/*console.log('Element Offset Top / stickyOffset=', stickyOffset);
-					console.log('Element W / elementWidth=', elementWidth);
-					console.log('Parent W / parentWidth=', parentWidth);
-					console.log('Parent Pos / parentPos=', parentPos);
-					console.log('Parent Offset / $parent.offset()=', $parent.offset());
-					console.log('Viewport / $viewport.offset()=', $viewport.offset());*/
-
-					//console.log('Initial stickyOffset=', stickyOffset);
-
-					var handler = _.throttle(function () {
-						var $element = $(element);
-						var elementHeight = $element.outerHeight();
-						//var stickyOffset = $element.offset().top;
-						var scrollTop = $scrollTarget.scrollTop() + elementHeight;
-						var top = 50;
-						var width = $element.outerWidth();
-						var left = $element.offset().left;
-						//var parentPos = $parent.position();
-
-						if (inModal) {
-							top = $scrollTarget.offset().top;
-							//console.log('Parent Margin',$parent.css('marginLeft'));
-							//console.log('Element Margin', $element.css('marginLeft'));
-							//console.log('$modal', $modal.position());
-							//left = $modal.position().left;
-							//top += $modal.position().top;
-							// width = $scrollTarget.outerWidth();
-						}
-
-						/*console.log('scrollTop', scrollTop);
-						console.log('elementHeight', elementHeight);
-						console.log('top', top);
-						console.log('elementHeight + top', elementHeight + top);
-						console.log('stickyOffset', stickyOffset);*/
-
-						var threshold = elementHeight + top;
-
-						if ($element.hasClass("sticky")) {
-							//threshold = elementHeight - top;
-						}
-
-						if (scrollTop > threshold) {
-							$element.css({
-								top: top + 'px',
-								width: width + 'px',
-								left: left + 'px'
-							});
-
-							if ($element.hasClass("sticky")) {
-								//console.log('already sticky');
-							} else {
-								/*console.log('NOT already sticky');
-								console.log("----> Adding sticky");*/
-
-								$element.addClass("sticky");
-								$element.find('.sticky-visible').show();
-							}
-
-							elementHeight = $element.outerHeight();
-							var padding = (top + elementHeight) - parentPos.top;
-
-							$parent.css({
-								'padding-top': padding + 'px'
-							});
-						} else {
-							//console.log("----> Remove sticky");
-							$element.removeClass("sticky");
-							$element.removeAttr('style');
-							$parent.removeAttr('style');
-							$element.find('.sticky-visible').hide();
-						}
-
-						//console.log('---');
-
-					}, 10);
-
-					$scrollTarget.on('scroll', handler);
-					//$window.resize(handler);
-
-					ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-						$scrollTarget.off('scroll', handler);
-						//$window.unbind('resize', handler);
-					});
-				}
-			};
-
 			$(function () {
 				// Create an invisible iframe
 				var iframe = document.createElement('iframe');
@@ -531,7 +239,7 @@ define([
 		self.init();
 	}
 
-	io.ui = new UI();
+	const ui = new UI();
 
-	return io.ui;
+	return ui;
 });

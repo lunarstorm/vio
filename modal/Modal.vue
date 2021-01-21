@@ -30,7 +30,7 @@ export default {
 	props: {
 		data: Object
 	},
-	inject: ['util', 'scales', 'parent', 'modals', 'data'],
+	inject: ['util', 'scales', 'parent', 'modals'],
 	data: function () {
 		return {
 			id: null,
@@ -77,12 +77,15 @@ export default {
 			return false;
 		},
 		loadComponent: function (name, data) {
-			var componentName = `injected-component-${name}`;
+			var componentName = `injected-modal-component-${name}`;
 
-			App.vue.component(componentName, defineAsyncComponent(
-			  () => import(`components/app/${name}.vue`)
-			));
+			if(!loaded[componentName]){
+				App.vue.component(componentName, defineAsyncComponent(
+				  () => import(`components/app/${name}.vue`)
+				));
+			}
 
+			loaded[componentName] = true;
 			this.componentLoaded = componentName;
 			this.componentParams = data;
 

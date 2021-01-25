@@ -1,7 +1,7 @@
 <template>
 	<div class="io-modal" :id="id">
 		<div class="io-modal-toolbar clearfix">
-			<a class="btn btn-primary btn-sm" href="#" @click="close" v-if="modals.length > 1" style="display: none;">
+			<a class="btn btn-primary btn-sm" href="#" @click="close" v-if="modals.length > 1">
 				<i class="fa fa-chevron-left"></i>
 			</a>
 			<a class="btn btn-default btn-sm float-right pull-right" href="#" @click="close" ref="closeButton">
@@ -9,7 +9,12 @@
 			</a>
 		</div>
 		<div class="io-modal-content" ref="modalContent">
-			<component :is="componentLoaded" :params="componentParams"></component>
+			<div v-if="isUrl">
+				<div ref="urlContent"></div>
+			</div>
+			<div v-else>
+				<component :is="componentLoaded" :params="componentParams"></component>
+			</div>
 		</div>
 	</div>
 </template>
@@ -18,7 +23,7 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import App from 'App';
-import {unref, defineAsyncComponent} from 'vue';
+import {unref, defineAsyncComponent, h} from 'vue';
 
 var $body = $('body');
 var $main = $('.io-viewport').first();
@@ -37,49 +42,51 @@ export default {
 			token: '',
 			size: 'lg',
 			visible: false,
+			url: null,
 			componentLoaded: null,
 			componentParams: {}
 		};
 	},
 	mounted() {
-		var $modal = $(this.$el);
 		this.init();
-		/*console.log('Modal mounted!', this);
-		$modal.modal({
-			backdrop: true,
-			focus: true,
-			show: true
-		});*/
 	},
 	unmounted() {
 		this.dispose();
+	},
+	computed: {
+		isUrl() {
+			return !!this.data.url;
+		}
 	},
 	methods: {
 		init: function () {
 			this.id = _.uniqueId('modal-');
 			this.token = Date.now();
 
-			this.util.freezeBody();
+			//this.util.freezeBody();
 
 			window.addEventListener('resize', this.resize);
 
-			if (this.data.component) {
-				this.loadComponent(this.data.component, this.data.data);
+			if (this.data.url) {
+				this.loadUrl(this.data.url);
+			} else {
+				if (this.data.component) {
+					this.loadComponent(this.data.component, this.data.data);
+				}
 			}
 		},
 		dispose: function () {
 			window.removeEventListener('resize', this.resize);
 		},
 		close: function () {
-			var container = this.parent;
 			this.dispose();
-			container.close();
+			this.$emit('closed');
 			return false;
 		},
 		loadComponent: function (name, data) {
 			var componentName = `injected-modal-component-${name}`;
 
-			if(!loaded[componentName]){
+			if (!loaded[componentName]) {
 				App.vue.component(componentName, defineAsyncComponent(
 				  () => import(`components/app/${name}.vue`)
 				));
@@ -90,6 +97,13 @@ export default {
 			this.componentParams = data;
 
 			this.resize();
+		},
+		loadUrl(url) {
+			let self = this;
+			let target = this.$refs.urlContent;
+			$(target).load(url, function (content) {
+				self.resize();
+			});
 		},
 		resize: _.throttle(function () {
 			var $modalContainer = $(this.$el);

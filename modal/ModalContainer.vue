@@ -6,6 +6,8 @@
 				<modal v-for="(item, index) in data.items"
 				  :data="item"
 				  :index="index"
+				  :key="index"
+				  @closed="removeItem(index)"
 				></modal>
 			</div>
 		</div>
@@ -18,9 +20,6 @@ import _ from 'lodash';
 import Modal from './Modal.vue';
 import {provide, reactive, ref, unref, watch} from 'vue';
 import Url from 'url-parse';
-
-/*import Vue from 'vue';
-var ModalClass = Vue.extend(Modal);*/
 
 var $body = $('body');
 var $main = $('.io-viewport').first();
@@ -107,11 +106,6 @@ export default {
 	},
 	methods: {
 		init: _.once(function () {
-			var $template = $(this.$el);
-
-			$mask = $template.find('.io-modal-mask');
-			$mask.click(this.close);
-
 			var _this = this;
 
 			$(document).on('click', 'a[data-component-modal]', function (e) {
@@ -127,13 +121,31 @@ export default {
 				_this.loadComponent(componentName, url.query);
 				return false;
 			});
+
+			$(document).on('click', 'a[data-modal-href]', function (e) {
+				e.preventDefault();
+				var $this = $(this);
+				var url = $this.attr('href');
+				_this.loadUrl(url);
+				return false;
+			});
 		}),
-		close: function () {
+		closeAll: function () {
 			this.data.items = [];
 
 			if (this.data.items.length == 0) {
 				util.restoreBody();
 			}
+		},
+		close: function () {
+			this.data.items.pop();
+
+			if (this.data.items.length == 0) {
+				util.restoreBody();
+			}
+		},
+		removeItem(index) {
+			this.data.items.splice(index, 1);
 		},
 		loadComponent: function (name, data) {
 			var c = {
@@ -142,9 +154,18 @@ export default {
 			};
 			var modals = this.data.items;
 			modals.push(c);
+		},
+		loadUrl: function (url) {
+			var modals = this.data.items;
+			modals.push({
+				url: url,
+			});
 		}
 	},
 	computed: {
+		isOpen() {
+			return this.nItems > 0;
+		},
 		nItems() {
 			//console.log('nItems', this.data.items.length);
 			return this.data.items.length;

@@ -14,13 +14,14 @@
 				  @submit.prevent="submit"
 				  method="POST"
 				>
-					<div
-					  @input="onInput"
-					  ref="inputField"
-					  contenteditable="true"
+					<textarea
+					  v-model="params.body"
 					  :placeholder="params.placeholder"
-					  class="content-editable p-2 border bg-white"
-					></div>
+					  v-autosize
+					  ref="inputField"
+					  rows="1"
+					  class="form-control"
+					></textarea>
 
 					<div v-if="params.body.length > 0"
 					  class="form-group mt-2 mb-0"
@@ -49,15 +50,15 @@
 <script>
 import io from 'io/app';
 import api from 'io/api';
+import autosize from 'vio/directives/autosize';
 import $ from 'jquery';
 import {reactive, watch, toRefs, ref} from "vue";
-import VueTribute from 'vue-tribute';
-import Tribute from "tributejs";
 
 export default {
 	name: "CommentForm",
-	components: {
-		VueTribute
+	components: {},
+	directives: {
+		autosize
 	},
 	emits: ['commentSubmitted'],
 	props: {
@@ -157,7 +158,7 @@ export default {
 		}
 	},
 	mounted() {
-		let tribute = new Tribute({
+		/*let tribute = new Tribute({
 			lookup: 'name',
 			values: function (text, callback) {
 				//console.log('Lookup', text);
@@ -182,7 +183,7 @@ export default {
 			}
 		});
 
-		tribute.attach(this.$refs.inputField);
+		tribute.attach(this.$refs.inputField);*/
 
 		if (this.params.hasFocus) {
 			this.$refs.inputField.focus();

@@ -51,18 +51,25 @@
 
 					<div v-if="isEdit">
 						<form
-						  @submit="save"
+						  @submit.prevent="save"
 						  method="POST"
-						  data-bind="submit: fn.save"
 						>
-							<div class="p-2 border bg-white" contenteditable="true" data-bind="htmlEditable: body, contentEditable: true, autosize: body, hasFocus: function(){return true;}, tribute: View.opt.tribute"></div>
+							<textarea
+							  v-model="comment.body"
+							  v-autosize
+							  rows="1"
+							  class="form-control"
+							></textarea>
 
 							<div class="mt-2">
 								<button
+								  :disable="isSaving"
 								  type="submit"
 								  class="btn btn-primary"
-								  data-bind="spin: fn.isSaving"
 								>
+									<i v-if="isSaving"
+									  class="fa fa-refresh fa-spin mr-1"
+									></i>
 									Save
 								</button>
 
@@ -126,6 +133,7 @@
 
 <script>
 import {
+	toRefs,
 	reactive,
 	ref,
 	computed
@@ -133,12 +141,16 @@ import {
 import api from 'io/api';
 import TimeAgo from "components/ui/etc/TimeAgo.vue";
 import CommentReplies from "./CommentThread.vue";
+import autosize from 'vio/directives/autosize';
 
 export default {
 	name: "CommentItem",
 	components: {
 		TimeAgo,
 		CommentReplies
+	},
+	directives: {
+		autosize
 	},
 	emits: ['destroyed'],
 	props: {
@@ -157,10 +169,11 @@ export default {
 		return {
 			comment,
 			isEdit,
+			isSaving: ref(false),
 			canReply: ref(props.canReply),
 			showReplies: ref(props.showReplies),
 			clickedReply: ref(false)
-		}
+		};
 	},
 	methods: {
 		toggleReply() {
@@ -170,14 +183,30 @@ export default {
 		toggleReplies() {
 			this.showReplies = !this.showReplies;
 
-			if(!this.showReplies){
+			if (!this.showReplies) {
 				this.clickedReply = false;
 			}
 
 			return false;
 		},
 		save() {
-			return false;
+			let self = this;
+			let comment = this.comment;
+
+			self.isSaving = true;
+
+			return api.post('comments', {
+				id: comment.id,
+				data: {
+					_json: JSON.stringify(comment)
+				}
+			}).done(function (response) {
+				if (response.status == 'success') {
+					Object.assign(comment, response.data);
+					self.isEdit = false;
+				}
+				self.isSaving = false;
+			});
 		},
 		del() {
 			let self = this;

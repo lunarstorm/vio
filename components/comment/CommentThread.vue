@@ -174,7 +174,9 @@ export default {
 	},
 	created() {
 		this.fetch({
-			type: this.params.ord == 'asc' ? 'prepend' : 'append'
+			type: this.params.ord == 'asc' ? 'prepend' : 'append',
+			id: this.params.commentId,
+			parent: this.params.parent
 		});
 	},
 	watch: {

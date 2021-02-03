@@ -19,12 +19,16 @@ export default {
 	name: "InputDate",
 	components: {},
 	props: {
-		modelValue: String
+		modelValue: String,
+		options: {
+			type: Object,
+			default: {}
+		}
 	},
 	emits: ['update:modelValue'],
 	setup(props) {
 		return {
-			//modelValue: props.modelValue,
+			options: props.options
 		};
 	},
 	computed: {},
@@ -39,7 +43,8 @@ export default {
 			onChange: function (selectedDates, dateStr, instance) {
 				//dateValue = dateStr;
 				//self.$emit('update:modelValue', dateStr);
-			}
+			},
+			...this.options
 		});
 	},
 	unmounted() {

@@ -3,7 +3,7 @@ import autosize from 'autosize';
 
 export default {
 	name: 'autosize',
-	beforeMount: function (el, binding, vnode) {
+	mounted: function (el, binding, vnode) {
 		var $el = $(el);
 
 		autosize($el);

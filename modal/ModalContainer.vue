@@ -118,7 +118,12 @@ export default {
 
 				//console.log(componentName, url);
 
-				_this.loadComponent(componentName, url.query);
+				let args = {
+					params: url.query, // for backwards compatibility
+					...url.query
+				};
+
+				_this.loadComponent(componentName, args);
 				return false;
 			});
 

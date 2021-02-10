@@ -13,7 +13,7 @@
 				<div ref="urlContent"></div>
 			</div>
 			<div v-else>
-				<component :is="componentLoaded" :params="componentParams"></component>
+				<component :is="componentLoaded" v-bind="componentParams"></component>
 			</div>
 		</div>
 	</div>
@@ -94,7 +94,10 @@ export default {
 
 			loaded[componentName] = true;
 			this.componentLoaded = componentName;
-			this.componentParams = data;
+			this.componentParams = {
+				params: data,
+				...data,
+			};
 
 			this.resize();
 		},

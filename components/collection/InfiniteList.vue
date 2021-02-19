@@ -129,7 +129,10 @@ export default {
 		refresh: _.debounce(function () {
 			this.page = 0;
 			this.fetchMore(true);
-		}, 300)
+		}, 300),
+		removeItem(predicate){
+			_.remove(this.items, predicate);
+		}
 	},
 	computed: {}
 }

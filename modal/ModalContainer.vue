@@ -17,6 +17,7 @@
 <script>
 import $ from 'jquery';
 import _ from 'lodash';
+import Ui from 'vio/Ui';
 import Modal from './Modal.vue';
 import {provide, reactive, ref, unref, watch} from 'vue';
 import Url from 'url-parse';
@@ -42,51 +43,26 @@ var scales = {
 	}
 };
 
-var util = {
-	freezeBody: function () {
-		if (scrollPosition === null) {
-			scrollPosition = $(window).scrollTop();
-		}
-		$body.css({
-			overflow: 'hidden',
-			position: 'fixed',
-			width: '100%'
-		});
-	},
-	restoreBody: function () {
-		$body.css({
-			overflow: 'auto',
-			position: 'static',
-			width: 'auto'
-		});
-		$(window).scrollTop(scrollPosition);
-		scrollPosition = null;
-	}
-};
-
 export default {
 	name: "Modals",
 	components: {
 		Modal
 	},
-	/*data: function () {
-		return {
-			visible: false,
-			items: []
-		};
-	},*/
 	setup() {
 		const data = reactive({
 			items: []
 		});
 
-		//console.log('setup() modals', unref(data));
 		provide('modals', data.items);
 		provide('data', data);
 
-		/*watch(data, (data, oldData) => {
-			console.log('WATCH data.items', data.items);
-		});*/
+		watch(data.items, (items) => {
+			if (items.length === 0) {
+				setTimeout(() => {
+					Ui.unlockScroll();
+				}, 0);
+			}
+		});
 
 		return {
 			data
@@ -94,7 +70,6 @@ export default {
 	},
 	provide() {
 		return {
-			util: util,
 			scales: scales,
 			parent: this,
 			modals: this.data.items
@@ -137,17 +112,9 @@ export default {
 		}),
 		closeAll: function () {
 			this.data.items = [];
-
-			if (this.data.items.length == 0) {
-				util.restoreBody();
-			}
 		},
 		close: function () {
 			this.data.items.pop();
-
-			if (this.data.items.length == 0) {
-				util.restoreBody();
-			}
 		},
 		removeItem(index) {
 			this.data.items.splice(index, 1);
@@ -172,7 +139,6 @@ export default {
 			return this.nItems > 0;
 		},
 		nItems() {
-			//console.log('nItems', this.data.items.length);
 			return this.data.items.length;
 		}
 	}

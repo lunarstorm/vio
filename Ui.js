@@ -1,19 +1,50 @@
 import $ from 'jquery';
 import _ from 'lodash';
 
-var Z = 9200;
-var affixBottomCalibrated = false;
-var $viewport = $('.io-viewport');
+const $body = $('body');
+
+let Z = 9200;
+let scrollPosition = null;
+let affixBottomCalibrated = false;
+let $viewport = $('.io-viewport');
 
 if ($viewport.length == 0) {
-	$viewport = $('body');
+	$viewport = $body;
 }
 
-function UI() {
-	var self = this;
-	self.$viewport = $viewport;
+class UI {
+	constructor() {
+		this.init();
+	}
 
-	self.getContainingElement = function () {
+	lockScroll() {
+		if (scrollPosition === null) {
+			scrollPosition = $(window).scrollTop();
+		}
+
+		$body.css({
+			overflow: 'hidden',
+			position: 'fixed',
+			width: '100%'
+		});
+
+		console.log('remember scroll', scrollPosition);
+	}
+
+	unlockScroll() {
+		$body.css({
+			overflow: 'auto',
+			position: 'static',
+			width: 'auto'
+		});
+
+		console.log('restore scroll', scrollPosition);
+
+		$(window).scrollTop(scrollPosition);
+		scrollPosition = null;
+	}
+
+	getContainingElement() {
 		var $element = $('html, body');
 		if (window.$Modal && window.$Modal.nItems > 0) {
 			/*var lastModal = Modal.container.lastModal();
@@ -23,27 +54,31 @@ function UI() {
 			}*/
 		}
 		return $element;
-	};
+	}
 
-	self.hasScroll = function ($element) {
+	hasScroll($element) {
 		if (!$element) {
-			$element = self.getContainingElement();
+			$element = this.getContainingElement();
 		} else {
 			$element = $($element);
 		}
 		return $element.prop('scrollHeight') > $element.outerHeight();
-	};
+	}
 
-	self.scrollToBottom = function (speed, offset) {
-		var $element = self.getContainingElement();
+	scrollTo(pos, el){
+		$(window).scrollTop(pos);
+	}
+
+	scrollToBottom(speed, offset) {
+		var $element = this.getContainingElement();
 		var scrollTop = $element.prop('scrollHeight') + $element.prop('clientHeight');
 
-		if (self.hasScroll($element)) {
+		if (this.hasScroll($element)) {
 			$element.animate({scrollTop: scrollTop}, speed || 600, 'swing');
 		}
-	};
+	}
 
-	self.scrollToTop = function (speed, offset) {
+	scrollToTop(speed, offset) {
 		var $element = $('html, body');
 
 		/*if (Modal && Modal.container) {
@@ -57,25 +92,9 @@ function UI() {
 		$element.animate({
 			scrollTop: offset || 0
 		}, speed || 600);
-	};
+	}
 
-	self.isElementInViewportOld = function (el) {
-		//special bonus for those using jQuery
-		if (typeof jQuery === "function" && el instanceof jQuery) {
-			el = el[0];
-		}
-
-		var rect = el.getBoundingClientRect();
-
-		return (
-				rect.top >= 0 &&
-				rect.left >= 0 &&
-				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-				rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
-		);
-	};
-
-	self.isElementInViewport = function(el) {
+	isElementInViewport(el) {
 		const rect = el.getBoundingClientRect();
 		// DOMRect { x: 8, y: 8, width: 100, height: 100, top: 8, right: 108, bottom: 108, left: 8 }
 		const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
@@ -88,7 +107,7 @@ function UI() {
 		return (vertInView && horInView);
 	}
 
-	self.affixTop = function ($target, parent) {
+	affixTop($target, parent) {
 		var $this = $target;
 		var $parent = false;
 
@@ -116,13 +135,15 @@ function UI() {
 			}, fixedStyle));
 			$this.outerWidth($parent.outerWidth());
 		};
+
 		calibrate();
+
 		$(window).resize(function () {
 			calibrate();
 		});
-	};
+	}
 
-	self.affixBottom = function ($target, parent, options) {
+	affixBottom($target, parent, options) {
 		options = {
 			fluid: false,
 			...options,
@@ -221,46 +242,36 @@ function UI() {
 				$window.unbind('resize', calibrate);
 			}
 		}
-	};
+	}
 
-	self.init = _.once(function () {
-		$(function () {
-			// Create an invisible iframe
-			var iframe = document.createElement('iframe');
-			iframe.id = "scrollbar-resize-listener";
-			iframe.style.cssText = 'height: 0; background-color: transparent; margin: 0; padding: 0; overflow: hidden; border-width: 0; position: absolute; width: 100%;';
+	init(){
+		// Create an invisible iframe
+		var iframe = document.createElement('iframe');
+		iframe.id = "scrollbar-resize-listener";
+		iframe.style.cssText = 'height: 0; background-color: transparent; margin: 0; padding: 0; overflow: hidden; border-width: 0; position: absolute; width: 100%;';
 
-			// Register our event when the iframe loads
-			iframe.onload = function () {
-				// The trick here is that because this iframe has 100% width
-				// it should fire a window resize event when anything causes it to
-				// resize (even scrollbars on the outer document)
-				iframe.contentWindow.addEventListener('resize', function () {
-					if (affixBottomCalibrated) {
-						affixBottomCalibrated = false;
-						return true;
-					}
+		// Register our event when the iframe loads
+		iframe.onload = function () {
+			// The trick here is that because this iframe has 100% width
+			// it should fire a window resize event when anything causes it to
+			// resize (even scrollbars on the outer document)
+			iframe.contentWindow.addEventListener('resize', function () {
+				if (affixBottomCalibrated) {
+					affixBottomCalibrated = false;
+					return true;
+				}
 
-					try {
-						var evt = new UIEvent('resize');
-						window.dispatchEvent(evt);
-					} catch (e) {
-					}
-				});
-			};
-
-			// Stick the iframe somewhere out of the way
-			document.body.appendChild(iframe);
-
-			$('body').on('DOMNodeInserted', '*[data-fix-bottom]', function () {
-				var $this = $(this);
-				var parent = $this.data('fix-bottom') || "#page-content";
-				self.affixBottom($this, parent);
+				try {
+					var evt = new UIEvent('resize');
+					window.dispatchEvent(evt);
+				} catch (e) {
+				}
 			});
-		});
-	});
+		};
 
-	self.init();
+		// Stick the iframe somewhere out of the way
+		document.body.appendChild(iframe);
+	}
 }
 
 const Ui = new UI();

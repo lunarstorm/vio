@@ -23,7 +23,8 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import App from 'App';
-import {unref, defineAsyncComponent, h} from 'vue';
+import Ui from "vio/Ui";
+import {defineAsyncComponent} from 'vue';
 
 var $body = $('body');
 var $main = $('.io-viewport').first();
@@ -35,7 +36,7 @@ export default {
 	props: {
 		data: Object
 	},
-	inject: ['util', 'scales', 'parent', 'modals'],
+	inject: ['scales', 'parent', 'modals'],
 	data: function () {
 		return {
 			id: null,
@@ -63,7 +64,7 @@ export default {
 			this.id = _.uniqueId('modal-');
 			this.token = Date.now();
 
-			//this.util.freezeBody();
+			Ui.lockScroll();
 
 			window.addEventListener('resize', this.resize);
 
@@ -79,8 +80,8 @@ export default {
 			window.removeEventListener('resize', this.resize);
 		},
 		close: function () {
-			this.dispose();
 			this.$emit('closed');
+			this.dispose();
 			return false;
 		},
 		loadComponent: function (name, data) {
@@ -111,8 +112,6 @@ export default {
 		resize: _.throttle(function () {
 			var $modalContainer = $(this.$el);
 			var $modalBody = $(this.$refs.modalContent);
-
-			//console.log('Resize', this.token, this.id);
 
 			var W = $main.width();
 			var H = window.innerHeight

@@ -129,7 +129,7 @@
 
 <script>
 import {toRefs, ref, defineAsyncComponent, inject} from 'vue';
-import TimeAgo from 'Vio/components/TimeAgo.vue';
+import TimeAgo from 'vio/components/TimeAgo.vue';
 import _ from 'lodash';
 import $ from 'jquery';
 

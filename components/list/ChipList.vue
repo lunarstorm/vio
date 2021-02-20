@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import {toRefs, ref} from 'vue';
 import TextChip from "../text/TextChip";
 
 export default {

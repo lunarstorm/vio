@@ -8,7 +8,7 @@
 		>
 			<slot>Actions</slot>
 		</button>
-		<div class="dropdown-menu dropdown-menu-right" role="menu">
+		<div :class="cssDropdownMenu" class="dropdown-menu" role="menu">
 			<dropdown-items :items="items"></dropdown-items>
 		</div>
 	</div>
@@ -25,6 +25,10 @@ export default {
 		items: {
 			type: Array,
 			default: []
+		},
+		align: {
+			type: String,
+			default: 'left'
 		}
 	},
 	components: {
@@ -33,10 +37,20 @@ export default {
 	setup(props) {
 
 		return {
-			items: toRefs(props).items
+			items: toRefs(props).items,
+			align: props.align
 		}
 	},
 	computed: {
+		cssDropdownMenu() {
+			let classes = [];
+
+			if (this.align == 'right') {
+				classes.push('dropdown-menu-right');
+			}
+
+			return classes;
+		}
 	},
 	mounted() {
 	}

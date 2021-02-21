@@ -1,36 +1,46 @@
 <template>
 	<div ref="container">
 		<div class="card">
-			<div class="card-header">
+			<div v-if="hasSlot('header')" class="card-header">
 				<div class="d-flex align-items-center">
 					<div class="flex-grow-1">
-						<form v-if="keywordSearch" class="form-inline">
-							<input
-							  v-model="keywords"
-							  type="text"
-							  placeholder="Search items..."
-							  class="form-control"
-							/>
-							<div v-if="busy" class="mx-2 form-control-static">
-								<i class="fa fa-refresh fa-spin text-muted"></i>
-							</div>
-						</form>
-					</div>
-					<div>
-						<a
-						  @click.prevent="addItem"
-						  href="#"
-						  class="btn btn-primary btn-sm"
-						>
-							<i class="fa fa-plus"></i>
-							Add
-						</a>
+						<slot name="header"></slot>
 					</div>
 				</div>
 			</div>
 
 			<div v-if="hasSlot('filter')" class="card-body">
 				<slot name="filter"></slot>
+			</div>
+
+			<div class="card-body py-0">
+				<div class="d-flex align-items-center py-2" style="height: 60px;">
+					<div v-if="isBatchSelectable" class="mr-2">
+						<faux-checkbox
+						  :checked="Batch.isAllSelected()"
+						  @toggle="Batch.selectAllToggle()"
+						></faux-checkbox>
+					</div>
+					<div class="flex-grow-1">
+						<button-menu
+						  v-if="Batch.count() > 0"
+						  :items="generateBatchMenu()"
+						  class="btn-primary"
+						>
+							{{ Batch.count() }} Selected
+						</button-menu>
+					</div>
+					<div>
+						<a
+						  @click.prevent="addItem"
+						  href="#"
+						  class="btn btn-primary"
+						>
+							<i class="fa fa-plus"></i>
+							Add
+						</a>
+					</div>
+				</div>
 			</div>
 
 			<infinite-list
@@ -41,6 +51,12 @@
 			>
 				<template v-slot:item="{item}">
 					<div class="d-flex align-items-start">
+						<div v-if="isBatchSelectable" class="mr-2">
+							<faux-checkbox
+							  :checked="Batch.isSelected(item.id)"
+							  @toggle="Batch.toggle(item.id)"
+							></faux-checkbox>
+						</div>
 						<div class="flex-grow-1">
 							<slot
 							  name="item"
@@ -63,10 +79,13 @@
 </template>
 
 <script>
-import io from 'io/common';
-import {ref, watch, toRefs} from 'vue';
-import InfiniteList from 'vio/components/collection/InfiniteList.vue';
-import ContextMenu from 'vio/components/menu/ContextMenu.vue';
+import {ref, watch, toRefs, defineAsyncComponent} from 'vue';
+import InfiniteList from 'vio/components/collection/InfiniteList';
+import ContextMenu from 'vio/components/menu/ContextMenu';
+import BatchSelector from "vio/helpers/BatchSelector";
+
+const FauxCheckbox = defineAsyncComponent(() => import('vio/components/form/FauxCheckbox'));
+const ButtonMenu = defineAsyncComponent(() => import('vio/components/menu/ButtonMenu'));
 
 export default {
 	name: "CollectionIndex",
@@ -84,15 +103,27 @@ export default {
 		keywordSearch: {
 			type: Boolean,
 			default: true
+		},
+		batchSelect: {
+			type: [Boolean, Object],
+			default: false
+		},
+		batchMenu: {
+			type: [Boolean, Function],
+			default: false
 		}
 	},
 	components: {
 		ContextMenu,
 		InfiniteList,
+		FauxCheckbox,
+		ButtonMenu
 	},
 	setup(props) {
+		let Batch = new BatchSelector();
 
 		return {
+			Batch,
 			onMounted: props.onMounted,
 			busy: ref(false),
 			keywords: ref(''),
@@ -100,7 +131,9 @@ export default {
 			searchParams: toRefs(props).filter,
 			addItem: props.addItem,
 			itemMenu: toRefs(props).itemMenu,
-			keywordSearch: props.keywordSearch
+			keywordSearch: props.keywordSearch,
+			batchSelect: props.batchSelect,
+			batchMenu: props.batchMenu
 		}
 	},
 	created() {
@@ -112,18 +145,39 @@ export default {
 
 		watch(() => this.searchParams,
 		  (val) => {
-			  console.log('searchParams changed', val);
+			  //console.log('searchParams changed', val);
 			  this.$refs.infiniteList.refresh();
 		  }
 		);
 	},
 	mounted() {
-		let root = this;
-		let store = this.$store;
-		let container = this.$refs.container;
+		let items = this.$refs.infiniteList.items;
+		this.Batch.bindWithItems(items);
+
+		watch(() => this.$refs.infiniteList.items, (val) => {
+			//console.log('items have changed', val);
+			this.Batch.bindWithItems(val);
+		});
 	},
-	computed: {},
+	computed: {
+		isBatchSelectable() {
+			//console.log('Batch', this.Batch, this.Batch.items);
+			return !!this.batchSelect;
+		}
+	},
 	methods: {
+		refresh() {
+			this.$refs.infiniteList.refresh();
+		},
+		generateBatchMenu(){
+			let items = [];
+
+			if(typeof this.batchMenu === "function"){
+				items.push(...this.batchMenu(this.Batch));
+			}
+
+			return items;
+		},
 		getItemMenu(item) {
 			if (this.itemMenu) {
 				return this.itemMenu(item);
@@ -134,20 +188,18 @@ export default {
 		hasSlot(name) {
 			return !!this.$slots[name];
 		},
-		async fetchItems(options) {
-			let extraParams = this.searchParams;
-
-			const response = await io.api.get(this.dataSource, {
-				data: {
-					p: options.page,
-					limit: options.size,
-					q: this.keywords,
-					...extraParams
-				}
+		batchSelectAll() {
+			let items = this.$refs.infiniteList.items;
+			items.forEach((item, i) => {
+				this.Batch.select(item.id);
 			});
-
-			return response.data;
 		},
+		batchSelectNone() {
+			this.Batch.clear();
+		},
+		batchSelectAllToggle() {
+
+		}
 	}
 }
 </script>

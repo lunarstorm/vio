@@ -2,6 +2,7 @@
 	<div class="list-group list-group-flush">
 		<div
 		  v-for="(item, i) in items"
+		  :key="i"
 		  :ref="el => { if (el) divs[i] = el }"
 		  class="list-group-item"
 		>

@@ -2,66 +2,106 @@ import {
 	reactive,
 	computed,
 	unref,
-	toRaw
+	toRaw,
+		watch
 } from 'vue';
 import _ from 'lodash';
 
 class BatchSelector {
-	constructor() {
+	constructor(args) {
 		let state = reactive({
-			selections: {},
-			items: []
+			selectedMap: {},
+			selectedValues: [],
+			items: [],
+			...args
 		});
 		this.state = state;
 
-		let self = this;
-
 		this.nSelected = computed(function () {
-			return state.items.value.length;
+			return state.selectedValues.value.length;
 		});
 
-		this.selections = computed(() => state.selections);
 		this.items = computed(() => state.items);
+		this.selectedMap = computed(() => state.selectedMap);
+		this.selectedValues = computed(() => state.selectedValues);
+	}
+
+	bindWithItems(items){
+		//Object.assign(this.state.items, items)
+		this.clear();
+		this.state.items = items;
+	}
+
+	isAllSelected(){
+		return this.count() > 0 && (this.count() == this.state.items.length);
+	}
+
+	isSomeSelected() {
+		return this.count() > 0;
+	}
+
+	isNoneSelected(){
+		return this.count() == 0;
 	}
 
 	isSelected(key) {
-		//let haystack = unref(this.state.items);
+		//let haystack = unref(this.state.selectedValues);
 		//let pos = _.findIndex(haystack, (item) => item == key);
 
-		return !!this.state.selections[key];
+		return !!this.state.selectedMap[key];
 		//return pos > -1;
 	}
 
 	select(key) {
-		if(!this.isSelected(key)){
-			this.state.items.push(key);
-			this.state.selections[key] = true;
+		if (!this.isSelected(key)) {
+			this.state.selectedValues.push(key);
+			this.state.selectedMap[key] = true;
 		}
 		return false;
 	}
 
 	unselect(key) {
-		_.remove(this.state.items, (item) => item == key);
-		this.state.selections[key] = false;
+		_.remove(this.state.selectedValues, (item) => item == key);
+		this.state.selectedMap[key] = false;
 		return false;
+	}
+
+	selectAll(){
+		_.forEach(this.state.items, (item) => {
+			this.select(item.id);
+		})
+
+		return true;
+	}
+
+	selectAllToggle() {
+		if(this.isAllSelected()){
+			return this.selectNone();
+		}
+
+		return this.selectAll();
+	}
+
+	selectNone() {
+		return this.clear();
 	}
 
 	clear() {
 		let self = this;
-		this.state.items = [];
-		this.state.selections = {};
-		/*_.forEach(this.state.selections, function(value, key){
+		this.state.selectedValues = [];
+		this.state.selectedMap = {};
+		/*_.forEach(this.state.selectedMap, function(value, key){
 			console.log('unselect', key);
 			self.unselect(key);
 		});*/
 
-		//console.log(self.selections.value, self.items.value);
+		//console.log(self.selectedMap.value, self.selectedValues.value);
 
 		return false;
 	}
 
 	count() {
-		return this.items.value.length;
+		return this.selectedValues.value.length;
 	}
 
 	toggle(key) {
@@ -70,16 +110,16 @@ class BatchSelector {
 		} else {
 			this.select(key);
 		}
-		//console.log('Batch.items', this.items.value.length);
+		//console.log('Batch.selectedValues', this.selectedValues.value.length);
 		return false;
 	}
 
 	getValues() {
-		return toRaw(unref(this.state.items));
+		return toRaw(unref(this.state.selectedValues));
 	}
 
-	/*selectedKeys() {
-		let obj = this.state.selections;
+	/*stateKeys() {
+		let obj = this.state.selectedMap;
 		let keys = Object.keys(obj);
 		let filtered = keys.filter(function (key) {
 			return obj[key]
@@ -89,7 +129,7 @@ class BatchSelector {
 	}
 
 	nSelected() {
-		return this.selectedKeys().length;
+		return this.stateKeys().length;
 	}*/
 }
 

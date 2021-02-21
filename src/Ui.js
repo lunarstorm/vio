@@ -28,7 +28,7 @@ class UI {
 			width: '100%'
 		});
 
-		console.log('remember scroll', scrollPosition);
+		//console.log('remember scroll', scrollPosition);
 	}
 
 	unlockScroll() {
@@ -38,7 +38,7 @@ class UI {
 			width: 'auto'
 		});
 
-		console.log('restore scroll', scrollPosition);
+		//console.log('restore scroll', scrollPosition);
 
 		$(window).scrollTop(scrollPosition);
 		scrollPosition = null;

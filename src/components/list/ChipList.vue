@@ -10,6 +10,7 @@
 
 <script>
 import TextChip from "../text/TextChip";
+import {toRefs} from 'vue';
 
 export default {
 	name: "ChipList",
@@ -21,7 +22,7 @@ export default {
 	},
 	setup(props) {
 		return {
-			items: props.items
+			items: toRefs(props).items
 		}
 	},
 	mounted() {

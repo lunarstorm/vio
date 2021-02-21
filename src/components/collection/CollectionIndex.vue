@@ -29,6 +29,9 @@
 						>
 							{{ Batch.count() }} Selected
 						</button-menu>
+						<div v-else class="text-muted">
+
+						</div>
 					</div>
 					<div>
 						<a
@@ -187,18 +190,6 @@ export default {
 		},
 		hasSlot(name) {
 			return !!this.$slots[name];
-		},
-		batchSelectAll() {
-			let items = this.$refs.infiniteList.items;
-			items.forEach((item, i) => {
-				this.Batch.select(item.id);
-			});
-		},
-		batchSelectNone() {
-			this.Batch.clear();
-		},
-		batchSelectAllToggle() {
-
 		}
 	}
 }

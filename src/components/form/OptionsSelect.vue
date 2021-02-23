@@ -1,6 +1,7 @@
 <template>
 	<select
 	  v-model="modelValue"
+	  @change="$emit('update:modelValue', $event.target.value)"
 	  :name="name"
 	  class="form-control"
 	>
@@ -16,9 +17,11 @@
 
 <script>
 import FormOptions from "vio/helpers/FormOptions";
+import {toRefs} from "vue";
 
 export default {
 	name: "OptionsSelect",
+	inheritAttrs: true,
 	components: {},
 	props: {
 		name: {
@@ -41,7 +44,7 @@ export default {
 	},
 	setup(props) {
 		return {
-			options: props.options,
+			options: toRefs(props).options,
 			caption: props.caption
 		};
 	},

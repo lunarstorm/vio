@@ -2,8 +2,9 @@
 	<label v-for="opt in optionsParsed" class="radio-inline">
 		<input
 		  v-model="modelValue"
-		  :name="name"
 		  :value="opt.value"
+		  @input="$emit('update:modelValue', $event.target.value)"
+		  :name="name"
 		  type="radio"
 		>
 		{{ opt.text }}
@@ -12,21 +13,23 @@
 
 <script>
 import FormOptions from "vio/helpers/FormOptions";
+import {toRefs} from 'vue';
 
 export default {
 	name: "OptionsRadio",
 	components: {},
 	props: {
 		name: String,
-		modelValue: String,
+		modelValue: [String, Number],
 		options: {
 			type: [Array, Object],
 			default: []
 		}
 	},
+	emits: ['update:modelValue'],
 	setup(props) {
 		return {
-			options: props.options
+			options: toRefs(props).options
 		};
 	},
 	computed: {

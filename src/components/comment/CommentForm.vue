@@ -1,6 +1,6 @@
 <template>
 	<div ref="container">
-		<div class="media p-2 mb-3 rounded shadow-sm bg-light">
+		<div class="media p-2 mb-0 rounded shadow-sm bg-light">
 			<div
 			  :style="params.avatar.css"
 			  class="align-self-start text-center rounded-circle shadow-sm p-2"

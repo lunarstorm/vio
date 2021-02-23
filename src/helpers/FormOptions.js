@@ -10,6 +10,7 @@ class FormOptions {
 		options.forEach((val, key) => {
 			let opt = {
 				text: null,
+				label: null,
 				value: null
 			};
 
@@ -18,6 +19,15 @@ class FormOptions {
 					...opt,
 					...val
 				};
+
+				if (opt.label) {
+					opt.text = opt.label;
+				}
+
+				if (opt.text) {
+					opt.label = opt.text;
+				}
+
 			} else {
 				if (isArray) {
 					opt.text = val;
@@ -25,6 +35,7 @@ class FormOptions {
 					opt.text = key;
 				}
 
+				opt.label = opt.text;
 				opt.value = val;
 			}
 

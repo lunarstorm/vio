@@ -35,7 +35,6 @@ export default {
 		}
 	},
 	beforeMount(){
-		let root = this;
 		watchEffect(() => {
 			document.title = this.title;
 		});

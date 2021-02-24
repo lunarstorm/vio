@@ -1,35 +1,41 @@
 <template>
-	<label v-for="opt in optionsParsed" class="radio-inline">
-		<input
-		  v-model="modelValue"
-		  :value="opt.value"
-		  @input="$emit('update:modelValue', $event.target.value)"
-		  :name="name"
-		  type="radio"
-		>
+	<input-radio
+	  v-for="(opt, index) in optionsParsed"
+	  :key="index"
+	  v-model="modelValue"
+	  :value="opt.value"
+	  @input="$emit('update:modelValue', $event.target.value)"
+	  :inline="inline"
+	>
 		{{ opt.text }}
-	</label>
+	</input-radio>
 </template>
 
 <script>
 import FormOptions from "vio/helpers/FormOptions";
 import {toRefs} from 'vue';
+import InputRadio from 'vio/components/form/InputRadio';
 
 export default {
 	name: "OptionsRadio",
-	components: {},
+	inheritAttrs: true,
+	components: {
+		InputRadio
+	},
 	props: {
 		name: String,
 		modelValue: [String, Number],
 		options: {
 			type: [Array, Object],
 			default: []
-		}
+		},
+		inline: Boolean
 	},
 	emits: ['update:modelValue'],
 	setup(props) {
 		return {
-			options: toRefs(props).options
+			options: toRefs(props).options,
+			inline: props.inline
 		};
 	},
 	computed: {
@@ -39,8 +45,6 @@ export default {
 	},
 	methods: {},
 	mounted() {
-		let self = this;
-		let dateValue = this.modelValue;
 	},
 	unmounted() {
 

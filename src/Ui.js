@@ -184,7 +184,7 @@ class UI {
 			$this.outerWidth($parent.outerWidth());
 			thisH = $this.height();
 
-			bottom = windowHeight - parentHeight - pos.top;
+			bottom = Math.max(0, windowHeight - parentHeight - thisH - 30);
 
 			/*console.log({
 				inModal,
@@ -201,7 +201,6 @@ class UI {
 				left: pos ? pos.left : 0
 			});
 
-			console.log('thisH', thisH);
 			bottomBuffer = thisH;
 
 			$parent.css({
@@ -215,8 +214,6 @@ class UI {
 		}, 300);
 
 		setTimeout(calibrate, 0);
-
-		console.log('affixed');
 		window.addEventListener('resize', calibrate);
 
 		return {

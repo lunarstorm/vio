@@ -71,7 +71,6 @@ export default {
 	},
 	created() {
 		window.addEventListener('scroll', this.onScroll);
-
 	},
 	mounted() {
 		let self = this;

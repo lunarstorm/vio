@@ -7,7 +7,7 @@ class FormOptions {
 
 		let isArray = _.isArray(options);
 
-		options.forEach((val, key) => {
+		_.forEach(options, (val, key) => {
 			let opt = {
 				text: null,
 				label: null,
@@ -27,20 +27,20 @@ class FormOptions {
 				if (opt.text) {
 					opt.label = opt.text;
 				}
-
 			} else {
 				if (isArray) {
 					opt.text = val;
+					opt.value = val;
 				} else {
 					opt.text = key;
+					opt.value = val;
 				}
 
 				opt.label = opt.text;
-				opt.value = val;
 			}
 
 			opts.push(opt);
-		});
+		})
 
 		return opts;
 	}

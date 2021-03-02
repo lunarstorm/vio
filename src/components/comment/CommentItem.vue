@@ -24,7 +24,7 @@
 							  :title="comment.dateString"
 							  class="ml-2 text-muted"
 							>
-								<time-ago v-if="comment.isWithinCutoff" :date-string="comment.date"></time-ago>
+								<time-ago v-if="comment.isWithinCutoff" :value="comment.date"></time-ago>
 								<span v-else>{{ comment.dateString }}</span>
 							</small>
 

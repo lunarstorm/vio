@@ -13,7 +13,7 @@
 			</div>
 			<div v-else class="story-content">
 				<small :title="item.dateString" class="text-muted">
-					<time-ago v-if="item.isWithinCutoff" :date-string="item.date"></time-ago>
+					<time-ago v-if="item.isWithinCutoff" :value="item.date"></time-ago>
 					<span v-else>{{ item.dateString }}</span>
 				</small>
 
@@ -49,7 +49,7 @@
 				<div class="clearfix"></div>
 
 				<small :title="child.dateString" class="text-muted">
-					<time-ago v-if="child.isWithinCutoff" :date-string="child.date"></time-ago>
+					<time-ago v-if="child.isWithinCutoff" :value="child.date"></time-ago>
 					<span v-else>{{ child.dateString }}</span>
 				</small>
 
@@ -129,7 +129,7 @@
 
 <script>
 import {toRefs, ref, defineAsyncComponent, inject} from 'vue';
-import TimeAgo from 'vio/components/TimeAgo.vue';
+import TimeAgo from 'vio/components/text/TextTimeAgo.vue';
 import _ from 'lodash';
 import $ from 'jquery';
 

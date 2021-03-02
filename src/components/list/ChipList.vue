@@ -1,8 +1,8 @@
 <template>
 	<ul class="list-inline">
-		<template v-for="item in items">
-			<li v-if="item.text" class="list-inline-item">
-				<text-chip :label="item.label">{{ item.text }}</text-chip>
+		<template v-for="item in itemsParsed">
+			<li v-if="item.value" class="list-inline-item">
+				<text-chip :label="item.label">{{ item.value }}</text-chip>
 			</li>
 		</template>
 	</ul>
@@ -11,11 +11,12 @@
 <script>
 import TextChip from "../text/TextChip";
 import {toRefs} from 'vue';
+import FormOptions from "../../helpers/FormOptions";
 
 export default {
 	name: "ChipList",
 	props: {
-		items: Array
+		items: [Array, Object]
 	},
 	components: {
 		TextChip
@@ -28,6 +29,9 @@ export default {
 	mounted() {
 	},
 	computed: {
+		itemsParsed(){
+			return FormOptions.normalize(this.items);
+		}
 	},
 	methods: {}
 }

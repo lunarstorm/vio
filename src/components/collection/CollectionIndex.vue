@@ -1,5 +1,15 @@
 <template>
 	<div ref="container">
+		<div v-if="hasSlot('filter')">
+			<div class="card">
+				<div class="card-body">
+					<slot
+					  name="filter"
+					></slot>
+				</div>
+			</div>
+		</div>
+
 		<div class="card">
 			<div v-if="hasSlot('header')" class="card-header">
 				<div class="d-flex align-items-center">
@@ -9,12 +19,8 @@
 				</div>
 			</div>
 
-			<div v-if="hasSlot('filter')" class="card-body">
-				<slot name="filter"></slot>
-			</div>
-
-			<div class="card-body py-0">
-				<div class="d-flex align-items-center py-2" style="height: 60px;">
+			<div class="card-body py-0 bg-light">
+				<div class="d-flex align-items-center py-2">
 					<div v-if="isBatchSelectable" class="mr-2">
 						<faux-checkbox
 						  :checked="Batch.isAllSelected()"
@@ -30,7 +36,7 @@
 							{{ Batch.count() }} Selected
 						</button-menu>
 						<div v-else class="text-muted">
-
+							<slot name="toolbar"></slot>
 						</div>
 					</div>
 					<div>
@@ -49,7 +55,7 @@
 			<infinite-list
 			  :fetch="fetch"
 			  :on-mounted="onMounted"
-			  ref="infiniteList"
+			  ref="list"
 			  @busy="busy = $event"
 			>
 				<template v-slot:item="{item}">
@@ -83,10 +89,10 @@
 
 <script>
 import {ref, watch, toRefs, defineAsyncComponent} from 'vue';
-import InfiniteList from 'vio/components/collection/InfiniteList';
-import ContextMenu from 'vio/components/menu/ContextMenu';
 import BatchSelector from "vio/helpers/BatchSelector";
+import InfiniteList from "./InfiniteList";
 
+const ContextMenu = defineAsyncComponent(() => import('vio/components/menu/ContextMenu'));
 const FauxCheckbox = defineAsyncComponent(() => import('vio/components/form/FauxCheckbox'));
 const ButtonMenu = defineAsyncComponent(() => import('vio/components/menu/ButtonMenu'));
 
@@ -124,8 +130,10 @@ export default {
 	},
 	setup(props) {
 		let Batch = new BatchSelector();
+		const list = ref(null);
 
 		return {
+			list,
 			Batch,
 			onMounted: props.onMounted,
 			busy: ref(false),
@@ -140,24 +148,20 @@ export default {
 		}
 	},
 	created() {
-		watch(() => this.keywords,
-		  (val) => {
-			  this.$refs.infiniteList.refresh();
-		  }
-		);
 
-		watch(() => this.searchParams,
-		  (val) => {
-			  //console.log('searchParams changed', val);
-			  this.$refs.infiniteList.refresh();
-		  }
-		);
 	},
 	mounted() {
-		let items = this.$refs.infiniteList.items;
+		let list = this.list;
+		let items = list.items;
 		this.Batch.bindWithItems(items);
 
-		watch(() => this.$refs.infiniteList.items, (val) => {
+		watch(() => this.keywords,
+		  (val) => {
+			  list.refresh();
+		  }
+		);
+
+		watch(() => list.items, (val) => {
 			//console.log('items have changed', val);
 			this.Batch.bindWithItems(val);
 		});
@@ -170,7 +174,7 @@ export default {
 	},
 	methods: {
 		refresh() {
-			this.$refs.infiniteList.refresh();
+			this.list.refresh();
 		},
 		generateBatchMenu(){
 			let items = [];

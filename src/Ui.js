@@ -14,7 +14,7 @@ if ($viewport.length == 0) {
 
 class UI {
 	constructor() {
-		this.init();
+		//this.init();
 	}
 
 	lockScroll() {
@@ -170,107 +170,64 @@ class UI {
 				excess = 0,
 				$window = $(window);
 
-		var calibrate = _.throttle(function () {
-			// Are we within a modal?
-			let inNewModal = window.$Modal && window.$Modal.isOpen;
-			inModal = inNewModal || ($this.parents('.io-modal').length > 0);
+		let bottomBuffer = 0;
 
-			if (inModal) {
-				$parent = $this.closest('.io-modal');
-				excess = $parent.find('.io-modal-toolbar').outerHeight();
-				$modalContent = $this.closest('.io-modal-content');
-			} else {
-				$parent = $(parent);
-			}
-
-			var pos = $parent.position();
-			var windowHeight = $window.innerHeight(),
+		let calibrate = _.throttle(function () {
+			let $parent = $(parent);
+			var pos = $parent.offset();
+			var windowHeight = $window.height(),
 					parentHeight = $parent.height(),
 					thisH;
-			var bottom = inModal ? Math.floor(windowHeight - pos.top - parentHeight) : 0;
+			var bottom = 0;
 			var thisPos = $this.position();
+
+			$this.outerWidth($parent.outerWidth());
+			thisH = $this.height();
+
+			bottom = windowHeight - parentHeight - pos.top;
 
 			/*console.log({
 				inModal,
 				windowHeight,
-				pos,
-				parentPosition: $parent.position(),
+				parentPosition: pos,
 				parentHeight,
 				bottom,
 				$parent,
 			});*/
 
-			if (options.fluid && !inModal && thisPos.top < windowHeight - 40) {
-				if (affixBottomCalibrated) {
-					// Reset
-				}
-				return;
-			}
-
-			$this.css($.extend(fixedStyle, {
+			$this.css({
+				...fixedStyle,
 				bottom: bottom,
 				left: pos ? pos.left : 0
-			}));
+			});
 
-			$this.outerWidth($parent.outerWidth());
+			console.log('thisH', thisH);
+			bottomBuffer = thisH;
 
-			thisH = $this.outerHeight();
-			if (inModal) {
-				modalH = parentHeight - excess;
-				var H = Math.floor(modalH - thisH);
-				//console.log('modalH', modalH, 'thisH', thisH, 'H', H);
-				$modalContent.addClass('locked');
-				$modalContent.outerHeight(H);
-			} else {
-				$parent.css({
-					paddingBottom: thisH
-				});
-			}
+			$parent.css({
+				paddingBottom: bottomBuffer
+			});
+
+			/*let num = _.random(1,1000);
+			$parent.prepend('<pre>'+num+'</pre>');*/
 
 			affixBottomCalibrated = true;
-		}, 200);
+		}, 300);
 
 		setTimeout(calibrate, 0);
-		$window.resize(calibrate);
+
+		console.log('affixed');
+		window.addEventListener('resize', calibrate);
 
 		return {
-			reset: function () {
-				if ($this.parents('.io-modal').length > 0) {
-					$modalContent.outerHeight(modalH);
-					$modalContent.removeClass('locked');
-				}
-				$window.unbind('resize', calibrate);
+			dispose: function () {
+				//console.log('disposing...');
+				window.removeEventListener('resize', calibrate);
 			}
 		}
 	}
 
 	init(){
-		// Create an invisible iframe
-		var iframe = document.createElement('iframe');
-		iframe.id = "scrollbar-resize-listener";
-		iframe.style.cssText = 'height: 0; background-color: transparent; margin: 0; padding: 0; overflow: hidden; border-width: 0; position: absolute; width: 100%;';
-
-		// Register our event when the iframe loads
-		iframe.onload = function () {
-			// The trick here is that because this iframe has 100% width
-			// it should fire a window resize event when anything causes it to
-			// resize (even scrollbars on the outer document)
-			iframe.contentWindow.addEventListener('resize', function () {
-				if (affixBottomCalibrated) {
-					affixBottomCalibrated = false;
-					return true;
-				}
-
-				try {
-					var evt = new UIEvent('resize');
-					window.dispatchEvent(evt);
-				} catch (e) {
-				}
-			});
-		};
-
-		// Stick the iframe somewhere out of the way
-		document.body.appendChild(iframe);
 	}
 }
 

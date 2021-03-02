@@ -1,5 +1,5 @@
 <template>
-	<time>{{ timeAgo }}</time>
+	<span :title="title">{{ timeAgo }}</span>
 </template>
 
 <script>
@@ -7,13 +7,13 @@ import {ref, toRefs} from 'vue';
 import {format} from 'timeago.js';
 
 export default {
-	name: "TimeAgo",
+	name: "TextTimeAgo",
 	props: {
-		dateString: String
+		value: String
 	},
 	setup(props) {
 		return {
-			value: toRefs(props).dateString,
+			value: toRefs(props).value,
 		}
 	},
 	methods: {},
@@ -23,6 +23,9 @@ export default {
 		},
 		timeAgo() {
 			return format(this.date);
+		},
+		title(){
+			return this.value;
 		}
 	}
 }

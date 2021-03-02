@@ -1,19 +1,46 @@
 <template>
-	<div class="io-modal" :id="id">
-		<div class="io-modal-toolbar clearfix">
-			<a class="btn btn-primary btn-sm" href="#" @click="close" v-if="modals.length > 1">
-				<i class="fa fa-chevron-left"></i>
-			</a>
-			<a class="btn btn-default btn-sm float-right pull-right" href="#" @click="close" ref="closeButton">
-				<i class="fa fa-times"></i>
-			</a>
-		</div>
-		<div class="io-modal-content" ref="modalContent">
-			<div v-if="isUrl">
-				<div ref="urlContent"></div>
-			</div>
-			<div v-else>
-				<component :is="componentLoaded" v-bind="componentParams"></component>
+	<div
+	  :id="id"
+	  ref="modal"
+	  class="modal vio-modal"
+	  tabindex="-1"
+	>
+		<div
+		  :class="classes"
+		  class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+		>
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">&nbsp;</h5>
+					<button
+					  ref="closeButton"
+					  type="button"
+					  class="close"
+					  data-dismiss="modal"
+					  aria-label="Close"
+					>
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body vio-modal-parent">
+					<div
+					  class="container-fluid vio-modal-content"
+					  ref="modalContent"
+					>
+						<div v-if="isUrl">
+							<div ref="urlContent"></div>
+						</div>
+						<div v-else>
+							<component
+							  v-if="component.name"
+							  :is="getComponentDef(component.name)"
+							  v-bind="component.props"
+							  :params="component.props"
+							></component>
+						</div>
+					</div>
+				</div>
+				<div class="vio-modal-footer"></div>
 			</div>
 		</div>
 	</div>
@@ -22,34 +49,54 @@
 <script>
 import $ from 'jquery';
 import _ from 'lodash';
-import App from 'App';
-import Ui from "vio/Ui";
-import {defineAsyncComponent} from 'vue';
-
-var $body = $('body');
-var $main = $('.io-viewport').first();
-
-var loaded = {};
+import {defineAsyncComponent, reactive, ref, toRefs} from 'vue';
 
 export default {
 	name: "Modal",
 	props: {
-		data: Object
+		data: Object,
+		size: {
+			type: String,
+			default: 'xl'
+		},
+		url: {
+			type: String,
+			default: ''
+		},
+		component: {
+			type: Object,
+			default: null
+		}
 	},
-	inject: ['scales', 'parent', 'modals'],
-	data: function () {
+	inject: ['parent', 'modals'],
+	setup(props) {
+		let propRefs = toRefs(props);
+
+		let component = reactive({
+			name: null,
+			props: {},
+			...props.component
+		});
+
 		return {
-			id: null,
+			id: ref(''),
 			token: '',
-			size: 'lg',
-			visible: false,
-			url: null,
-			componentLoaded: null,
-			componentParams: {}
+			size: props.size || 'lg',
+			url: propRefs.url,
+			data: propRefs.data,
+			component
 		};
 	},
 	mounted() {
 		this.init();
+
+		$(this.$refs.modal).on('hide.bs.modal', event => {
+			this.close();
+		});
+	},
+	beforeUnmount() {
+		$(this.$refs.modal).modal('hide');
+		$(this.$refs.modal).modal('dispose');
 	},
 	unmounted() {
 		this.dispose();
@@ -57,118 +104,51 @@ export default {
 	computed: {
 		isUrl() {
 			return !!this.data.url;
+		},
+		classes() {
+			let classes = [];
+
+			if (this.size) {
+				classes.push('modal-' + this.size);
+			}
+
+			return classes;
 		}
 	},
 	methods: {
 		init: function () {
 			this.id = _.uniqueId('modal-');
 			this.token = Date.now();
-
-			Ui.lockScroll();
-
-			window.addEventListener('resize', this.resize);
+			$(this.$refs.modal).modal('show');
 
 			if (this.data.url) {
 				this.loadUrl(this.data.url);
-			} else {
-				if (this.data.component) {
-					this.loadComponent(this.data.component, this.data.data);
-				}
 			}
 		},
 		dispose: function () {
-			window.removeEventListener('resize', this.resize);
 		},
 		close: function () {
 			this.$emit('closed');
 			this.dispose();
 			return false;
 		},
+		getComponentDef(name) {
+			return defineAsyncComponent(() => import(`components/app/${name}.vue`));
+		},
 		loadComponent: function (name, data) {
-			var componentName = `injected-modal-component-${name}`;
+			this.componentLoaded = this.getComponentDef(name);
 
-			if (!loaded[componentName]) {
-				App.vue.component(componentName, defineAsyncComponent(
-				  () => import(`components/app/${name}.vue`)
-				));
-			}
-
-			loaded[componentName] = true;
-			this.componentLoaded = componentName;
 			this.componentParams = {
 				params: data,
 				...data,
 			};
-
-			this.resize();
 		},
 		loadUrl(url) {
 			let self = this;
 			let target = this.$refs.urlContent;
 			$(target).load(url, function (content) {
-				self.resize();
 			});
 		},
-		resize: _.throttle(function () {
-			var $modalContainer = $(this.$el);
-			var $modalBody = $(this.$refs.modalContent);
-
-			var W = $main.width();
-			var H = window.innerHeight
-			  || document.documentElement.clientHeight
-			  || document.body.clientHeight;
-
-			var windowW = window.innerWidth
-			  || document.documentElement.clientWidth
-			  || document.body.clientWidth;
-
-			var gutter = 50;
-			var offset = $main.offset();
-			var size = this.size;
-
-			if (W < 900) {
-				// Force full-size when window is sufficiently small
-				size = 'lg';
-				gutter = 20;
-			}
-
-			if (W < 600) {
-				offset.left = 0;
-				W = $body.width();
-			}
-
-			if (W < 450) {
-				gutter = 10;
-			}
-
-			var scale = this.scales[size];
-
-			var modalW = Math.floor(scale.p * W) - gutter;
-
-			if (H > 680) {
-				var modalH = Math.floor(scale.p * H) - gutter;
-			} else {
-				var modalH = Math.floor(H - gutter);
-			}
-
-			$modalContainer.css({
-				width: modalW,
-				height: modalH,
-				top: 0 + (gutter / 2),
-				left: offset.left + Math.floor((W - modalW) / 2),
-				marginBottom: '50px'
-			});
-
-			var containerHeight = $modalContainer.height() - 50;
-			$modalBody.css({
-				overflowX: 'hidden'
-			});
-			if (!$modalBody.hasClass('locked')) {
-				$modalBody.outerHeight(containerHeight);
-			}
-
-			return false;
-		}, 100)
 	}
 }
 </script>

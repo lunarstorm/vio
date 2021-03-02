@@ -1,15 +1,13 @@
 <template>
 	<teleport to="#externals">
-		<div id="ix-modals">
-			<div class="io-modal-mask" v-if="data.items.length > 0"></div>
-			<div ref="modals">
-				<modal v-for="(item, index) in data.items"
-				  :data="item"
-				  :index="index"
-				  :key="index"
-				  @closed="removeItem(index)"
-				></modal>
-			</div>
+		<div id="vio-modals" ref="modals">
+			<modal v-for="(item, index) in data.items"
+			  :data="item"
+			  :index="index"
+			  :key="index"
+			  v-bind="item.props"
+			  @closed="removeItem(index)"
+			></modal>
 		</div>
 	</teleport>
 </template>
@@ -22,26 +20,7 @@ import Modal from './Modal.vue';
 import {provide, reactive, ref, unref, watch} from 'vue';
 import Url from 'url-parse';
 
-var $body = $('body');
-var $main = $('.io-viewport').first();
-var $mask = $('<div class="io-modal-mask"></div>');
 var scrollPosition = null;
-
-if ($main.length == 0) {
-	$main = $body;
-}
-
-var scales = {
-	sm: {
-		p: 0.5
-	},
-	md: {
-		p: 0.7
-	},
-	lg: {
-		p: 1
-	}
-};
 
 export default {
 	name: "Modals",
@@ -59,7 +38,7 @@ export default {
 		watch(data.items, (items) => {
 			if (items.length === 0) {
 				setTimeout(() => {
-					Ui.unlockScroll();
+					//Ui.unlockScroll();
 				}, 0);
 			}
 		});
@@ -70,7 +49,6 @@ export default {
 	},
 	provide() {
 		return {
-			scales: scales,
 			parent: this,
 			modals: this.data.items
 		}
@@ -119,13 +97,27 @@ export default {
 		removeItem(index) {
 			this.data.items.splice(index, 1);
 		},
-		loadComponent: function (name, data) {
-			var c = {
-				component: name,
-				data: data
-			};
-			var modals = this.data.items;
-			modals.push(c);
+		loadComponent: function (name, data, props) {
+			let modals = this.data.items;
+
+			//console.log("Let's load a component", name, data, props);
+
+			if(data.params){
+				data = {
+					...data,
+					...data.params
+				}
+			}
+
+			modals.push({
+				props: {
+					component: {
+						name: name,
+						props: data,
+					},
+					...props
+				}
+			});
 		},
 		loadUrl: function (url) {
 			var modals = this.data.items;
@@ -146,73 +138,9 @@ export default {
 </script>
 
 <style type="text/css">
-.io-modal {
-	position: fixed;
-	margin: 0 auto;
-	width: 400px;
-	border: 1px solid #ddd;
-	z-index: 9000;
-	background: #fcfcfc;
-	box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-}
-
-.io-modal .modal-hidden {
-	display: none;
-}
-
-.io-modal-mask {
-	z-index: 8999;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: #000;
-	opacity: 0.5;
-	filter: alpha(opacity=50);
-}
-
-.io-modal .io-modal-content {
-	display: block;
-	padding: 10px;
-	overflow-y: auto;
-}
-
-.io-modal .block hr {
-	margin: 20px -10px;
-}
-
-.io-modal-toolbar {
-	padding: 5px;
-	background: #efefef;
-}
-
-.io-modal .io-modal-content .content-header {
-	border-top: none;
-	margin-bottom: 20px;
-	margin-left: -10px;
-	margin-top: -10px;
-}
-
-.io-modal .block {
-	border: 1px solid #eee;
-}
-
-.io-modal ul.breadcrumb {
-	display: none;
-}
-
-.io-modal .selectize-dropdown {
-	z-index: 9000;
-}
-
-.modal,
-.modal-dialog,
-.bootstrap-dialog {
-	z-index: 9100 !important;
-}
-
-.modal-backdrop {
-	z-index: 1020 !important;
+@media (max-width: 1200px) {
+	.modal-dialog {
+		max-width: none !important;
+	}
 }
 </style>

@@ -58,7 +58,10 @@
 			  ref="list"
 			  @busy="busy = $event"
 			>
-				<template v-slot:item="{item}">
+				<template
+				  v-slot:item="{item}"
+				  class="pl-0"
+				>
 					<div class="d-flex align-items-start">
 						<div v-if="isBatchSelectable" class="mr-2">
 							<faux-checkbox
@@ -113,12 +116,8 @@ export default {
 			type: Boolean,
 			default: true
 		},
-		batchSelect: {
+		batch: {
 			type: [Boolean, Object],
-			default: false
-		},
-		batchMenu: {
-			type: [Boolean, Function],
 			default: false
 		}
 	},
@@ -129,12 +128,27 @@ export default {
 		ButtonMenu
 	},
 	setup(props) {
-		let Batch = new BatchSelector();
 		const list = ref(null);
+
+		let batchOptions = {
+			enable: false,
+			actions: null
+		};
+
+		if(props.batch){
+			batchOptions = {
+				...batchOptions,
+				enable: true,
+				...props.batch
+			};
+		}
+
+		const Batch = new BatchSelector();
 
 		return {
 			list,
 			Batch,
+			batch: batchOptions,
 			onMounted: props.onMounted,
 			busy: ref(false),
 			keywords: ref(''),
@@ -143,8 +157,6 @@ export default {
 			addItem: props.addItem,
 			itemMenu: toRefs(props).itemMenu,
 			keywordSearch: props.keywordSearch,
-			batchSelect: props.batchSelect,
-			batchMenu: props.batchMenu
 		}
 	},
 	created() {
@@ -168,8 +180,9 @@ export default {
 	},
 	computed: {
 		isBatchSelectable() {
-			//console.log('Batch', this.Batch, this.Batch.items);
-			return !!this.batchSelect;
+			//console.log('batch options', this.batch);
+
+			return this.batch.enable;
 		}
 	},
 	methods: {
@@ -179,8 +192,8 @@ export default {
 		generateBatchMenu(){
 			let items = [];
 
-			if(typeof this.batchMenu === "function"){
-				items.push(...this.batchMenu(this.Batch));
+			if(typeof this.batch.actions === "function"){
+				items.push(...this.batch.actions(this.Batch, this.list));
 			}
 
 			return items;

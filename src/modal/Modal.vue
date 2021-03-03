@@ -7,7 +7,7 @@
 	>
 		<div
 		  :class="classes"
-		  class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+		  class="modal-dialog modal-dialog-scrollable"
 		>
 			<div class="modal-content">
 				<div class="modal-header">

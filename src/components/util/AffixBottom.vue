@@ -7,7 +7,9 @@
 			  ref="teleported"
 			>
 				<div class="modal-footer">
-					<slot></slot>
+					<div class="w-100">
+						<slot></slot>
+					</div>
 				</div>
 			</teleport>
 		</template>

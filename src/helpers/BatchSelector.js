@@ -100,6 +100,10 @@ class BatchSelector {
 		return false;
 	}
 
+	reset() {
+		this.clear();
+	}
+
 	count() {
 		return this.selectedValues.value.length;
 	}

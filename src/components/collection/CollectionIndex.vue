@@ -19,7 +19,7 @@
 				</div>
 			</div>
 
-			<div class="card-body py-0 bg-light">
+			<div v-if="hasToolbar" class="card-body py-0 bg-light">
 				<div class="d-flex align-items-center py-2">
 					<div v-if="isBatchSelectable" class="mr-2">
 						<faux-checkbox
@@ -39,7 +39,7 @@
 							<slot name="toolbar"></slot>
 						</div>
 					</div>
-					<div>
+					<div v-if="!!addItem">
 						<a
 						  @click.prevent="addItem"
 						  href="#"
@@ -183,6 +183,10 @@ export default {
 			//console.log('batch options', this.batch);
 
 			return this.batch.enable;
+		},
+		hasToolbar(){
+			return this.isBatchSelectable ||
+			  this.hasSlot('toolbar')
 		}
 	},
 	methods: {

@@ -20,7 +20,7 @@
 			</div>
 
 			<div v-if="hasToolbar" class="card-body py-0 bg-light">
-				<div class="d-flex align-items-center py-2">
+				<div class="d-flex align-items-start py-2">
 					<div v-if="isBatchSelectable" class="mr-2">
 						<faux-checkbox
 						  :checked="Batch.isAllSelected()"
@@ -75,12 +75,13 @@
 							  :item="item"
 							></slot>
 						</div>
-						<div>
+						<div v-if="hasSlot('right')">
 							<slot
-							  v-if="hasSlot('right')"
 							  :item="item"
 							  name="right"
 							></slot>
+						</div>
+						<div>
 							<context-menu :items="getItemMenu(item)"></context-menu>
 						</div>
 					</div>
@@ -186,6 +187,7 @@ export default {
 		},
 		hasToolbar(){
 			return this.isBatchSelectable ||
+			  !!this.addItem ||
 			  this.hasSlot('toolbar')
 		}
 	},

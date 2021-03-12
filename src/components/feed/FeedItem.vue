@@ -13,20 +13,15 @@
 			</div>
 			<div v-else class="story-content">
 				<small :title="item.dateString" class="text-muted">
-					<time-ago v-if="item.isWithinCutoff" :value="item.date"></time-ago>
+					<time-ago
+					  v-if="item.isWithinCutoff"
+					  :value="item.date"
+					></time-ago>
 					<span v-else>{{ item.dateString }}</span>
 				</small>
 
-				<div v-if="item.metaData.object" data-bind="with: object" class="object-content">
-					<div v-if="objectComponent">
-						<div class="p-2 m-2 shadow-sm">
-							<component
-							  :is="objectComponent.component"
-							  v-bind="objectComponent.props"
-							></component>
-						</div>
-					</div>
-					<pre v-else>{{ item.metaData.object }}</pre>
+				<div v-if="item.metaData.object" class="object-content">
+					<feed-item-object :object="item.metaData.object"></feed-item-object>
 				</div>
 			</div>
 		</div>
@@ -35,52 +30,32 @@
 			<div v-for="child in children">
 				<div v-if="child.metaData">
 					<div
-					  v-if="!!child.metaData.icon"
 					  :class="child.metaData.bgClass"
 					  class="content-icon"
 					>
-						<i :class="child.metaData.icon"></i>
+						<i
+						  v-if="!!child.metaData.icon"
+						  :class="child.metaData.icon"
+						></i>
+						<i v-else class="fa fa-thumb-tack"></i>
 					</div>
 					<div class="content-title">
-						<span v-html="titleRendered"></span>
+						<span v-html="_title(child)"></span>
 					</div>
 				</div>
 
 				<div class="clearfix"></div>
 
 				<small :title="child.dateString" class="text-muted">
-					<time-ago v-if="child.isWithinCutoff" :value="child.date"></time-ago>
+					<time-ago
+					  v-if="child.isWithinCutoff"
+					  :value="child.date"
+					></time-ago>
 					<span v-else>{{ child.dateString }}</span>
 				</small>
 
-				<div v-if="objectComponent">
-					<div class="m-2 shadow-sm">
-						<component
-						  :is="objectComponent.component"
-						  v-bind="objectComponent.props"
-						></component>
-					</div>
-				</div>
-				<div v-else>
-					<div v-if="child.details" class="content-details">
-						<div v-html="child.details"></div>
-					</div>
-
-					<div v-if="child.metaData.object">
-						<div class="content-object">
-							<div
-							  v-if="child.metaData.object.content"
-							  v-html="child.metaData.object.content"
-							  class="object-content"
-							></div>
-
-							<div
-							  v-if="child.metaData.object.summary"
-							  v-html="child.metaData.object.summary"
-							  class="object-summary"
-							></div>
-						</div>
-					</div>
+				<div v-if="child.metaData.object" class="object-content">
+					<feed-item-object :object="child.metaData.object"></feed-item-object>
 				</div>
 			</div>
 		</div>
@@ -98,7 +73,7 @@
 					<i :class="item.metaData.icon"></i>
 				</div>
 				<div class="content-title">
-					<span v-html="titleRendered"></span>
+					<span v-html="_title(item)"></span>
 				</div>
 			</div>
 
@@ -124,6 +99,7 @@
 				<feed-item :item="child"></feed-item>
 			</div>
 		</div>
+
 	</div>
 </template>
 
@@ -131,11 +107,11 @@
 import {toRefs, ref, defineAsyncComponent, inject} from 'vue';
 import TimeAgo from 'vio/components/text/TextTimeAgo.vue';
 import _ from 'lodash';
-import $ from 'jquery';
 
 const FeedItem = defineAsyncComponent(() => import('./FeedItem.vue'));
+const FeedItemObject = defineAsyncComponent(() => import('./FeedItemObject.vue'));
 
-_.templateSettings = {
+const templateSettings = {
 	interpolate: /\{\{(.+?)\}\}/g
 };
 
@@ -149,7 +125,8 @@ export default {
 	},
 	components: {
 		TimeAgo,
-		FeedItem
+		FeedItem,
+		FeedItemObject
 	},
 	setup(props) {
 		//console.log('ActivityItem', props.item);
@@ -173,52 +150,8 @@ export default {
 
 			return item.titleTemplate;
 		},
-		titleRendered() {
-			let self = this;
-			let args = {
-				actor: '',
-				object: '',
-				target: '',
-				target2: ''
-			};
-
-			let template = _.template(this.item.titleTemplate);
-
-			$.each(args, function (name, arg) {
-				args[name] = self._render(name);
-			});
-
-			//console.log(this.item.titleTemplate, args);
-
-			if (this.children.length > 0) {
-				args.n = this.children.length;
-			}
-
-			return template(args);
-		},
-		objectComponent(){
-			let item = this.item;
-
-			if(item.metaData.object){
-				return this.resolveObjectComponent(item.metaData.object);
-			}
-
-			return null;
-		}
 	},
 	methods: {
-		resolveObjectComponent(data) {
-			const resolver = this.objectResolver;
-			//console.log('FeedItem renderObject', data);
-
-			if (typeof resolver === "function") {
-				let resolved = resolver(data);
-				//console.log('object resolver is a function', resolved);
-				return resolved;
-			}
-
-			return null;
-		},
 		toggleExpanded() {
 			this.expanded = !this.expanded;
 		},
@@ -234,7 +167,7 @@ export default {
 			}
 			var tokens = [];
 
-			$.each(data, function (i, item) {
+			_.forEach(data, function (item, i) {
 				var o = {
 					url: '',
 					displayName: '',
@@ -244,9 +177,9 @@ export default {
 
 				var value = '';
 				if (o.url) {
-					value = _.template('<a href="{{url}}"{{attr}}>{{displayName}}</a>')(o);
+					value = _.template('<a href="{{url}}"{{attr}}>{{displayName}}</a>', templateSettings)(o);
 				} else {
-					value = _.template('<span{{attr}}>{{displayName}}</span>')(o);
+					value = _.template('<span{{attr}}>{{displayName}}</span>', templateSettings)(o);
 				}
 
 				tokens.push(value);
@@ -254,6 +187,32 @@ export default {
 
 			return this._implodeWithAnd(tokens);
 		},
+		_title(item){
+			let self = this;
+			let args = {
+				actor: '',
+				object: '',
+				target: '',
+				target2: ''
+			};
+
+			let template = _.template(item.titleTemplate, templateSettings);
+
+			_.forEach(args, (arg, name) => {
+				args[name] = this._render(name);
+			});
+
+			if(item.stories){
+				if(item.stories.length){
+					args.n = item.stories.length;
+				}
+				else{
+					args.n = 1;
+				}
+			}
+
+			return template(args);
+		}
 	}
 }
 </script>

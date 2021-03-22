@@ -80,7 +80,10 @@
 			<div class="clearfix"></div>
 
 			<small class="text-muted">
-				<time-ago v-if="item.isWithinCutoff" :Date-string="item.date"></time-ago>
+				<time-ago
+				  v-if="item.isWithinCutoff"
+				  :value="item.date"
+				></time-ago>
 				<span v-else>{{ item.dateString }}</span>
 
 				<a

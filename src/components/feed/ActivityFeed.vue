@@ -3,7 +3,11 @@
 		<div class="card-body">
 			<div class="activity-stream">
 				<ul class="activities">
-					<li v-for="item in items" class="stream-item">
+					<li
+					  v-for="(item, index) in items"
+					  :key="index"
+					  class="stream-item"
+					>
 						<feed-item :item="item"></feed-item>
 					</li>
 				</ul>
@@ -93,6 +97,10 @@ export default {
 
 			this.busy = false;
 		},
+		reload(){
+			this.fetchMore(true);
+			this.$forceUpdate();
+		}
 	}
 }
 </script>

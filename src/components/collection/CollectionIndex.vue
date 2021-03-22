@@ -21,7 +21,7 @@
 
 			<div v-if="hasToolbar" class="card-body py-0 bg-light">
 				<div class="d-flex align-items-start py-2">
-					<div v-if="isBatchSelectable" class="mr-2">
+					<div v-if="isBatchSelectable" class="mr-2 justify-content-center align-self-center">
 						<faux-checkbox
 						  :checked="Batch.isAllSelected()"
 						  @toggle="Batch.selectAllToggle()"
@@ -39,7 +39,7 @@
 							<slot name="toolbar"></slot>
 						</div>
 					</div>
-					<div v-if="!!addItem">
+					<div v-if="!!addItem" class="align-self-center">
 						<a
 						  @click.prevent="addItem"
 						  href="#"

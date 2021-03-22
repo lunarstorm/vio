@@ -1,7 +1,7 @@
 <template>
 	<input
 	  :value="modelValue"
-	  @input="$emit('update:modelValue', $event.target.value)"
+	  @change="$emit('update:modelValue', $event.target.value)"
 	  ref="field"
 	  type="text"
 	  class="form-control"
@@ -11,15 +11,15 @@
 <script>
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import {toRefs} from 'vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
-let FP = null;
 
 export default {
 	name: "InputDate",
 	components: {},
 	props: {
-		modelValue: String,
+		modelValue: [String, Object],
 		options: {
 			type: Object,
 			default: {}
@@ -27,29 +27,34 @@ export default {
 	},
 	emits: ['update:modelValue'],
 	setup(props) {
+		let propRefs = toRefs(props);
+		let FP = null;
+
 		return {
-			options: props.options
+			options: propRefs.options,
+			FP
 		};
 	},
-	computed: {},
+	computed: {
+	},
 	methods: {},
+	created() {
+	},
 	mounted() {
-		let self = this;
-		let dateValue = this.modelValue;
+		let $field = this.$refs.field;
 
-		FP = flatpickr(this.$refs.field, {
+		this.FP = flatpickr($field, {
 			allowInput: true,
-			defaultDate: dateValue,
-			onChange: function (selectedDates, dateStr, instance) {
-				//dateValue = dateStr;
-				//self.$emit('update:modelValue', dateStr);
-			},
 			...this.options
 		});
+
+	},
+	updated(){
+		this.FP.setDate(this.modelValue, true);
 	},
 	unmounted() {
-		if (FP) {
-			FP.destroy();
+		if (this.FP) {
+			this.FP.destroy();
 		}
 	}
 }

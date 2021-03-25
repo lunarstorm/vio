@@ -39,7 +39,7 @@
 							<slot name="toolbar"></slot>
 						</div>
 					</div>
-					<div>
+					<div v-if="!!addItem">
 						<a
 						  @click.prevent="addItem"
 						  href="#"

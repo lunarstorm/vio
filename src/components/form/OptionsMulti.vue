@@ -20,7 +20,7 @@ export default {
 	},
 	emits: ['update:modelValue'],
 	props: {
-		modelValue: String,
+		modelValue: [String, Object],
 	},
 	setup(props) {
 		return {

@@ -23,7 +23,7 @@ import Url from 'url-parse';
 var scrollPosition = null;
 
 export default {
-	name: "Modals",
+	name: "ModalContainer",
 	components: {
 		Modal
 	},

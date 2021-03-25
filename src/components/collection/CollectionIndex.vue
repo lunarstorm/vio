@@ -19,9 +19,9 @@
 				</div>
 			</div>
 
-			<div class="card-body py-0 bg-light">
-				<div class="d-flex align-items-center py-2">
-					<div v-if="isBatchSelectable" class="mr-2">
+			<div v-if="hasToolbar" class="card-body py-0 bg-light">
+				<div class="d-flex align-items-start py-2">
+					<div v-if="isBatchSelectable" class="mr-2 justify-content-center align-self-center">
 						<faux-checkbox
 						  :checked="Batch.isAllSelected()"
 						  @toggle="Batch.selectAllToggle()"
@@ -39,7 +39,7 @@
 							<slot name="toolbar"></slot>
 						</div>
 					</div>
-					<div v-if="!!addItem">
+					<div v-if="!!addItem" class="align-self-center">
 						<a
 						  @click.prevent="addItem"
 						  href="#"
@@ -75,12 +75,13 @@
 							  :item="item"
 							></slot>
 						</div>
-						<div>
+						<div v-if="hasSlot('right')">
 							<slot
-							  v-if="hasSlot('right')"
 							  :item="item"
 							  name="right"
 							></slot>
+						</div>
+						<div>
 							<context-menu :items="getItemMenu(item)"></context-menu>
 						</div>
 					</div>
@@ -183,6 +184,11 @@ export default {
 			//console.log('batch options', this.batch);
 
 			return this.batch.enable;
+		},
+		hasToolbar(){
+			return this.isBatchSelectable ||
+			  !!this.addItem ||
+			  this.hasSlot('toolbar')
 		}
 	},
 	methods: {

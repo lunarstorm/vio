@@ -83,6 +83,10 @@ export default {
 	},
 	computed: {
 		selectedLabel() {
+			if (this.modelValue == this.nullValue) {
+				return this.nullText;
+			}
+
 			let label = this.modelValue;
 
 			_.forEach(this.optionsParsed, (opt, key) => {

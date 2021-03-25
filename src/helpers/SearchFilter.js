@@ -2,14 +2,12 @@ import {reactive, watch} from 'vue';
 
 class SearchFilter {
 	constructor(defaults) {
-		let data = reactive({
-			defaults: {
-				...defaults
-			},
+		this.data = reactive({
+			defaults: {},
 			values: {},
 		});
 
-		this.data = data;
+		this.setDefaults(defaults);
 	}
 
 	onChange(callback) {
@@ -27,6 +25,11 @@ class SearchFilter {
 			...values
 		};
 		Object.assign(this.data.values, values);
+	}
+
+	setDefaults(values){
+		this.data.defaults = values;
+		this.assignValues({});
 	}
 
 	set(key, value) {

@@ -25,6 +25,7 @@
 import $ from 'jquery';
 import Ui from 'vio/Ui';
 import {ref} from 'vue';
+import _ from 'lodash';
 
 export default {
 	name: "AffixBottom",
@@ -37,17 +38,19 @@ export default {
 	mounted() {
 		let affixTo = '#page-content';
 
-		if (this.inModal()) {
-			affixTo = this.findModalContainer();
-			this.teleportTo = this.findModalFooter();
+		this.$nextTick(() => {
+			if (this.inModal()) {
+				affixTo = this.findModalContainer();
+				this.teleportTo = this.findModalFooter();
 
-			this.$nextTick(() => {
-				this.handleFormElements();
-			});
+				this.$nextTick(() => {
+					this.handleFormElements();
+				});
+			} else {
+				this.listener = Ui.affixBottom(this.$refs.container, affixTo);
+			}
+		});
 
-		} else {
-			this.listener = Ui.affixBottom(this.$refs.container, affixTo);
-		}
 	},
 	unmounted() {
 		if (this.listener) {
@@ -85,7 +88,7 @@ export default {
 					$form.attr('id', formId);
 				}
 
-				if($modal){
+				if ($modal) {
 					let $submit = $modal.find('*[type=submit]');
 					$submit.attr('form', formId);
 				}

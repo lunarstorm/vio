@@ -1,14 +1,25 @@
 <template>
 	<div v-if="items.length > 0" class="btn-group">
-		<a
-		  v-if="firstItem"
-		  @click.prevent="firstItem.fn"
-		  :title="firstItem.text"
-		  href="#"
-		  class="btn btn-default"
-		>
-			<i :class="firstItem.icon" class="fa fa-fw"></i>
-		</a>
+		<template v-if="firstItem">
+			<a
+			  v-if="!!firstItem.href"
+			  :href="firstItem.href"
+			  :title="firstItem.text"
+			  :target="firstItem.target"
+			  class="btn btn-default"
+			>
+				<i :class="firstItem.icon" class="fa fa-fw"></i>
+			</a>
+			<a
+			  v-else
+			  @click.prevent="firstItem.fn"
+			  :title="firstItem.text"
+			  href="#"
+			  class="btn btn-default"
+			>
+				<i :class="firstItem.icon" class="fa fa-fw"></i>
+			</a>
+		</template>
 		<button type="button" class="btn btn-default" data-toggle="dropdown">
 			<i class="fa fa-ellipsis-h"></i>
 		</button>

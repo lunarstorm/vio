@@ -1,14 +1,5 @@
 <template>
 	<div v-if="items.length > 0" class="btn-group">
-		<a
-		  v-if="firstItem"
-		  @click.prevent="firstItem.fn"
-		  :title="firstItem.text"
-		  href="#"
-		  class="btn btn-default"
-		>
-			<i :class="firstItem.icon" class="fa fa-fw"></i>
-		</a>
 		<button type="button" class="btn btn-default" data-toggle="dropdown">
 			<i class="fa fa-ellipsis-h"></i>
 		</button>
@@ -46,6 +37,16 @@ export default {
 			}
 
 			return null;
+		},
+		firstItemParams(){
+			let params = {};
+
+			if(this.firstItem){
+
+
+			}
+
+			return parmas
 		}
 	},
 	mounted() {

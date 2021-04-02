@@ -10,8 +10,8 @@
 </template>
 
 <script>
+import "@vueform/multiselect/themes/default.scss";
 import MultiSelect from '@vueform/multiselect';
-import "@vueform/multiselect/themes/default.css";
 import FormOptions from "vio/helpers/FormOptions";
 
 export default {
@@ -26,14 +26,15 @@ export default {
 		options: {
 			type: [Array, Object, Function],
 			defaultValue: []
-		}
+		},
+		async: Boolean
 	},
 	setup(props) {
 		return {};
 	},
 	computed: {
 		optionsNormalized() {
-			if(typeof this.options === "function"){
+			if(this.async){
 				return this.options;
 			}
 

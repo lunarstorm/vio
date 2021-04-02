@@ -9,15 +9,12 @@
 </template>
 
 <script>
-
-import {unref} from "vue";
-
 export default {
 	name: "InputText",
 	inheritAttrs: true,
 	components: {},
 	props: {
-		modelValue: String,
+		modelValue: [String, Number],
 	},
 	emits: ['update:modelValue'],
 	setup(props) {

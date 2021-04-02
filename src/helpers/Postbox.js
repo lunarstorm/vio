@@ -29,7 +29,7 @@ class Postbox {
 		});
 	}
 
-	bindCollection(collection, topic) {
+	syncWithArray(collection, topic) {
 		if (!_.has(this.data.collections, topic)) {
 			_.set(this.data.collections, topic, []);
 		}
@@ -43,27 +43,35 @@ class Postbox {
 	}
 
 	on(topic, callback){
-		if(!_.has(this.data.handlers, topic)){
-			_.set(this.data.handlers, topic, []);
-		}
+		let topics = _.castArray(topic);
 
-		let handlers = this.getHandlers(topic);
-		handlers.push(callback);
+		_.forEach(topics, topic => {
+			if (!_.has(this.data.handlers, topic)) {
+				_.set(this.data.handlers, topic, []);
+			}
 
-		let component = getCurrentInstance();
-		if(component){
-			onUnmounted(() => {
-				//console.log('Postbox auto-unmounting?');
-				this.off(topic, callback);
-			})
-		}
+			let handlers = this.getHandlers(topic);
+			handlers.push(callback);
+
+			let component = getCurrentInstance();
+			if (component) {
+				onUnmounted(() => {
+					//console.log('Postbox auto-unmounting?');
+					this.off(topic, callback);
+				})
+			}
+		});
 	}
 
 	off(topic, callback) {
-		let handlers = this.getHandlers(topic);
-		_.remove(handlers, handler => {
-			return handler === callback;
-		})
+		let topics = _.castArray(topic);
+
+		_.forEach(topics, topic => {
+			let handlers = this.getHandlers(topic);
+			_.remove(handlers, handler => {
+				return handler === callback;
+			});
+		});
 	}
 
 	getHandlers(topic){

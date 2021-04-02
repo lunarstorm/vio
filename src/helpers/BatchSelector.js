@@ -1,10 +1,4 @@
-import {
-	reactive,
-	computed,
-	unref,
-	toRaw,
-		watch
-} from 'vue';
+import {computed, reactive, toRaw, unref} from 'vue';
 import _ from 'lodash';
 
 class BatchSelector {

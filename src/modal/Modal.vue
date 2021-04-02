@@ -3,7 +3,6 @@
 	  :id="id"
 	  ref="modal"
 	  class="modal vio-modal"
-	  tabindex="-1"
 	>
 		<div
 		  :class="classes"

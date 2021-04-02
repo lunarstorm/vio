@@ -52,41 +52,24 @@
 				</div>
 			</div>
 
-			<infinite-list
+			<infinite-table
 			  :fetch="fetch"
 			  :on-mounted="onMounted"
 			  ref="list"
 			  @busy="busy = $event"
 			>
 				<template
-				  #item="{item}"
-				  class="pl-0"
+				  #head="{item}"
 				>
-					<div class="d-flex align-items-start">
-						<div v-if="isBatchSelectable" class="mr-2">
-							<faux-checkbox
-							  :checked="Batch.isSelected(item.id)"
-							  @toggle="Batch.toggle(item.id)"
-							></faux-checkbox>
-						</div>
-						<div class="flex-grow-1">
-							<slot
-							  name="item"
-							  :item="item"
-							></slot>
-						</div>
-						<div v-if="hasSlot('right')">
-							<slot
-							  :item="item"
-							  name="right"
-							></slot>
-						</div>
-						<div>
-							<context-menu :items="getItemMenu(item)"></context-menu>
-						</div>
-					</div>
+					<slot :item="item" name="head"></slot>
 				</template>
-			</infinite-list>
+
+				<template
+				  #item="{item}"
+				>
+					<slot :item="item" name="item"></slot>
+				</template>
+			</infinite-table>
 		</div>
 	</div>
 </template>
@@ -94,15 +77,20 @@
 <script>
 import {ref, watch, watchEffect, toRefs, defineAsyncComponent} from 'vue';
 import BatchSelector from "vio/helpers/BatchSelector";
-import InfiniteList from "./InfiniteList";
+import InfiniteTable from "./InfiniteTable";
+
 const ContextMenu = defineAsyncComponent(() => import('vio/components/menu/ContextMenu'));
 const FauxCheckbox = defineAsyncComponent(() => import('vio/components/form/FauxCheckbox'));
 const ButtonMenu = defineAsyncComponent(() => import('vio/components/menu/ButtonMenu'));
 
 export default {
-	name: "CollectionIndex",
+	name: "TableIndex",
 	comments: true,
 	props: {
+		type: {
+			type: String,
+			default: 'list'
+		},
 		dataSource: String,
 		filter: {
 			type: Object,
@@ -123,7 +111,7 @@ export default {
 	},
 	components: {
 		ContextMenu,
-		InfiniteList,
+		InfiniteTable,
 		FauxCheckbox,
 		ButtonMenu
 	},
@@ -157,6 +145,7 @@ export default {
 			addItem: props.addItem,
 			itemMenu: toRefs(props).itemMenu,
 			keywordSearch: props.keywordSearch,
+			type: toRefs(props).type
 		}
 	},
 	mounted() {
@@ -164,7 +153,6 @@ export default {
 			let list = this.list;
 			if (list) {
 				let items = list.items;
-				//console.log('items', items);
 				this.Batch.bindWithItems(items);
 			}
 		});
@@ -178,9 +166,10 @@ export default {
 		);
 
 		watch(() => this.list ? this.list.items : null, (val) => {
+			/*console.log('items have changed', val);
 			if(val){
 				this.Batch.bindWithItems(val);
-			}
+			}*/
 		});
 	},
 	computed: {
@@ -192,8 +181,22 @@ export default {
 			  !!this.addItem ||
 			  this.hasSlot('toolbar')
 		},
+		innerComponent() {
+			if (this.type === 'table') {
+				return InfiniteTable;
+			}
+
+			return InfiniteList;
+		},
 	},
 	methods: {
+		getInnerComponent() {
+			if (this.type === 'table') {
+				return InfiniteTable;
+			}
+
+			return InfiniteList;
+		},
 		refresh() {
 			this.list.refresh();
 		},

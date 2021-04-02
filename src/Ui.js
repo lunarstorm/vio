@@ -65,7 +65,7 @@ class UI {
 		return $element.prop('scrollHeight') > $element.outerHeight();
 	}
 
-	scrollTo(pos, el){
+	scrollTo(pos, el) {
 		$(window).scrollTop(pos);
 	}
 
@@ -153,7 +153,8 @@ class UI {
 
 		//console.log('affixBottom', $target);
 
-		var $this = $target, $parent, parentHeight;
+		let $parent = $(parent);
+		var $this = $target, parentHeight;
 		var fixedStyle = {
 			bottom: 0,
 			marginBottom: 0,
@@ -171,9 +172,15 @@ class UI {
 				$window = $(window);
 
 		let bottomBuffer = 0;
+		let $wrapper = $('<div class="vio-affix-wrapper"></div>');
+
+		$wrapper.css({
+			position: 'relative'
+		});
+
+		$parent.wrap($wrapper);
 
 		let calibrate = _.throttle(function () {
-			let $parent = $(parent);
 			var pos = $parent.offset();
 			var windowHeight = $window.height(),
 					parentHeight = $parent.height(),
@@ -204,27 +211,63 @@ class UI {
 			bottomBuffer = thisH;
 
 			$parent.css({
+				position: 'relative',
 				paddingBottom: bottomBuffer
 			});
-
-			/*let num = _.random(1,1000);
-			$parent.prepend('<pre>'+num+'</pre>');*/
 
 			affixBottomCalibrated = true;
 		}, 300);
 
-		setTimeout(calibrate, 0);
 		window.addEventListener('resize', calibrate);
+		setTimeout(calibrate, 0);
+
+		let observer = null;
+		if(typeof ResizeObserver === "function" && $parent.length > 0){
+			observer = new ResizeObserver(calibrate)
+					.observe($parent[0]);
+		}
 
 		return {
 			dispose: function () {
 				//console.log('disposing...');
 				window.removeEventListener('resize', calibrate);
+
+				if(observer && $parent.length > 0){
+					observer.unobserve($parent[0])
+				}
 			}
 		}
 	}
 
-	init(){
+	init() {
+		/*$(function () {
+			// Create an invisible iframe
+			var iframe = document.createElement('iframe');
+			iframe.id = "scrollbar-resize-listener";
+			iframe.style.cssText = 'height: 0; background-color: transparent; margin: 0; padding: 0; overflow: hidden; border-width: 0; position: absolute; width: 100%;';
+
+			// Register our event when the iframe loads
+			iframe.onload = function () {
+				// The trick here is that because this iframe has 100% width
+				// it should fire a window resize event when anything causes it to
+				// resize (even scrollbars on the outer document)
+				iframe.contentWindow.addEventListener('resize', function () {
+					if (affixBottomCalibrated) {
+						affixBottomCalibrated = false;
+						return true;
+					}
+
+					try {
+						var evt = new UIEvent('resize');
+						window.dispatchEvent(evt);
+					} catch (e) {
+					}
+				});
+			};
+
+			// Stick the iframe somewhere out of the way
+			document.body.appendChild(iframe);
+		});*/
 	}
 }
 

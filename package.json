@@ -16,7 +16,7 @@
   "author": "Jasper Tey",
   "license": "ISC",
   "homepage": "https://bitbucket.org/lunarstorm/vio#readme",
-  "dependencies": {
+  "peerDependencies": {
     "autosize": "^4.0.2",
     "bootstrap": "^4.6.0",
     "flatpickr": "^4.6.9",

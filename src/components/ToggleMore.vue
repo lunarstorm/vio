@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {ref, toRefs, computed} from 'vue';
+import {ref} from 'vue';
 
 export default {
 	name: "ToggleMore",

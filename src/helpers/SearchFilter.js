@@ -1,4 +1,5 @@
 import {reactive, watch} from 'vue';
+import _ from 'lodash';
 
 class SearchFilter {
 	constructor(defaults) {
@@ -46,6 +47,18 @@ class SearchFilter {
 
 	get(key) {
 		return this.data.values[key];
+	}
+
+	resetAll(){
+		_.forEach(this.data.values, (val, key) => {
+			this.reset(key);
+		});
+	}
+
+	clearAll() {
+		_.forEach(this.data.values, (val, key) => {
+			this.clear(key);
+		});
 	}
 }
 

@@ -2,6 +2,10 @@
 	<div class="card">
 		<div class="card-body">
 			<div class="activity-stream">
+				<div v-if="busy" class="float-right">
+					<i class="fa fa-refresh fa-spin text-muted"></i>
+				</div>
+
 				<ul class="activities">
 					<li
 					  v-for="(item, index) in items"

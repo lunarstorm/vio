@@ -1,20 +1,31 @@
 <template>
-	<input
-	  :value="modelValue"
-	  @input="$emit('update:modelValue', $event.target.value)"
-	  ref="field"
-	  type="text"
-	  class="form-control"
-	/>
+	<div>
+		<label v-if="label">{{ label }}</label>
+		<input
+		  :value="modelValue"
+		  @input="$emit('update:modelValue', $event.target.value)"
+		  ref="field"
+		  type="text"
+		  class="form-control"
+		  v-bind="$attrs"
+		/>
+		<form-error v-model="error"></form-error>
+	</div>
 </template>
 
 <script>
+import FormError from "vio/components/form/FormError";
+
 export default {
 	name: "InputText",
-	inheritAttrs: true,
-	components: {},
+	inheritAttrs: false,
+	components: {
+		FormError
+	},
 	props: {
 		modelValue: [String, Number],
+		label: [String],
+		error: [String]
 	},
 	emits: ['update:modelValue'],
 	setup(props) {

@@ -1,34 +1,38 @@
 <template>
-	<div class="list-group list-group-flush">
+	<div class="list-group list-group-flush list-group-divider">
 		<div
 		  v-for="(item, i) in items"
 		  :key="i"
 		  :ref="el => { if (el) divs[i] = el }"
-		  class="list-group-item"
+		  class="list-group-item w-100"
 		>
-			<slot
-			  name="item"
-			  :item="item"
-			></slot>
+			<div class="list-group-item-body">
+				<slot
+				  name="item"
+				  :item="item"
+				></slot>
+			</div>
 		</div>
 		<div
 		  v-if="hasMore"
 		  ref="bottom"
-		  class="list-group-item text-center"
+		  class="list-group-item text-center w-100"
 		>
-			<button
-			  @click="fetchMore"
-			  :disabled="busy"
-			  type="button"
-			  class="btn btn-default"
-			>
-				<div v-if="busy">
-					<i class="fa fa-spin fa-refresh"></i> Loading...
-				</div>
-				<div v-else>
-					Load More
-				</div>
-			</button>
+			<div class="list-group-item-body">
+				<button
+				  @click="fetchMore"
+				  :disabled="busy"
+				  type="button"
+				  class="btn btn-secondary"
+				>
+					<div v-if="busy">
+						<i class="fa fa-spin fa-refresh"></i> Loading...
+					</div>
+					<div v-else>
+						Load More
+					</div>
+				</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -85,7 +89,7 @@ export default {
 		window.removeEventListener('scroll', this.onScroll);
 	},
 	watch: {
-		busy(val){
+		busy(val) {
 			//console.log('emit busy');
 			this.$emit('busy', val);
 		}
@@ -130,7 +134,7 @@ export default {
 			this.page = 0;
 			this.fetchMore(true);
 		}, 300),
-		removeItem(predicate){
+		removeItem(predicate) {
 			_.remove(this.items, predicate);
 		}
 	},

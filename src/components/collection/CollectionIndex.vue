@@ -62,7 +62,7 @@
 				  #item="{item}"
 				  class="pl-0"
 				>
-					<div class="d-flex align-items-start">
+					<div class="d-flex align-items-start w-100">
 						<div v-if="isBatchSelectable" class="mr-2">
 							<faux-checkbox
 							  :checked="Batch.isSelected(item.id)"

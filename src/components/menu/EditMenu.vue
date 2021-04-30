@@ -6,7 +6,7 @@
 			  :href="firstItem.href"
 			  :title="firstItem.text"
 			  :target="firstItem.target"
-			  class="btn btn-default"
+			  class="btn btn-secondary"
 			>
 				<i :class="firstItem.icon" class="fa fa-fw"></i>
 			</a>
@@ -15,12 +15,12 @@
 			  @click.prevent="firstItem.fn"
 			  :title="firstItem.text"
 			  href="#"
-			  class="btn btn-default"
+			  class="btn btn-secondary"
 			>
 				<i :class="firstItem.icon" class="fa fa-fw"></i>
 			</a>
 		</template>
-		<button type="button" class="btn btn-default" data-toggle="dropdown">
+		<button type="button" class="btn btn-secondary" data-toggle="dropdown">
 			<i class="fa fa-ellipsis-h"></i>
 		</button>
 		<div class="dropdown-menu dropdown-menu-right" role="menu">

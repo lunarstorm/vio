@@ -1,7 +1,7 @@
 <template>
 	<a href="#." @click.prevent="toggle">
 		<i v-if="checked" class="fa fa-fw fa-square text-primary"></i>
-		<i v-else class="fa fa-fw fa-square-o text-secondary"></i>
+		<i v-else class="fa fa-fw fa-square-o text-muted"></i>
 	</a>
 </template>
 

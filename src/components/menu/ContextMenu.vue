@@ -1,6 +1,6 @@
 <template>
 	<div v-if="items.length > 0" class="btn-group">
-		<button type="button" class="btn btn-default" data-toggle="dropdown">
+		<button type="button" class="btn btn-secondary" data-toggle="dropdown">
 			<i class="fa fa-ellipsis-h"></i>
 		</button>
 		<div class="dropdown-menu dropdown-menu-right" role="menu">

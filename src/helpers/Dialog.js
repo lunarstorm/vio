@@ -15,7 +15,7 @@ class Dialog {
 		};
 
 		const div = document.createElement('div');
-		$('#app').append(div)
+		$('body').append(div)
 		createApp(this.component, o).mount(div)
 	}
 }

@@ -5,7 +5,8 @@
 	  :class="pageClasses()"
 	>
 		<div v-if="hasSidebar()" class="sidebar-backdrop"></div>
-		<div class="page-inner page-inner-fill">
+
+		<div class="page-inner">
 			<button
 			  v-if="hasSidebar()"
 			  class="btn btn-success btn-floated d-xl-none"
@@ -17,8 +18,15 @@
 				</slot>
 			</button>
 
-			<slot></slot>
+			<header v-if="!!$slots.titlebar" class="page-title-bar">
+				<slot name="titlebar"></slot>
+			</header>
+
+			<div class="page-section">
+				<slot></slot>
+			</div>
 		</div>
+
 		<div v-if="hasSidebar()" class="page-sidebar">
 			<header class="sidebar-header d-sm-none">
 				<nav aria-label="breadcrumb">

@@ -28,6 +28,14 @@ class SearchFilter {
 		Object.assign(this.data.values, values);
 	}
 
+	setValues(values){
+		this.assignValues(values);
+	}
+
+	getValues(){
+		return this.data.values;
+	}
+
 	setDefaults(values){
 		this.data.defaults = values;
 		this.assignValues({});

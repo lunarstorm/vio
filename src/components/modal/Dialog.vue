@@ -56,7 +56,8 @@ export default {
 			default: () => {
 				return false;
 			}
-		}
+		},
+		center: Boolean
 	},
 	mounted() {
 		let $modal = $(this.$refs.modal);
@@ -66,6 +67,9 @@ export default {
 		classes(){
 			let items = [];
 
+			if(this.center){
+				items.push('modal-dialog-centered');
+			}
 			//items.push()
 
 			return items;

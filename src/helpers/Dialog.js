@@ -7,16 +7,33 @@ class Dialog {
 		this.component = VioDialog;
 	}
 
-	confirm(o){
+	show(o) {
+		o = {
+			title: '',
+			message: '',
+			...o
+		};
+
+		const div = document.createElement('div');
+		$('body').append(div);
+		createApp(this.component, o).mount(div);
+	}
+
+	confirm(o) {
 		o = {
 			title: 'Confirm',
 			message: 'Are you sure?',
 			...o
 		};
 
-		const div = document.createElement('div');
-		$('body').append(div)
-		createApp(this.component, o).mount(div)
+		this.show(o);
+	}
+
+	confirmCenter(o) {
+		this.confirm({
+			center: true,
+			...o
+		});
 	}
 }
 

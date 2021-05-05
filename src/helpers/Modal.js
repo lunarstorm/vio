@@ -12,12 +12,20 @@ class Modal {
 			title: 'Modal',
 			content: 'Hey!',
 			footer: null,
+			center: false,
 			...o
 		};
 
 		const div = document.createElement('div');
 		$('body').append(div)
 		createApp(this.component, o).mount(div)
+	}
+
+	centered(o){
+		this.show({
+			center: true,
+			...o
+		});
 	}
 }
 

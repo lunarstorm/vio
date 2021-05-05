@@ -3,7 +3,7 @@
 		<button
 		  v-bind="$attrs"
 		  type="button"
-		  class="btn btn-default dropdown-toggle"
+		  class="btn dropdown-toggle"
 		  data-toggle="dropdown"
 		>
 			<slot>Actions</slot>

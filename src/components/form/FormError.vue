@@ -1,25 +1,38 @@
 <template>
 	<div
-	  v-if="modelValue"
+	  v-if="errorText"
 	  class="form-text text-danger"
 	>
-		{{ modelValue }}
+		{{ errorText }}
 	</div>
 </template>
 
 <script>
+import _ from 'lodash';
+import {toRefs} from "vue";
+
 export default {
 	name: "FormError",
 	inheritAttrs: true,
 	components: {},
 	props: {
-		modelValue: [String, Number],
+		modelValue: [Array, String, Number],
 	},
 	setup(props) {
+		const pRefs = toRefs(props);
 		return {
+			error: pRefs.modelValue
 		};
 	},
-	computed: {},
+	computed: {
+		errorText(){
+			if(_.isArray(this.error)){
+				return this.error.join(', ');
+			}
+
+			return this.error;
+		}
+	},
 	methods: {},
 	mounted() {
 

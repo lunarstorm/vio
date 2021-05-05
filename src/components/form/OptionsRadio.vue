@@ -6,6 +6,7 @@
 	  :value="opt.value"
 	  @input="$emit('update:modelValue', $event.target.value)"
 	  :inline="inline"
+	  class="mr-2"
 	>
 		{{ opt.text }}
 	</input-radio>

@@ -25,7 +25,7 @@ export default {
 	props: {
 		modelValue: [String, Number],
 		label: [String],
-		error: [String]
+		error: [Array, String]
 	},
 	emits: ['update:modelValue'],
 	setup(props) {

@@ -54,7 +54,13 @@ export default {
 			}
 
 			let opts = this.optionsNormalized;
-			let index = _.findIndex(opts, item => item.value == this.modelValue)
+			let index = _.findIndex(opts, item => {
+				if(!item){
+					return false;
+				}
+
+				return item.value == this.modelValue;
+			})
 			return index > -1;
 		},
 		_placeholder() {

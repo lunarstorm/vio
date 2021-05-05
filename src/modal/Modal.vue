@@ -9,7 +9,7 @@
 		  class="modal-dialog modal-dialog-scrollable"
 		>
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header p-3">
 					<h5 class="modal-title">&nbsp;</h5>
 					<button
 					  ref="closeButton"
@@ -21,7 +21,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body vio-modal-parent">
+				<div class="modal-body p-2 vio-modal-parent">
 					<div
 					  class="container-fluid vio-modal-content"
 					  ref="modalContent"

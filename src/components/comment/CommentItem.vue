@@ -54,12 +54,7 @@
 						  @submit.prevent="save"
 						  method="POST"
 						>
-							<textarea
-							  v-model="comment.body"
-							  v-autosize
-							  rows="1"
-							  class="form-control"
-							></textarea>
+							<input-textarea v-model="comment.body" rows="1"></input-textarea>
 
 							<div class="mt-2">
 								<button
@@ -141,16 +136,14 @@ import {
 import api from 'io/api';
 import TimeAgo from "components/ui/etc/TimeAgo.vue";
 import CommentReplies from "./CommentThread.vue";
-import autosize from 'vio/directives/autosize';
+import InputTextarea from "../form/InputTextarea";
 
 export default {
 	name: "CommentItem",
 	components: {
 		TimeAgo,
-		CommentReplies
-	},
-	directives: {
-		autosize
+		CommentReplies,
+		InputTextarea
 	},
 	emits: ['destroyed'],
 	props: {

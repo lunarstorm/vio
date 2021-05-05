@@ -15,9 +15,8 @@
 <script>
 import $ from 'jquery';
 import _ from 'lodash';
-import Ui from 'vio/Ui';
 import Modal from './Modal.vue';
-import {provide, reactive, ref, unref, watch} from 'vue';
+import {provide, reactive, watch} from 'vue';
 import Url from 'url-parse';
 
 var scrollPosition = null;
@@ -138,9 +137,5 @@ export default {
 </script>
 
 <style type="text/css">
-@media (max-width: 1200px) {
-	.modal-dialog {
-		max-width: none !important;
-	}
-}
+
 </style>

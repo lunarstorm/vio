@@ -25,7 +25,7 @@ export default {
 	},
 	emits: ['update:modelValue'],
 	props: {
-		modelValue: [String, Number],
+		modelValue: [String, Number, Array],
 		placeholder: [String, Number],
 		options: {
 			type: [Array, Object, Function],

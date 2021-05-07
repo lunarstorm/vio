@@ -51,7 +51,7 @@
 		>
 			<a @click.prevent="next"
 			  href="#"
-			  class="btn btn-xs btn-default"
+			  class="btn btn-xs btn-secondary"
 			>
 				Show more...
 			</a>
@@ -124,7 +124,7 @@ export default {
 			ord: 'asc',
 			hasFocus: false,
 			afterSubmit: false,
-			initials: io.data.user.initials,
+			initials: io.data.user ? io.data.user.initials : 'NA',
 			replyingTo: false,
 			canReply: true,
 			totalKnown: 0

@@ -5,14 +5,14 @@
 			  class="paginate_button page-item previous"
 			  :class="{'disabled':!page.prev_page_url}"
 			>
-				<a
+				<inertia-link
 				  v-if="page.prev_page_url"
 				  :href="page.prev_page_url"
 				  class="page-link"
 				>
 					<i class="fa fa-lg fa-angle-left mx-1"></i>
 					Prev
-				</a>
+				</inertia-link>
 				<div v-else class="page-link">
 					<i class="fa fa-lg fa-angle-left mx-1"></i>
 					Prev
@@ -23,14 +23,14 @@
 			  :class="{'disabled':!page.next_page_url}"
 			>
 
-				<a
+				<inertia-link
 				  v-if="page.next_page_url"
 				  :href="page.next_page_url"
 				  class="page-link"
 				>
 					Next
 					<i class="fa fa-lg fa-angle-right mx-1"></i>
-				</a>
+				</inertia-link>
 				<div v-else class="page-link">
 					Next
 					<i class="fa fa-lg fa-angle-right mx-1"></i>
@@ -43,9 +43,8 @@
 <script>
 
 export default {
-	name: "Paginator",
-	components: {
-	},
+	name: "InertiaPaginator",
+	components: {},
 	props: {
 		page: Object
 	}

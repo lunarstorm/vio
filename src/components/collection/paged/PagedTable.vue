@@ -69,8 +69,8 @@
 </template>
 
 <script>
-import Paginator from "@/vio/src/components/collection/paged/Paginator";
-import TextNumeric from "@/vio/src/components/text/TextNumeric";
+import Paginator from "vio/components/collection/paged/Paginator";
+import TextNumeric from "vio/components/text/TextNumeric";
 
 export default {
 	name: "PagedTable",

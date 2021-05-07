@@ -1,12 +1,10 @@
 <template>
-	<div>
+	<div class="m-2">
 		<div v-if="objectComponent">
-			<div class="p-3 m-2 shadow-sm">
-				<component
-				  :is="objectComponent.component"
-				  v-bind="objectComponent.props"
-				></component>
-			</div>
+			<component
+			  :is="objectComponent.component"
+			  v-bind="objectComponent.props"
+			></component>
 		</div>
 		<pre v-else>{{ object.displayName }}</pre>
 	</div>
@@ -23,9 +21,7 @@ export default {
 			default: {}
 		}
 	},
-	components: {
-
-	},
+	components: {},
 	setup(props) {
 		//console.log('ActivityItem', props.item);
 
@@ -36,8 +32,8 @@ export default {
 		}
 	},
 	computed: {
-		objectComponent(){
-			if(this.object){
+		objectComponent() {
+			if (this.object) {
 				return this.resolveObjectComponent(this.object);
 			}
 

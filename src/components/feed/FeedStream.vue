@@ -9,11 +9,11 @@
 				</ul>
 
 				<div class="form-group text-center">
-					<a href="javascript:void(0)" class="btn btn-xs btn-default" data-bind="visible: fn.isLoading()" style="display: none;">
+					<a href="javascript:void(0)" class="btn btn-xs btn-secondary" data-bind="visible: fn.isLoading()" style="display: none;">
 						<i class="fa fa-refresh fa-spin"></i>
 						Loading...
 					</a>
-					<a href="javascript:void(0)" class="btn btn-xs btn-default" data-bind="click: fn.showMore, visible: !fn.isLoading()" style="display: none;">
+					<a href="javascript:void(0)" class="btn btn-xs btn-secondary" data-bind="click: fn.showMore, visible: !fn.isLoading()" style="display: none;">
 						Show more...
 					</a>
 				</div>

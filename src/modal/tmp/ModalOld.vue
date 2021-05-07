@@ -4,7 +4,7 @@
 			<a class="btn btn-primary btn-sm" href="#" @click="close" v-if="modals.length > 1">
 				<i class="fa fa-chevron-left"></i>
 			</a>
-			<a class="btn btn-default btn-sm float-right pull-right" href="#" @click="close" ref="closeButton">
+			<a class="btn btn-secondary btn-sm float-right pull-right" href="#" @click="close" ref="closeButton">
 				<i class="fa fa-times"></i>
 			</a>
 		</div>

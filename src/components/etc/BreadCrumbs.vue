@@ -1,16 +1,16 @@
 <template>
-	<ul class="breadcrumb breadcrumb-top">
-		<li v-if="showHome">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item" v-if="showHome">
 			<router-link to="/">
 				Home
 			</router-link>
 		</li>
-		<li v-for="crumb in crumbs">
+		<li class="breadcrumb-item" v-for="crumb in crumbs">
 			<router-link :to="crumb.to">
 				{{ crumb.text }}
 			</router-link>
 		</li>
-	</ul>
+	</ol>
 </template>
 
 <script>

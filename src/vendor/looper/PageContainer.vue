@@ -6,7 +6,7 @@
 	>
 		<div v-if="hasSidebar()" class="sidebar-backdrop"></div>
 
-		<div class="page-inner">
+		<div class="page-inner p-2">
 			<button
 			  v-if="hasSidebar()"
 			  class="btn btn-success btn-floated d-xl-none"
@@ -43,7 +43,9 @@
 					</ol>
 				</nav>
 			</header>
-			<div class="sidebar-section">
+			<div
+			  :class="sidebarClasses()"
+			>
 				<slot name="sidebar"></slot>
 			</div>
 		</div>
@@ -57,7 +59,8 @@ export default {
 		sidebarFluid: {
 			type: Boolean,
 			default: false
-		}
+		},
+		sidebarFill: Boolean
 	},
 	mounted() {
 
@@ -79,6 +82,18 @@ export default {
 
 			if (this.sidebarFluid) {
 				items.push('has-sidebar-fluid');
+			}
+
+			return items;
+		},
+		sidebarClasses() {
+			let items = [];
+
+			if (this.sidebarFill) {
+				items.push('sidebar-section-fill');
+			}
+			else{
+				items.push('sidebar-section');
 			}
 
 			return items;

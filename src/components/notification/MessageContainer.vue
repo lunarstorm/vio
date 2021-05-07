@@ -14,7 +14,6 @@
 <script>
 import Toast from "./Toast";
 import {ref, watchEffect} from "vue";
-import _ from "lodash";
 import Messages from "vio/helpers/Messages";
 
 export default {

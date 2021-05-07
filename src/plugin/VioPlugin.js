@@ -4,8 +4,8 @@ import Messages from "vio/helpers/Messages";
 
 export default {
 	install: (app, options) => {
-		app.config.globalProperties.$Dialog = Dialog;
-		app.config.globalProperties.$Modal = Modal;
-		app.config.globalProperties.$Messages = Messages;
+		Object.defineProperty(app.config.globalProperties, '$Dialog', {get: () => Dialog});
+		Object.defineProperty(app.config.globalProperties, '$Modal', {get: () => Modal});
+		Object.defineProperty(app.config.globalProperties, '$Messages', {get: () => Messages});
 	}
 }

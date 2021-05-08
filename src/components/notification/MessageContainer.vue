@@ -13,7 +13,7 @@
 
 <script>
 import Toast from "./Toast";
-import {ref, watchEffect} from "vue";
+import {ref, watch, watchEffect} from "vue";
 import Messages from "vio/helpers/Messages";
 
 export default {
@@ -35,9 +35,8 @@ export default {
 	mounted() {
 		watchEffect(() => {
 			let limit = 0;
-			while(Messages.queue.value.length > 0){
-				let message = Messages.queue.value.shift()
-				this.items.push(message);
+			while(Messages.hasItems()){
+				this.items.push(Messages.pop());
 
 				if(++limit >= 100){
 					break;

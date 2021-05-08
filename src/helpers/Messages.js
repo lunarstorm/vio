@@ -20,6 +20,14 @@ class Messages {
 			queue.value.push(message);
 		}
 
+		this.pop = () => {
+			return queue.value.shift();
+		}
+
+		this.hasItems = () => {
+			return queue.value.length > 0;
+		}
+
 		this.info = (text) => {
 			this.push({
 				message: text,

@@ -6,9 +6,11 @@
 	  aria-live="assertive"
 	  aria-atomic="true"
 	  :data-delay="delay"
-	  style="min-width: 200px;"
+	  style="min-width: 250px;"
+	  :class="classes.main"
 	>
 		<div
+		  v-if="item.title"
 		  class="toast-header"
 		>
 			<div class="d-flex align-items-center w-100">
@@ -32,8 +34,18 @@
 				</button>
 			</div>
 		</div>
-		<div class="toast-body">
-			{{ item.message }}
+		<div class="toast-body d-flex align-items-center">
+			<div>
+				{{ item.message }}
+			</div>
+			<button
+			  type="button"
+			  class="ml-auto my-0 close"
+			  data-dismiss="toast"
+			  aria-label="Close"
+			>
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 	</div>
 </template>

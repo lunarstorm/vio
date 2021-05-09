@@ -10,7 +10,6 @@
 
 <script>
 import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
 import {toRefs} from 'vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';

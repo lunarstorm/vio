@@ -9,7 +9,7 @@ import {cancel, format, render} from 'timeago.js';
 export default {
 	name: "TextTimeAgo",
 	props: {
-		value: String
+		value: [String, Number]
 	},
 	setup(props) {
 		return {

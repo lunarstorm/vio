@@ -1,5 +1,10 @@
 <template>
-	<span ref="el" :title="title" :datetime="dateISO"></span>
+	<span
+	  v-if="dateISO"
+	  ref="el"
+	  :title="title"
+	  :datetime="dateISO"
+	></span>
 </template>
 
 <script>
@@ -9,7 +14,7 @@ import {cancel, format, render} from 'timeago.js';
 export default {
 	name: "TextTimeAgo",
 	props: {
-		value: String
+		value: [String, Number]
 	},
 	setup(props) {
 		return {
@@ -36,6 +41,10 @@ export default {
 			return Date.parse(this.value);
 		},
 		dateISO(){
+			if(!this.timestamp){
+				return null;
+			}
+
 			let date = new Date(this.timestamp);
 			return date.toISOString();
 		},

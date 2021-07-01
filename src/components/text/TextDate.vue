@@ -12,6 +12,10 @@ export default {
 	name: "TextDate",
 	props: {
 		date: String,
+		from: {
+			type: String,
+			default: 'SQL'
+		},
 		format: {
 			type: String,
 			default: DATE_FORMAT
@@ -28,6 +32,11 @@ export default {
 	},
 	computed: {
 		dateObject(){
+			switch(this.from){
+				case 'SQL':
+					return DateTime.fromSQL(this.date);
+			}
+
 			return DateTime.fromISO(this.date);
 		},
 		dateFormatted() {

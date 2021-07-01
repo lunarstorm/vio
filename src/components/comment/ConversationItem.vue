@@ -12,7 +12,7 @@
 				<div class="conversation-meta">
 					<strong class="ml-1">{{ comment.author }}</strong>
 					<span class="time ml-1">
-						<time-ago v-if="comment.isWithinCutoff" :value="comment.date"></time-ago>
+						<text-time-ago v-if="comment.isWithinCutoff" :value="comment.date"></text-time-ago>
 						<span v-else>{{ comment.dateString }}</span>
 					</span>
 				</div>
@@ -112,15 +112,15 @@
 <script>
 import {computed, reactive, ref} from 'vue';
 import api from 'io/api';
-import TimeAgo from "components/ui/etc/TimeAgo";
 import CommentReplies from "./ConversationThread";
 import InputTextarea from "../form/InputTextarea";
 import Avatar from "vio/components/comment/Avatar";
+import TextTimeAgo from "vio/components/text/TextTimeAgo";
 
 export default {
 	name: "ConversationItem",
 	components: {
-		TimeAgo,
+		TextTimeAgo,
 		CommentReplies,
 		InputTextarea,
 		Avatar

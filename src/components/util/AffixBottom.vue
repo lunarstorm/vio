@@ -29,6 +29,12 @@ import _ from 'lodash';
 
 export default {
 	name: "AffixBottom",
+	props: {
+		parent: {
+			type: [String, Object],
+			default: '#page-content'
+		}
+	},
 	setup(props) {
 		return {
 			teleportTo: ref(false),
@@ -36,7 +42,7 @@ export default {
 		}
 	},
 	mounted() {
-		let affixTo = '#page-content';
+		let affixTo = this.parent;
 
 		this.$nextTick(() => {
 			if (this.inModal()) {
@@ -50,7 +56,6 @@ export default {
 				this.listener = Ui.affixBottom(this.$refs.container, affixTo);
 			}
 		});
-
 	},
 	unmounted() {
 		if (this.listener) {

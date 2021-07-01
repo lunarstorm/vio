@@ -34,8 +34,11 @@ export default {
 	components: {},
 	props: {
 		name: String,
-		modelValue: [String, Number, Array],
-		value: [String, Number],
+		modelValue: [String, Number, Boolean, Array],
+		value: {
+			type: [String, Number, Boolean],
+			default: true
+		},
 		inline: Boolean
 	},
 	emits: ['update:modelValue'],
@@ -50,7 +53,8 @@ export default {
 	computed: {},
 	methods: {
 		change($event) {
-			console.log('Checkbox change', $event.target.value, this.modelValue);
+			//console.log('Checkbox change', $event.target.value, this.modelValue);
+			this.$emit('update:modelValue', $event.target.value)
 		}
 	},
 	mounted() {

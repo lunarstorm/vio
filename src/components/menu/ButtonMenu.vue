@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {ref, toRefs} from 'vue';
+import {toRefs} from 'vue';
 import DropdownItems from './DropdownItems.vue';
 
 export default {

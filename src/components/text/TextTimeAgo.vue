@@ -38,6 +38,10 @@ export default {
 	},
 	computed: {
 		timestamp() {
+			if (!this.value) {
+				return null;
+			}
+
 			return Date.parse(this.value);
 		},
 		dateISO(){
@@ -46,9 +50,14 @@ export default {
 			}
 
 			let date = new Date(this.timestamp);
-			return date.toISOString();
+
+			return date ? date.toISOString() : null;
 		},
 		timeAgo() {
+			if (!this.timestamp) {
+				return null;
+			}
+
 			return format(this.timestamp);
 		},
 		title(){

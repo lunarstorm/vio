@@ -28,6 +28,10 @@ class Http {
 		return instance;
 	}
 
+	make(name){
+		return this.create(name);
+	}
+
 }
 
 export default new Http();

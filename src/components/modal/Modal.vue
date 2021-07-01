@@ -7,6 +7,7 @@
 			<div
 			  ref="modal"
 			  class="modal vio-modal"
+			  v-bind="$attrs"
 			>
 				<div
 				  class="modal-dialog modal-dialog-scrollable"
@@ -55,6 +56,7 @@ import {ref, toRefs, watch, watchEffect} from 'vue';
 
 export default {
 	name: "Modal",
+	inheritAttrs: false,
 	props: {
 		toggledBy: Boolean,
 		size: {
@@ -104,9 +106,6 @@ export default {
 		//console.log('modal.unmounted()');
 	},
 	computed: {
-		isUrl() {
-			return !!this.data.url;
-		},
 		classes() {
 			let classes = [];
 

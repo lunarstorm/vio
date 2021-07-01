@@ -8,7 +8,9 @@
 		  :class="classes"
 		>
 			<div class="modal-content">
-				<div class="modal-header">
+				<div
+				  class="modal-header"
+				>
 					<h5 class="modal-title">{{ title || '' }}</h5>
 				</div>
 				<div class="modal-body">
@@ -17,7 +19,9 @@
 				<div class="modal-footer">
 					<button
 					  @click.prevent="doYes"
-					  type="button" class="btn btn-primary"
+					  type="button"
+					  class="btn btn-primary"
+					  :class="classYesButton"
 					>
 						{{ yesLabel }}
 					</button>
@@ -64,25 +68,48 @@ export default {
 		$modal.modal();
 	},
 	computed: {
-		classes(){
+		classes() {
 			let items = [];
 
-			if(this.center){
+			if (this.center) {
 				items.push('modal-dialog-centered');
 			}
 			//items.push()
 
 			return items;
+		},
+		classHeader() {
+			let items = [
+				'bg-' + this.level
+			];
+
+			switch (this.level) {
+				case 'info':
+				case 'danger':
+					items.push('text-light')
+					break;
+			}
+
+			return items;
+		},
+		classYesButton() {
+			switch (this.level) {
+				default:
+					return 'btn-' + this.level;
+					break;
+			}
+
+			return 'btn-primary';
 		}
 	},
 	methods: {
-		doYes(){
-			if(this.onYes){
+		doYes() {
+			if (this.onYes) {
 				this.onYes();
 			}
 			this.close();
 		},
-		close(){
+		close() {
 			let $modal = $(this.$refs.modal);
 			$modal.modal('hide');
 		}

@@ -1,4 +1,4 @@
-import {createApp, defineAsyncComponent, ref} from 'vue';
+import {createApp, defineAsyncComponent, h, ref, render} from 'vue';
 
 const MessageContainer = defineAsyncComponent(() => import('vio/components/notification/MessageContainer'));
 
@@ -7,8 +7,6 @@ class Messages {
 		const queue = ref([]);
 		this.queue = queue;
 		//this.seen = ref([]);
-		this.mount();
-
 		this.push = (message) => {
 			message = {
 				level: 'info',
@@ -57,10 +55,18 @@ class Messages {
 		}
 	}
 
+	setApp(app) {
+		this.app = app;
+		this.mount();
+	}
+
 	mount(){
-		const div = document.createElement('div');
-		$('body').append(div);
-		createApp(MessageContainer).mount(div);
+		let vNode = h(MessageContainer);
+		vNode.appContext = this.app._context;
+
+		let el = document.createElement('div');
+		render(vNode, el);
+		$('body').append(el);
 	}
 }
 

@@ -1,13 +1,19 @@
-import {createApp, defineAsyncComponent} from 'vue';
+import {defineAsyncComponent, h, ref, render} from 'vue';
 
 const VioModal = defineAsyncComponent(() => import('vio/components/modal/Modal'));
+const ComponentModal = defineAsyncComponent(() => import('vio/components/modal/ComponentModal'));
 
 class Modal {
-	constructor() {
+	constructor(app) {
 		this.component = VioModal;
+		this.stack = ref([]);
 	}
 
-	show(o){
+	setApp(app) {
+		this.app = app;
+	}
+
+	show(o) {
 		o = {
 			title: 'Modal',
 			content: 'Hey!',
@@ -16,16 +22,29 @@ class Modal {
 			...o
 		};
 
-		const div = document.createElement('div');
-		$('body').append(div)
-		createApp(this.component, o).mount(div)
+		let vNode = h(VioModal, o);
+		vNode.appContext = this.app._context;
+
+		let el = document.createElement('div');
+		render(vNode, el);
 	}
 
-	centered(o){
+	centered(o) {
 		this.show({
 			center: true,
 			...o
 		});
+	}
+
+	loadComponent(component, props) {
+		let vNode = h(ComponentModal, {
+			component: component,
+			props: props
+		});
+		vNode.appContext = this.app._context;
+
+		let el = document.createElement('div');
+		render(vNode, el);
 	}
 }
 

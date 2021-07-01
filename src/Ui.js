@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const $body = $('body');
 
-let Z = 9200;
+let Z = 1000;
 let scrollPosition = null;
 let affixBottomCalibrated = false;
 let $viewport = $('.io-viewport');

@@ -13,5 +13,6 @@ export default {
 		Object.defineProperty(app.config.globalProperties, '$Modal', {get: () => Modal});
 		Object.defineProperty(app.config.globalProperties, '$Messages', {get: () => Messages});
 		Object.defineProperty(app.config.globalProperties, '$http', {get: () => Http});
+		Object.defineProperty(app.config.globalProperties, '$ajax', app.config.globalProperties.$http);
 	}
 }

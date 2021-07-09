@@ -5,21 +5,21 @@
 			  v-for="(item, index) in items"
 			  :key="index"
 			>
-				<toast :item="item"></toast>
+				<toast-message :item="item"></toast-message>
 			</template>
 		</div>
 	</div>
 </template>
 
 <script>
-import Toast from "./Toast";
-import {ref, watch, watchEffect} from "vue";
+import ToastMessage from "vio/components/notification/Toast";
+import {ref, watchEffect} from "vue";
 import Messages from "vio/helpers/Messages";
 
 export default {
 	name: "MessageContainer",
 	components: {
-		Toast
+		ToastMessage
 	},
 	props: {
 		messages: Array

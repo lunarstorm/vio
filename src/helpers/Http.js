@@ -7,7 +7,7 @@ class Http {
 		this.busy = reactive({});
 	}
 
-	create(name){
+	create(name) {
 		const instance = axios.create();
 		this.busy[name] = false;
 
@@ -28,10 +28,21 @@ class Http {
 		return instance;
 	}
 
-	make(name){
+	make(name) {
 		return this.create(name);
 	}
 
+	get(...args) {
+		return this.create('default').get(...args);
+	}
+
+	isBusy(name){
+		return !!this.busy[name];
+	}
 }
+
+/*Http.post = function (...args) {
+	return this.make('default').post(...args);
+};*/
 
 export default new Http();

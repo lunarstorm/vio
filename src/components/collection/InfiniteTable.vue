@@ -21,6 +21,28 @@
 			</template>
 			</tbody>
 		</table>
+
+		<div
+		  v-if="hasMore"
+		  ref="bottom"
+		  class="p-2 text-center"
+		>
+			<div class="">
+				<button
+				  @click="fetchMore(false)"
+				  :disabled="busy"
+				  type="button"
+				  class="btn btn-secondary"
+				>
+					<div v-if="busy">
+						<i class="fa fa-spin fa-refresh"></i> Loading...
+					</div>
+					<div v-else>
+						Load More
+					</div>
+				</button>
+			</div>
+		</div>
 	</div>
 </template>
 

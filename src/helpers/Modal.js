@@ -1,7 +1,7 @@
-import {defineAsyncComponent, h, ref, render} from 'vue';
+import {h, ref, render} from 'vue';
 
-const VioModal = defineAsyncComponent(() => import('vio/components/modal/Modal'));
-const ComponentModal = defineAsyncComponent(() => import('vio/components/modal/ComponentModal'));
+import VioModal from "vio/components/modal/Modal";
+import ComponentModal from "vio/components/modal/ComponentModal";
 
 class Modal {
 	constructor(app) {
@@ -23,10 +23,7 @@ class Modal {
 		};
 
 		let vNode = h(VioModal, o);
-		vNode.appContext = this.app._context;
-
-		let el = document.createElement('div');
-		render(vNode, el);
+		this.mountVNode(vNode);
 	}
 
 	centered(o) {
@@ -39,12 +36,34 @@ class Modal {
 	loadComponent(component, props) {
 		let vNode = h(ComponentModal, {
 			component: component,
-			props: props
+			props: {
+				...props,
+			},
+			onDispose: () => {
+				vNode.destroy();
+			}
 		});
+
+		this.mountVNode(vNode);
+	}
+
+	mountVNode(vNode) {
+		let el = document.createElement('div');
+
 		vNode.appContext = this.app._context;
 
-		let el = document.createElement('div');
+		vNode.destroy = () => {
+			if (el) {
+				render(null, el);
+			}
+
+			el = null;
+			vNode = null;
+		}
+
 		render(vNode, el);
+
+		return vNode;
 	}
 }
 

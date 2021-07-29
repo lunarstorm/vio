@@ -52,7 +52,7 @@
 <script>
 import $ from 'jquery';
 import _ from 'lodash';
-import {ref, toRefs, watch, watchEffect} from 'vue';
+import {ref, toRefs} from 'vue';
 
 export default {
 	name: "Modal",
@@ -75,8 +75,6 @@ export default {
 	setup(props) {
 		let propRefs = toRefs(props);
 
-		//console.log('modal.setup()');
-
 		return {
 			id: ref(''),
 			token: '',
@@ -85,25 +83,13 @@ export default {
 		};
 	},
 	created() {
-		//console.log('modal.created()');
 	},
 	mounted() {
 		this.init();
-
-		//console.log('modal.mounted()');
-		$(this.$refs.modal).on('hide.bs.modal', event => {
-			//console.log('hide.bs.modal', event);
-			//this.dispose();
-			this.$emit('closed');
-		});
 	},
 	beforeUnmount() {
-		//console.log('modal.beforeUnmount()');
-		this.dispose();
 	},
 	unmounted() {
-		//this.dispose();
-		//console.log('modal.unmounted()');
 	},
 	computed: {
 		classes() {
@@ -134,8 +120,9 @@ export default {
 			this.$emit('disposed');
 		},
 		close: function () {
-			//console.log('Modal.close()');
 			$(this.$refs.modal).modal('hide');
+			this.$emit('closed');
+			this.dispose();
 		},
 		submit(){
 			if(this.formSubmit){
@@ -145,3 +132,7 @@ export default {
 	}
 }
 </script>
+
+<style>
+
+</style>

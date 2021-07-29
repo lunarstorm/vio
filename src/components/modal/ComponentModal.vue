@@ -1,5 +1,7 @@
 <template>
-	<modal>
+	<modal
+	  @disposed="dispose"
+	>
 		<template #default>
 			<component
 			  :is="component"
@@ -20,7 +22,18 @@ export default {
 	},
 	props: {
 		component: Object,
-		props: Object
+		props: Object,
+		onDispose: Function
+	},
+	emits: ['dispose'],
+	setup(){
+	},
+	mounted() {
+	},
+	methods: {
+		dispose(){
+			this.$emit('dispose');
+		}
 	}
 }
 </script>

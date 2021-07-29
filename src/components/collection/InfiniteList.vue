@@ -104,6 +104,10 @@ export default {
 			let i = Math.max(0, n - 10);
 			const sentinel = this.divs[i];
 
+			if(!sentinel){
+				return;
+			}
+
 			if (Ui.isElementInViewport(sentinel) && !this.busy) {
 				this.fetchMore();
 			}

@@ -16,7 +16,7 @@
 					<div class="modal-content">
 						<div class="modal-header p-3">
 							<h5 class="modal-title">
-								<slot name="title">{{ title }}&nbsp;</slot>
+								<slot name="title">&nbsp;</slot>
 							</h5>
 							<button
 							  @click.prevent="close"
@@ -59,10 +59,6 @@ export default {
 	inheritAttrs: false,
 	props: {
 		toggledBy: Boolean,
-        title: {
-			type: String,
-			default: ''
-		},
 		size: {
 			type: String,
 			default: 'xl'

@@ -1,70 +1,83 @@
-import {h, ref, render} from 'vue';
+import { h, ref, render } from 'vue';
 
 import VioModal from "vio/components/modal/Modal";
 import ComponentModal from "vio/components/modal/ComponentModal";
 
 class Modal {
-	constructor(app) {
-		this.component = VioModal;
-		this.stack = ref([]);
-	}
+    constructorOld(app) {
+        this.component = VioModal;
+        this.stack = ref([]);
+    }
 
-	setApp(app) {
-		this.app = app;
-	}
+    constructor(config) {
+        this.stack = ref([]);
 
-	show(o) {
-		o = {
-			title: 'Modal',
-			content: 'Hey!',
-			footer: null,
-			center: false,
-			...o
-		};
+        this.config = {
+            title: '',
+            center: false,
+            ...config
+        };
+    }
 
-		let vNode = h(VioModal, o);
-		this.mountVNode(vNode);
-	}
+    static make(config) {
+        return new Modal(config);
+    }
 
-	centered(o) {
-		this.show({
-			center: true,
-			...o
-		});
-	}
+    show(o) {
+        o = {
+            title: 'Modal',
+            content: 'Hey!',
+            footer: null,
+            center: false,
+            ...o
+        };
 
-	loadComponent(component, props) {
-		let vNode = h(ComponentModal, {
-			component: component,
-			props: {
-				...props,
-			},
-			onDispose: () => {
-				vNode.destroy();
-			}
-		});
+        let vNode = h(VioModal, o);
+        this.mountVNode(vNode);
+    }
 
-		this.mountVNode(vNode);
-	}
+    centered(o) {
+        this.show({
+            center: true,
+            ...o
+        });
+    }
 
-	mountVNode(vNode) {
-		let el = document.createElement('div');
+    static loadComponent(component, props, modalProps) {
+        let vNode = h(ComponentModal, {
+            component: component,
+            props: {
+                ...props,
+            },
+            onDispose: () => {
+                vNode.destroy();
+            },
+            modalProps: modalProps
+        });
 
-		vNode.appContext = this.app._context;
+        Modal.make().mountVNode(vNode);
+    }
 
-		vNode.destroy = () => {
-			if (el) {
-				render(null, el);
-			}
+    mountVNode(vNode) {
+        let el = document.createElement('div');
 
-			el = null;
-			vNode = null;
-		}
+        vNode.appContext = Modal.app._context;
 
-		render(vNode, el);
+        vNode.destroy = () => {
+            if (el) {
+                render(null, el);
+            }
 
-		return vNode;
-	}
+            el = null;
+            vNode = null;
+        }
+
+        render(vNode, el);
+
+        return vNode;
+    }
 }
 
-export default new Modal();
+Modal.app = null;
+
+export default Modal;

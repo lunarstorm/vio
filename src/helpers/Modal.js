@@ -1,14 +1,9 @@
 import { h, ref, render } from 'vue';
 
 import VioModal from "vio/components/modal/Modal";
-import ComponentModal from "vio/components/modal/ComponentModal";
+import ComponentWrapper from "vio/components/modal/ComponentWrapper";
 
 class Modal {
-    constructorOld(app) {
-        this.component = VioModal;
-        this.stack = ref([]);
-    }
-
     constructor(config) {
         this.stack = ref([]);
 
@@ -21,6 +16,21 @@ class Modal {
 
     static make(config) {
         return new Modal(config);
+    }
+
+    center(){
+        this.config.center = true;
+        return this;
+    }
+
+    title(text){
+        this.config.title = text;
+        return this;
+    }
+
+    title(size){
+        this.config.size = size;
+        return this;
     }
 
     show(o) {
@@ -44,7 +54,7 @@ class Modal {
     }
 
     static loadComponent(component, props, modalProps) {
-        let vNode = h(ComponentModal, {
+        let vNode = h(ComponentWrapper, {
             component: component,
             props: {
                 ...props,
@@ -56,6 +66,24 @@ class Modal {
         });
 
         Modal.make().mountVNode(vNode);
+    }
+
+    component(component, props, modalConfig){
+        let vNode = h(ComponentWrapper, {
+            component: component,
+            props: {
+                ...props,
+            },
+            onDispose: () => {
+                vNode.destroy();
+            },
+            modalProps: {
+                ...this.config,
+                ...modalConfig
+            }
+        });
+
+        this.mountVNode(vNode);
     }
 
     mountVNode(vNode) {

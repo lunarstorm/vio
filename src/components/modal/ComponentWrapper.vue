@@ -10,7 +10,7 @@
 import Modal from "vio/components/modal/Modal";
 
 export default {
-  name: "ComponentModal",
+  name: "ComponentWrapper",
   inheritAttrs: false,
   components: {
     Modal,

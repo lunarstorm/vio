@@ -1,73 +1,88 @@
-import {reactive, watch} from 'vue';
+import { reactive, watch } from 'vue';
 import _ from 'lodash';
 
 class SearchFilter {
-	constructor(defaults) {
-		this.data = reactive({
-			defaults: {},
-			values: {},
-		});
+    constructor(defaults) {
+        this.data = reactive({
+            defaults: {},
+            values: {},
+        });
 
-		this.setDefaults(defaults);
-	}
+        this.setDefaults(defaults);
 
-	onChange(callback) {
-		watch(() => this.data.values, (values) => {
-			let self = this;
-			callback(values, self);
-		}, {
-			deep: true
-		});
-	}
+        this.params = new Proxy(this.data, {
+            get(data, name) {
+                console.log('params.', name, data);
+                
+                try {
+                    return data.values[name];
+                }
+                catch (e) {
 
-	assignValues(values) {
-		values = {
-			...this.data.defaults,
-			...values
-		};
-		Object.assign(this.data.values, values);
-	}
+                }
 
-	setValues(values){
-		this.assignValues(values);
-	}
+                return null;
+            }
+        });
+    }
 
-	getValues(){
-		return this.data.values;
-	}
+    onChange(callback) {
+        watch(() => this.data.values, (values) => {
+            let self = this;
+            callback(values, self);
+        }, {
+            deep: true
+        });
+    }
 
-	setDefaults(values){
-		this.data.defaults = values;
-		this.assignValues({});
-	}
+    assignValues(values) {
+        values = {
+            ...this.data.defaults,
+            ...values
+        };
+        Object.assign(this.data.values, values);
+    }
 
-	set(key, value) {
-		this.data.values[key] = value;
-	}
+    setValues(values) {
+        this.assignValues(values);
+    }
 
-	clear(key) {
-		this.data.values[key] = '';
-	}
+    getValues() {
+        return this.data.values;
+    }
 
-	reset(key) {
-		this.data.values[key] = this.data.defaults[key];
-	}
+    setDefaults(values) {
+        this.data.defaults = values;
+        this.assignValues({});
+    }
 
-	get(key) {
-		return this.data.values[key];
-	}
+    set(key, value) {
+        this.data.values[key] = value;
+    }
 
-	resetAll(){
-		_.forEach(this.data.values, (val, key) => {
-			this.reset(key);
-		});
-	}
+    clear(key) {
+        this.data.values[key] = '';
+    }
 
-	clearAll() {
-		_.forEach(this.data.values, (val, key) => {
-			this.clear(key);
-		});
-	}
+    reset(key) {
+        this.data.values[key] = this.data.defaults[key];
+    }
+
+    get(key) {
+        return this.data.values[key];
+    }
+
+    resetAll() {
+        _.forEach(this.data.values, (val, key) => {
+            this.reset(key);
+        });
+    }
+
+    clearAll() {
+        _.forEach(this.data.values, (val, key) => {
+            this.clear(key);
+        });
+    }
 }
 
 export default SearchFilter;

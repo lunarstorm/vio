@@ -27,7 +27,7 @@ class BatchSelector {
 	}
 
 	isAllSelected(){
-		return this.count() > 0 && (this.count() == this.state.items.length);
+		return this.count() > 0 && (this.count() === this.state.items.length);
 	}
 
 	isSomeSelected() {
@@ -35,7 +35,7 @@ class BatchSelector {
 	}
 
 	isNoneSelected(){
-		return this.count() == 0;
+		return this.count() === 0;
 	}
 
 	isSelected(key) {
@@ -84,6 +84,7 @@ class BatchSelector {
 		let self = this;
 		this.state.selectedValues = [];
 		this.state.selectedMap = {};
+
 		/*_.forEach(this.state.selectedMap, function(value, key){
 			console.log('unselect', key);
 			self.unselect(key);

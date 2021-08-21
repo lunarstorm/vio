@@ -5,6 +5,7 @@
 	  :options="optionsNormalized"
 	  :searchable="true"
 	  :placeholder="_placeholder"
+      :close-on-select="true"
 	  ref="multiselect"
 	>
 		<slot></slot>

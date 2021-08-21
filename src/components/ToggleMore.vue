@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<div class="d-flex align-items-center">
+		<div
+		  class="d-flex align-items-center"
+		  v-bind="$attrs"
+		>
 			<div>
 				<a
 				  v-if="enabled"
@@ -33,6 +36,7 @@ import {ref} from 'vue';
 
 export default {
 	name: "ToggleMore",
+	inheritAttrs: false,
 	props: {
 		expanded: {
 			type: Boolean,

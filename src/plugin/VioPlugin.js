@@ -5,13 +5,14 @@ import Http from "vio/helpers/Http";
 
 export default {
 	install: (app, options) => {
-		Modal.setApp(app);
 		Messages.setApp(app);
+        Modal.app = app;
 		Dialog.app = app;
 
 		Object.defineProperty(app.config.globalProperties, '$Dialog', {get: () => Dialog});
 		Object.defineProperty(app.config.globalProperties, '$Modal', {get: () => Modal});
 		Object.defineProperty(app.config.globalProperties, '$Messages', {get: () => Messages});
 		Object.defineProperty(app.config.globalProperties, '$http', {get: () => Http});
+		Object.defineProperty(app.config.globalProperties, '$ajax', {get: () => Http});
 	}
 }

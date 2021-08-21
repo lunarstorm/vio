@@ -3,7 +3,7 @@
 		<input-date
 		  v-model="from"
 		  @change="$emit('update:from', $event.target.value)"
-		  placeholder="Start Date"
+		  :placeholder="labelFrom"
 		></input-date>
 		<div class="input-group-prepend input-group-append">
 			<div class="input-group-text">
@@ -13,7 +13,7 @@
 		<input-date
 		  v-model="to"
 		  @change="$emit('update:to', $event.target.value)"
-		  placeholder="End Date"
+		  :placeholder="labelTo"
 		></input-date>
 	</input-group>
 </template>
@@ -32,6 +32,14 @@ export default {
 	props: {
 		from: [String, Object],
 		to: [String, Object],
+		labelFrom: {
+			type: String,
+			default: 'Start Date'
+		},
+		labelTo: {
+			type: String,
+			default: 'End Date'
+		},
 		options: {
 			type: Object,
 			default: {}

@@ -1,4 +1,4 @@
-import {createApp, defineAsyncComponent, h, ref, render} from 'vue';
+import {defineAsyncComponent, h, ref, render} from 'vue';
 
 const MessageContainer = defineAsyncComponent(() => import('vio/components/notification/MessageContainer'));
 

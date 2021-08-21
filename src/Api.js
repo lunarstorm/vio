@@ -26,10 +26,11 @@ class Api {
 			pathValue = '';
 		}
 
-		o = $.extend({
+		o = {
 			method: 'GET',
-			path: pathValue
-		}, o);
+			path: pathValue,
+			...o
+		};
 
 		return this.request(o);
 	}
@@ -42,11 +43,12 @@ class Api {
 			pathValue = '';
 		}
 
-		o = $.extend({
+		o = {
 			contentType: 'application/json',
 			method: 'PUT',
-			path: pathValue
-		}, o);
+			path: pathValue,
+			...o
+		};
 
 		return this.request(o);
 	};
@@ -63,7 +65,7 @@ class Api {
 			pathValue = '';
 		}
 
-		o = $.extend({
+		o = {
 			id: '',
 			path: pathValue,
 			url: '',
@@ -77,8 +79,9 @@ class Api {
 			msg: {},
 			growl: {},
 			dataType: 'json',
-			headers: {}
-		}, o);
+			headers: {},
+			...o
+		};
 
 		/**
 		 * A shortcut to jsonify a payload and send to the server
@@ -121,12 +124,13 @@ class Api {
 			headers: o.headers
 		});
 
-		o.msg = $.extend({
+		o.msg = {
 			id: _.uniqueId('msg'),
 			position: 'top',
 			hideAfter: 2,
-			theme: 'flat'
-		}, o.msg);
+			theme: 'flat',
+			...o.msg
+		};
 
 		//console.log(o.msg);
 
@@ -148,7 +152,10 @@ class Api {
 				o.done(res);
 			}
 			if (!o.silent) {
-				o.msg = $.extend(io.msg.parse(res), o.msg);
+				o.msg = {
+					...io.msg.parse(res),
+					...o.msg
+				};
 				//console.log('Done', o.msg.position);
 				io.msg.show(o.msg);
 

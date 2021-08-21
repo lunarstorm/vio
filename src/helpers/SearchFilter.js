@@ -3,6 +3,8 @@ import _ from 'lodash';
 
 class SearchFilter {
     constructor(defaults) {
+        let root = this;
+
         this.data = reactive({
             defaults: {},
             values: {},
@@ -11,17 +13,23 @@ class SearchFilter {
         this.setDefaults(defaults);
 
         this.params = new Proxy(this.data, {
-            get(data, name) {
-                console.log('params.', name, data);
-                
+            get(data, prop) {
+                if (typeof prop === 'undefined') {
+                    return data.values;
+                }
+
                 try {
-                    return data.values[name];
+                    return root.get(prop);
                 }
                 catch (e) {
 
                 }
 
                 return null;
+            },
+            set(data, prop, value) {
+                root.set(prop, value);
+                return true;
             }
         });
     }

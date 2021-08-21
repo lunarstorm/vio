@@ -137,11 +137,17 @@ export default {
 			//console.log('Modal.close()');
 			$(this.$refs.modal).modal('hide');
 		},
-		submit(){
-			if(this.formSubmit){
+		submit() {
+			if (this.formSubmit) {
 				return this.formSubmit();
 			}
 		}
 	}
 }
 </script>
+
+<style>
+.modal-backdrop {
+	z-index: 1030 !important;
+}
+</style>

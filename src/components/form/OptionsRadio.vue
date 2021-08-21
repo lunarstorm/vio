@@ -7,6 +7,7 @@
 	  @input="$emit('update:modelValue', $event.target.value)"
 	  :inline="inline"
 	  class="mr-2"
+	  v-bind="$attrs"
 	>
 		{{ opt.text }}
 	</input-radio>
@@ -19,7 +20,7 @@ import InputRadio from 'vio/components/form/InputRadio';
 
 export default {
 	name: "OptionsRadio",
-	inheritAttrs: true,
+	inheritAttrs: false,
 	components: {
 		InputRadio
 	},
@@ -40,7 +41,7 @@ export default {
 		};
 	},
 	computed: {
-		optionsParsed(){
+		optionsParsed() {
 			return FormOptions.normalize(this.options);
 		}
 	},

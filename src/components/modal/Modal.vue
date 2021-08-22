@@ -58,19 +58,25 @@ export default {
   emits: ["closed", "hidden", "disposed"],
   setup(props) {
     let propRefs = toRefs(props);
+    const wasClosed = ref(false);
 
     return {
       id: ref(""),
       token: "",
       size: props.size || "lg",
       data: propRefs.data,
+      wasClosed,
     };
   },
   created() {},
   mounted() {
     this.init();
   },
-  beforeUnmount() {},
+  beforeUnmount() {
+    if (!this.wasClosed) {
+      this.close();
+    }
+  },
   unmounted() {},
   computed: {
     classes() {
@@ -92,6 +98,11 @@ export default {
       this.id = _.uniqueId("modal-");
       this.token = Date.now();
       $(this.$refs.modal).modal("show");
+      $(this.$refs.modal).on("hide.bs.modal", () => {
+        if (!this.wasClosed) {
+          this.close();
+        }
+      });
     },
     toggle() {
       this.toggledBy = !this.toggledBy;
@@ -101,6 +112,7 @@ export default {
       this.$emit("disposed");
     },
     close: function () {
+      this.wasClosed = true;
       $(this.$refs.modal).modal("hide");
       this.$emit("closed");
       this.dispose();

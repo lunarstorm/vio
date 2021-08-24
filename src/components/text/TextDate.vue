@@ -1,52 +1,55 @@
 <template>
-	<span>{{ dateFormatted }}</span>
+  <span>{{ dateFormatted }}</span>
 </template>
 
 <script>
-import {toRefs} from 'vue';
-import {DateTime} from 'luxon';
+import { toRefs } from "vue";
+import { DateTime } from "luxon";
 
-const DATE_FORMAT = 'yyyy-MM-dd';
+const DATE_FORMAT = "yyyy-MM-dd";
 
 export default {
-	name: "TextDate",
-	props: {
-		date: String,
-		from: {
-			type: String,
-			default: 'SQL'
-		},
-		format: {
-			type: String,
-			default: DATE_FORMAT
-		}
-	},
-	setup(props) {
-		return {
-			date: toRefs(props).date,
-			format: toRefs(props).format
-		}
-	},
-	methods: {
+  name: "TextDate",
+  props: {
+    date: String,
+    from: {
+      type: String,
+      default: "SQL",
+    },
+    format: {
+      type: String,
+      default: DATE_FORMAT,
+    },
+  },
+  setup(props) {
+    return {
+      date: toRefs(props).date,
+      format: toRefs(props).format,
+    };
+  },
+  methods: {},
+  computed: {
+    dateObject() {
+      switch (this.from) {
+        case "SQL":
+          return DateTime.fromSQL(this.date);
+      }
 
-	},
-	computed: {
-		dateObject(){
-			switch(this.from){
-				case 'SQL':
-					return DateTime.fromSQL(this.date);
-			}
+      return DateTime.fromISO(this.date);
+    },
+    dateFormatted() {
+      let dt = this.dateObject;
 
-			return DateTime.fromISO(this.date);
-		},
-		dateFormatted() {
-			let dt = this.dateObject;
-			return dt.toFormat(this.format);
-		}
-	}
-}
+      try {
+        let formatted = dt.toFormat(this.format);
+        return formatted;
+      } catch (e) {}
+
+      return "";
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <modal @disposed="dispose" v-bind="modalProps">
+  <modal ref="modalWrapper" @disposed="dispose" v-bind="modalProps">
     <template #default>
       <component :is="component" v-bind="props"></component>
     </template>
@@ -8,6 +8,7 @@
 
 <script>
 import Modal from "vio/components/modal/Modal";
+import { ref } from "vue";
 
 export default {
   name: "ComponentWrapper",
@@ -25,11 +26,26 @@ export default {
     },
   },
   emits: ["dispose"],
-  setup() {},
+  setup(props) {
+    const modalWrapper = ref(null);
+
+    return {
+      modalWrapper,
+    };
+  },
   mounted() {},
   methods: {
+    attr() {
+      return {
+        ...this.modalProps,
+        ...this.props,
+      };
+    },
     dispose() {
       this.$emit("dispose");
+    },
+    close() {
+      this.modalWrapper.close();
     },
   },
 };

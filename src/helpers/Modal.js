@@ -18,17 +18,17 @@ class Modal {
         return new Modal(config);
     }
 
-    center(){
+    center() {
         this.config.center = true;
         return this;
     }
 
-    title(text){
+    title(text) {
         this.config.title = text;
         return this;
     }
 
-    title(size){
+    title(size) {
         this.config.size = size;
         return this;
     }
@@ -68,7 +68,7 @@ class Modal {
         Modal.make().mountVNode(vNode);
     }
 
-    component(component, props, modalConfig){
+    component(component, props, modalConfig) {
         let vNode = h(ComponentWrapper, {
             component: component,
             props: {
@@ -84,6 +84,8 @@ class Modal {
         });
 
         this.mountVNode(vNode);
+
+        return vNode.component.ctx;
     }
 
     mountVNode(vNode) {

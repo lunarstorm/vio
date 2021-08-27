@@ -18,13 +18,18 @@ class Modal {
         return new Modal(config);
     }
 
-    center() {
-        this.config.center = true;
+    center(toggle) {
+        this.config.center = typeof toggle === 'undefined' ? true : toggle;
         return this;
     }
 
-    static() {
-        this.config.static = true;
+    static(toggle) {
+        this.config.static = typeof toggle === 'undefined' ? true : toggle;
+        return this;
+    }
+
+    scroll(toggle) {
+        this.config.scroll = typeof toggle === 'undefined' ? true : toggle;
         return this;
     }
 

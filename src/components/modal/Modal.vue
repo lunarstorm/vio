@@ -2,7 +2,7 @@
   <teleport to="body">
     <component :is="form ? 'form' : 'div'" @submit.prevent="submit">
       <div ref="modal" class="modal vio-modal" v-bind="attrs">
-        <div class="modal-dialog modal-dialog-scrollable" :class="classes">
+        <div class="modal-dialog" :class="classes">
           <div class="modal-content">
             <div class="modal-header p-3">
               <h5 class="modal-title">
@@ -53,6 +53,10 @@ export default {
     },
     center: Boolean,
     static: Boolean,
+    scroll: {
+      type: Boolean,
+      default: true,
+    },
     form: Boolean,
     formSubmit: Function,
   },
@@ -101,6 +105,10 @@ export default {
 
       if (this.center) {
         classes.push("modal-dialog-centered");
+      }
+
+      if (this.scroll) {
+        classes.push("modal-dialog-scrollable");
       }
 
       return classes;

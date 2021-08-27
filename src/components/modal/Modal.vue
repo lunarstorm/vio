@@ -26,7 +26,7 @@
             <div v-if="!!$slots.footer" class="modal-footer vio-modal-footer">
               <slot name="footer" :close="close"></slot>
             </div>
-			<div v-else class="vio-modal-footer"></div>
+            <div v-else class="vio-modal-footer"></div>
           </div>
         </div>
       </div>
@@ -65,6 +65,7 @@ export default {
   setup(props) {
     let propRefs = toRefs(props);
     const wasClosed = ref(false);
+    window._modalCount = window._modalCount || 0;
 
     return {
       id: ref(""),
@@ -76,6 +77,8 @@ export default {
   },
   created() {},
   mounted() {
+    window._modalCount++;
+
     this.$nextTick(() => {
       this.init();
     });
@@ -123,8 +126,6 @@ export default {
     init: function () {
       this.id = _.uniqueId("modal-");
       this.token = Date.now();
-      window._modalCount = window._modalCount || 0;
-      window._modalCount++;
 
       $(this.$refs.modal).modal("show");
 

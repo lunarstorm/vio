@@ -126,8 +126,6 @@ export default {
       window._modalCount = window._modalCount || 0;
       window._modalCount++;
 
-      console.log("<modal> init");
-
       $(this.$refs.modal).modal("show");
 
       $(this.$refs.modal).on("hide.bs.modal", () => {

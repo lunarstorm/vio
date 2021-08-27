@@ -1,70 +1,123 @@
-import {h, ref, render} from 'vue';
+import { h, ref, render } from 'vue';
 
 import VioModal from "vio/components/modal/Modal";
-import ComponentModal from "vio/components/modal/ComponentModal";
+import ComponentWrapper from "vio/components/modal/ComponentWrapper";
 
 class Modal {
-	constructor(app) {
-		this.component = VioModal;
-		this.stack = ref([]);
-	}
+    constructor(config) {
+        this.stack = ref([]);
 
-	setApp(app) {
-		this.app = app;
-	}
+        this.config = {
+            title: '',
+            center: false,
+            ...config
+        };
+    }
 
-	show(o) {
-		o = {
-			title: 'Modal',
-			content: 'Hey!',
-			footer: null,
-			center: false,
-			...o
-		};
+    static make(config) {
+        return new Modal(config);
+    }
 
-		let vNode = h(VioModal, o);
-		this.mountVNode(vNode);
-	}
+    center(toggle) {
+        this.config.center = typeof toggle === 'undefined' ? true : toggle;
+        return this;
+    }
 
-	centered(o) {
-		this.show({
-			center: true,
-			...o
-		});
-	}
+    static(toggle) {
+        this.config.static = typeof toggle === 'undefined' ? true : toggle;
+        return this;
+    }
 
-	loadComponent(component, props) {
-		let vNode = h(ComponentModal, {
-			component: component,
-			props: {
-				...props,
-			},
-			onDispose: () => {
-				vNode.destroy();
-			}
-		});
+    scroll(toggle) {
+        this.config.scroll = typeof toggle === 'undefined' ? true : toggle;
+        return this;
+    }
 
-		this.mountVNode(vNode);
-	}
+    title(text) {
+        this.config.title = text;
+        return this;
+    }
 
-	mountVNode(vNode) {
-		let el = document.createElement('div');
+    title(size) {
+        this.config.size = size;
+        return this;
+    }
 
-		vNode.appContext = this.app._context;
+    show(o) {
+        o = {
+            title: 'Modal',
+            content: 'Hey!',
+            footer: null,
+            center: false,
+            ...o
+        };
 
-		vNode.destroy = () => {
-			if (el) {
-				render(null, el);
-			}
+        let vNode = h(VioModal, o);
+        this.mountVNode(vNode);
+    }
 
-			el = null;
-			vNode = null;
-		}
+    centered(o) {
+        this.show({
+            center: true,
+            ...o
+        });
+    }
 
-		render(vNode, el);
+    static loadComponent(component, props, modalProps) {
+        let vNode = h(ComponentWrapper, {
+            component: component,
+            props: {
+                ...props,
+            },
+            onDispose: () => {
+                vNode.destroy();
+            },
+            modalProps: modalProps
+        });
 
-		return vNode;
-	}
+        Modal.make().mountVNode(vNode);
+    }
+
+    component(component, props, modalConfig) {
+        let vNode = h(ComponentWrapper, {
+            component: component,
+            props: {
+                ...props,
+            },
+            onDispose: () => {
+                vNode.destroy();
+            },
+            modalProps: {
+                ...this.config,
+                ...modalConfig
+            }
+        });
+
+        this.mountVNode(vNode);
+
+        return vNode.component.ctx;
+    }
+
+    mountVNode(vNode) {
+        let el = document.createElement('div');
+
+        vNode.appContext = Modal.app._context;
+
+        vNode.destroy = () => {
+            if (el) {
+                render(null, el);
+            }
+
+            el = null;
+            vNode = null;
+        }
+
+        render(vNode, el);
+
+        return vNode;
+    }
 }
 
-export default new Modal();
+Modal.app = null;
+
+export default Modal;

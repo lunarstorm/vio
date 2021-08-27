@@ -1,15 +1,15 @@
 <template>
-	<div class="input-group">
+	<div class="input-group input-group-alt">
 		<div v-if="!!$slots.start" class="input-group-prepend">
 			<slot name="start"></slot>
 		</div>
-		<div v-if="!!$slots.before" class="input-group-prepend">
+		<label v-if="!!$slots.before" class="input-group-prepend">
 			<span class="input-group-text"><slot name="before"></slot></span>
-		</div>
+		</label>
 		<slot></slot>
-		<div v-if="!!$slots.after" class="input-group-append">
+		<label v-if="!!$slots.after" class="input-group-append">
 			<span class="input-group-text"><slot name="after"></slot></span>
-		</div>
+		</label>
 		<div v-if="!!$slots.end" class="input-group-append">
 			<slot name="end"></slot>
 		</div>

@@ -1,48 +1,58 @@
 import axios from "axios";
-import {reactive} from "vue";
+import { reactive } from "vue";
 
 class Http {
 
-	constructor() {
-		this.busy = reactive({});
-	}
+    constructor() {
+        this.busy = reactive({});
+    }
 
-	create(name) {
-		const instance = axios.create();
-		this.busy[name] = false;
+    create(name) {
+        const instance = axios.create();
+        this.busy[name] = false;
 
-		instance.interceptors.request.use(config => {
-			this.busy[name] = true;
-			return config;
-		}, error => {
-			this.busy[name] = false;
-		});
+        instance.interceptors.request.use(
+            config => {
+                this.busy[name] = true;
+                return config;
+            },
 
-		instance.interceptors.response.use(response => {
-			this.busy[name] = false;
-			return response;
-		}, error => {
-			this.busy[name] = false;
-		});
+            error => {
+                this.busy[name] = false;
+                return Promise.reject(error);
+            }
+        );
 
-		return instance;
-	}
+        instance.interceptors.response.use(
+            response => {
+                this.busy[name] = false;
+                return response;
+            },
 
-	make(name) {
-		return this.create(name);
-	}
+            error => {
+                this.busy[name] = false;
+                return Promise.reject(error);
+            }
+        );
 
-	get(...args) {
-		return this.create('default').get(...args);
-	}
+        return instance;
+    }
 
-	isBusy(name){
-		return !!this.busy[name];
-	}
+    make(name) {
+        return this.create(name);
+    }
+
+    get(...args) {
+        return this.create('default').get(...args);
+    }
+
+    isBusy(name) {
+        return !!this.busy[name];
+    }
 }
 
 /*Http.post = function (...args) {
-	return this.make('default').post(...args);
+    return this.make('default').post(...args);
 };*/
 
 export default new Http();

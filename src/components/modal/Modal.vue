@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <component :is="form ? 'form' : 'div'" @submit.prevent="submit">
-      <div ref="modal" class="modal vio-modal" v-bind="$attrs">
+      <div ref="modal" class="modal vio-modal" v-bind="attrs">
         <div class="modal-dialog modal-dialog-scrollable" :class="classes">
           <div class="modal-content">
             <div class="modal-header p-3">
@@ -52,6 +52,7 @@ export default {
       default: "xl",
     },
     center: Boolean,
+    static: Boolean,
     form: Boolean,
     formSubmit: Function,
   },
@@ -79,6 +80,18 @@ export default {
   },
   unmounted() {},
   computed: {
+    attrs() {
+      let attrs = {};
+
+      if (this.static) {
+        attrs["data-backdrop"] = "static";
+      }
+
+      return {
+        ...this.$attrs,
+        ...attrs,
+      };
+    },
     classes() {
       let classes = [];
 

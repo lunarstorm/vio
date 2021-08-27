@@ -23,6 +23,11 @@ class Modal {
         return this;
     }
 
+    static() {
+        this.config.static = true;
+        return this;
+    }
+
     title(text) {
         this.config.title = text;
         return this;

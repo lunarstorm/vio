@@ -26,6 +26,7 @@
             <div v-if="!!$slots.footer" class="modal-footer vio-modal-footer">
               <slot name="footer" :close="close"></slot>
             </div>
+			<div v-else class="vio-modal-footer"></div>
           </div>
         </div>
       </div>

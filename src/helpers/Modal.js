@@ -1,12 +1,11 @@
-import { h, ref, render } from 'vue';
+import { h, ref, render, watch } from 'vue';
 
 import VioModal from "vio/components/modal/Modal";
 import ComponentWrapper from "vio/components/modal/ComponentWrapper";
 
 class Modal {
-    constructor(config) {
-        this.stack = ref([]);
 
+    constructor(config) {
         this.config = {
             title: '',
             center: false,
@@ -17,6 +16,17 @@ class Modal {
     static make(config) {
         return new Modal(config);
     }
+
+    static isOpen() {
+        let isOpen = (window.$Modal && window.$Modal.isOpen);
+        window._modalCount = window._modalCount || 0;
+
+        return isOpen || window._modalCount > 0;
+    };
+
+    static addInsanceToStack(modal) {
+        Modal.stack.push(modal);
+    };
 
     center(toggle) {
         this.config.center = typeof toggle === 'undefined' ? true : toggle;
@@ -119,5 +129,15 @@ class Modal {
 }
 
 Modal.app = null;
+
+/**
+ * For storing references to currently active
+ * <modal>'s
+ */
+Modal.stack = ref([]);
+
+watch(() => Modal.stack, (value) => {
+    console.log("Modal stack changed:", value);
+});
 
 export default Modal;

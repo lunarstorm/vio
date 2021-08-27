@@ -75,12 +75,16 @@ export default {
   },
   created() {},
   mounted() {
-    this.init();
+    this.$nextTick(() => {
+      this.init();
+    });
   },
   beforeUnmount() {
     if (!this.wasClosed) {
       this.close();
     }
+
+    window._modalCount--;
   },
   unmounted() {},
   computed: {
@@ -118,7 +122,13 @@ export default {
     init: function () {
       this.id = _.uniqueId("modal-");
       this.token = Date.now();
+      window._modalCount = window._modalCount || 0;
+      window._modalCount++;
+
+      console.log("<modal> init");
+
       $(this.$refs.modal).modal("show");
+
       $(this.$refs.modal).on("hide.bs.modal", () => {
         if (!this.wasClosed) {
           this.close();

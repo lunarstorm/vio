@@ -42,6 +42,7 @@
 							  :close="close"
 							></slot>
 						</div>
+						<div v-else class="vio-modal-footer"></div>
 					</div>
 				</div>
 			</div>
@@ -90,6 +91,7 @@ export default {
 	beforeUnmount() {
 	},
 	unmounted() {
+
 	},
 	computed: {
 		classes() {
@@ -111,6 +113,7 @@ export default {
 			this.id = _.uniqueId('modal-');
 			this.token = Date.now();
 			$(this.$refs.modal).modal('show');
+			window._modalIsOpen = true;
 		},
 		toggle() {
 			this.toggledBy = !this.toggledBy;
@@ -122,6 +125,7 @@ export default {
 		close: function () {
 			$(this.$refs.modal).modal('hide');
 			this.$emit('closed');
+			window._modalIsOpen = false;
 			this.dispose();
 		},
 		submit(){

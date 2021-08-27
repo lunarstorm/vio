@@ -65,7 +65,7 @@ export default {
 	computed: {},
 	methods: {
 		inModal() {
-			return window.$Modal && window.$Modal.isOpen;
+			return (window.$Modal && window.$Modal.isOpen) || window._modalIsOpen;
 		},
 		findModalFooter() {
 			let $container = $(this.$refs.container);
@@ -73,12 +73,15 @@ export default {
 			// Find the closest modal
 			let $modal = $container.closest('.vio-modal');
 
-			return $modal.find('.vio-modal-footer')[0];
+			let $footer = $modal.find('.vio-modal-footer')[0];
+
+			return $footer;
 		},
 		findModalContainer() {
 			let $container = $(this.$refs.container);
 			let $modal = $container.closest('.vio-modal');
-			return $modal.find('.vio-modal-parent')[0];
+			let $parent = $modal.find('.vio-modal-parent')[0];
+			return $parent;
 		},
 		handleFormElements() {
 			let $container = $(this.$refs.container);

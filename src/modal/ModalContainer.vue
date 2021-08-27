@@ -16,8 +16,9 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import Modal from './Modal.vue';
-import {provide, reactive, watch} from 'vue';
+import {defineAsyncComponent, provide, reactive, resolveComponent, watch} from 'vue';
 import Url from 'url-parse';
+import ModalHelper from 'vio/helpers/Modal';
 
 var scrollPosition = null;
 
@@ -68,14 +69,14 @@ export default {
 
 				var componentName = url.pathname.replace(/^\/+/, '');
 
-				//console.log(componentName, url);
-
 				let args = {
 					params: url.query, // for backwards compatibility
 					...url.query
 				};
 
-				_this.loadComponent(componentName, args);
+				let component = defineAsyncComponent(() => import(`components/app/${componentName}.vue`));
+				ModalHelper.loadComponent(component, args);
+
 				return false;
 			});
 

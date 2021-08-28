@@ -48,7 +48,7 @@ class Modal {
         return this;
     }
 
-    title(size) {
+    size(size) {
         this.config.size = size;
         return this;
     }

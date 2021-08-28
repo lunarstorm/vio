@@ -1,73 +1,77 @@
-import {defineAsyncComponent, h, ref, render} from 'vue';
+import { defineAsyncComponent, h, ref, render } from 'vue';
 
 const MessageContainer = defineAsyncComponent(() => import('vio/components/notification/MessageContainer'));
 
 class Messages {
-	constructor() {
-		const queue = ref([]);
-		this.queue = queue;
-		//this.seen = ref([]);
-		this.push = (message) => {
-			message = {
-				level: 'info',
-				title: '',
-				message: '',
-				...message
-			}
+    constructor() {
+        const queue = ref([]);
+        this.queue = queue;
+        //this.seen = ref([]);
+        this.push = (message) => {
+            message = {
+                level: 'info',
+                title: '',
+                message: '',
+                ...message
+            }
 
-			queue.value.push(message);
-		}
+            queue.value.push(message);
+        }
 
-		this.pop = () => {
-			return queue.value.shift();
-		}
+        this.pop = () => {
+            return queue.value.shift();
+        }
 
-		this.hasItems = () => {
-			return queue.value.length > 0;
-		}
+        this.hasItems = () => {
+            return queue.value.length > 0;
+        }
 
-		this.info = (text) => {
-			this.push({
-				message: text,
-				level: 'info'
-			});
-		}
+        this.info = (text) => {
+            this.push({
+                message: text,
+                level: 'info'
+            });
+        }
 
-		this.success = (text) => {
-			this.push({
-				message: text,
-				level: 'success'
-			});
-		}
+        this.success = (text) => {
+            this.push({
+                message: text,
+                level: 'success'
+            });
+        }
 
-		this.warning = (text) => {
-			this.push({
-				message: text,
-				level: 'warning'
-			});
-		}
+        this.warning = (text) => {
+            this.push({
+                message: text,
+                level: 'warning'
+            });
+        }
 
-		this.danger = (text) => {
-			this.push({
-				message: text,
-				level: 'danger'
-			});
-		}
-	}
+        this.danger = (text) => {
+            this.push({
+                message: text,
+                level: 'danger'
+            });
+        }
 
-	setApp(app) {
-		this.app = app;
-		this.mount();
-	}
+        this.error = (text) => {
+            this.danger(text);
+        }
+    }
 
-	mount(){
-		let vNode = h(MessageContainer);
-		vNode.appContext = this.app._context;
+    setApp(app) {
+        this.app = app;
+        this.mount();
+    }
 
-		let el = document.createElement('div');
-		render(vNode, el);
-		$('body').append(el);
-	}
+    mount() {
+        let vNode = h(MessageContainer);
+        vNode.appContext = this.app._context;
+
+        let el = document.createElement('div');
+        render(vNode, el);
+        $('body').append(el);
+    }
 }
 
 export default new Messages();

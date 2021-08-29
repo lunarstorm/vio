@@ -94,10 +94,16 @@ class Form {
         return Http.isBusy(this.id);
     }
 
-    submit(url) {
+    submit(url, options) {
+        options = {
+            onSuccess: () => { },
+            ...options
+        };
+
         url = url || this.url;
         let method = "post";
         let payload = this.state.data;
+        let errors = 0;
 
         if (payload.id) {
             method = "put";
@@ -113,6 +119,12 @@ class Form {
             .catch((error) => {
                 if (error.response) {
                     this.fillErrors(error.response.data.errors);
+                }
+
+                errors++;
+            }).then(res => {
+                if (errors === 0) {
+                    options.onSuccess(res);
                 }
             });
     }

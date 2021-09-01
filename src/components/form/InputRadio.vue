@@ -34,8 +34,8 @@ export default {
 	components: {},
 	props: {
 		name: String,
-		modelValue: [String, Number],
-		value: [String, Number],
+		modelValue: [String, Number, Boolean],
+		value: [String, Number, Boolean],
 		inline: Boolean
 	},
 	emits: ['update:modelValue'],

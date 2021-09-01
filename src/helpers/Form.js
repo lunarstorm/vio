@@ -135,6 +135,11 @@ class Form {
                 if (errors === 0) {
                     options.onSuccess(res);
                 }
+
+                return {
+                    response: res,
+                    errors: errors
+                };
             });
     }
 }

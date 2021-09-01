@@ -1,4 +1,4 @@
-import { reactive, watch } from 'vue';
+import { reactive, computed } from 'vue';
 import _ from 'lodash';
 import Http from "vio/helpers/Http";
 
@@ -62,10 +62,19 @@ class Form {
                 return true;
             }
         });
+
+        // TODO: this doesn't work as intended
+        /* this.busy = computed(() => {
+            return this.isBusy();
+        }); */
     }
 
     static make(config) {
         return new Form(config);
+    }
+
+    fill(data) {
+        Object.assign(this.state.data, data);
     }
 
     method(value) {

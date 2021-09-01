@@ -6,7 +6,7 @@
 	  :value="opt.value"
 	  @input="$emit('update:modelValue', $event.target.value)"
 	  :inline="inline"
-	  class="mr-2"
+	  class="mr-3"
 	  v-bind="$attrs"
 	>
 		{{ opt.text }}

@@ -1,4 +1,4 @@
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref, watchEffect, watch } from 'vue';
 import _ from 'lodash';
 import Http from "vio/helpers/Http";
 
@@ -19,6 +19,7 @@ class Form {
                 ...data
             },
             errors: {},
+            extraParams: {}
         });
 
         this.data = new Proxy(this.state, {
@@ -63,10 +64,22 @@ class Form {
             }
         });
 
-        // TODO: this doesn't work as intended
-        /* this.busy = computed(() => {
-            return this.isBusy();
-        }); */
+        this.busy = ref(false);
+        this.hasErrors = ref(false);
+
+        watchEffect(() => {
+            this.busy = this.isBusy();
+
+            let n = 0;
+
+            _.forEach(this.state.errors, item => {
+                if (!_.isNull(item)) {
+                    n++;
+                }
+            });
+
+            this.hasErrors = n > 0;
+        });
     }
 
     static make(config) {
@@ -92,6 +105,18 @@ class Form {
             this.state.errors,
             _.mapValues(this.state.errors, () => null)
         );
+    }
+
+    countErrors() {
+        let n = 0;
+
+        _.forEach(this.state.errors, item => {
+            if (!_.isNull(item)) {
+                n++;
+            }
+        })
+
+        return n;
     }
 
     fillErrors(errors) {
@@ -123,7 +148,12 @@ class Form {
             .request({
                 url: url,
                 method: method,
-                data: payload,
+                data: {
+                    ...payload,
+                },
+                params: {
+                    ...this.state.extraParams,
+                }
             })
             .catch((error) => {
                 if (error.response) {

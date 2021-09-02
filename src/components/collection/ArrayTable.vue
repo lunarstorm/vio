@@ -10,7 +10,7 @@
     <tbody>
       <template v-for="(item, index) in items" :key="index">
         <tr>
-          <td width="25">-</td>
+          <td width="25"></td>
           <slot name="row" :item="item" :index="index" :items="items"></slot>
           <td width="30" class="text-right">
             <a

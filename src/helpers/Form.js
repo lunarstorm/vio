@@ -131,12 +131,13 @@ class Form {
     submit(url, options) {
         options = {
             onSuccess: () => { },
+            data: null,
             ...options
         };
 
         url = url || this.url;
         let method = "post";
-        let payload = this.state.data;
+        let payload = options.data ?? this.state.data;
         let errors = 0;
 
         if (payload.id) {

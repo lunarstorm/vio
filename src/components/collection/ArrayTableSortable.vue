@@ -16,7 +16,7 @@
     >
       <template #item="{ element: item, index }">
         <tr>
-          <td width="10" class="handle text-center px-0">
+          <td class="handle text-center px-0">
             <i class="bi-grip-vertical text-muted"></i>
           </td>
           <slot
@@ -25,14 +25,27 @@
             :index="index"
             :items="modelValue"
           ></slot>
-          <td width="30" class="text-right">
-            <a
-              @click.prevent="removeItemAtIndex(index)"
-              href="#"
-              class="btn btn-secondary btn-icon"
-            >
-              <i class="fa fa-times"></i>
-            </a>
+          <td width="10" class="text-right">
+            <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-light px-1"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i class="bi bi-three-dots"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a
+                  @click.prevent="removeItemAtIndex(index)"
+                  href="#"
+                  class="dropdown-item"
+                >
+                  <i class="fa fa-times text-danger"></i> Remove
+                </a>
+              </div>
+            </div>
           </td>
         </tr>
       </template>
@@ -95,7 +108,12 @@ export default {
       });
     },
     addItem() {
-      let itemToAdd = Object.assign({}, this.itemDef);
+      let itemToAdd = Object.assign(
+        {
+          _uuid: uuidv4(),
+        },
+        this.itemDef
+      );
       this.modelValue.push(itemToAdd);
     },
     removeItemAtIndex(index) {
@@ -109,5 +127,11 @@ export default {
 .handle {
   cursor: move;
   cursor: -webkit-grabbing;
+}
+
+table td.handle {
+  width: 15px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 </style>

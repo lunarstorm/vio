@@ -51,6 +51,11 @@
       </template>
     </vue-draggable>
     <tfoot>
+      <tr v-if="!!$slots.foot">
+        <td></td>
+        <slot name="foot" :items="modelValue"></slot>
+        <td></td>
+      </tr>
       <tr>
         <td colspan="100" class="text-center">
           <a @click.prevent="addItem" href="#" class="btn btn-sm btn-secondary">

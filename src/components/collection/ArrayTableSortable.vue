@@ -131,7 +131,9 @@ export default {
       this.$emit("add-item", itemToAdd);
     },
     copyItem(item) {
-      let copy = Object.assign({}, item);
+      let copy = Object.assign({}, item, {
+        _uuid: uuidv4(),
+      });
       this.modelValue.push(copy);
       this.$emit("copy-item", copy);
     },

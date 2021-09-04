@@ -2,22 +2,22 @@
   <table class="table">
     <thead v-if="!!$slots.head">
       <tr>
-        <th width="15"></th>
+        <th></th>
         <slot name="head" :items="modelValue"></slot>
         <th width="30"></th>
       </tr>
     </thead>
     <vue-draggable
       :list="modelValue"
-      :itemKey="itemKey"
+      itemKey="_uuid"
       :group="group"
       tag="tbody"
       handle=".handle"
     >
       <template #item="{ element: item, index }">
         <tr>
-          <td width="15" class="handle text-center">
-            <i class="fa fa-bars text-muted"></i>
+          <td width="10" class="handle text-center px-0">
+            <i class="bi-grip-vertical text-muted"></i>
           </td>
           <slot
             name="row"
@@ -54,6 +54,7 @@
 <script>
 import _ from "lodash";
 import VueDraggable from "vuedraggable";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "ArrayTableSortable",
@@ -81,8 +82,18 @@ export default {
   setup(props) {
     return {};
   },
-  mounted() {},
+  mounted() {
+    this.addKeys();
+  },
+  computed() {},
   methods: {
+    addKeys() {
+      _.forEach(this.modelValue, (item, index) => {
+        if (!item._sortable_key) {
+          item._uuid = uuidv4();
+        }
+      });
+    },
     addItem() {
       let itemToAdd = Object.assign({}, this.itemDef);
       this.modelValue.push(itemToAdd);

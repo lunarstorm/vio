@@ -38,6 +38,13 @@
               </button>
               <div class="dropdown-menu dropdown-menu-right">
                 <a
+                  @click.prevent="copyItem(item)"
+                  href="#"
+                  class="dropdown-item"
+                >
+                  <i class="fa fa-copy"></i> Copy
+                </a>
+                <a
                   @click.prevent="removeItemAtIndex(index)"
                   href="#"
                   class="dropdown-item"
@@ -97,6 +104,7 @@ export default {
   components: {
     VueDraggable,
   },
+  emits: ["add-item", "copy-item", "remove-items"],
   setup(props) {
     return {};
   },
@@ -120,9 +128,16 @@ export default {
         this.itemDef
       );
       this.modelValue.push(itemToAdd);
+      this.$emit("add-item", itemToAdd);
+    },
+    copyItem(item) {
+      let copy = Object.assign({}, item);
+      this.modelValue.push(copy);
+      this.$emit("copy-item", copy);
     },
     removeItemAtIndex(index) {
-      this.modelValue.splice(index, 1);
+      let removed = this.modelValue.splice(index, 1);
+      this.$emit("remove-items", removed);
     },
   },
 };

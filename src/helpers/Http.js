@@ -51,8 +51,4 @@ class Http {
     }
 }
 
-/*Http.post = function (...args) {
-    return this.make('default').post(...args);
-};*/
-
 export default new Http();

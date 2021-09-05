@@ -1,70 +1,70 @@
 <template>
-	<label v-if="inline" class="checkbox-inline">
-		<input
-		  v-model="modelValue"
-		  :value="value"
-		  @change="change($event)"
-		  :name="name"
-		  type="checkbox"
-		  class="mr-1"
-		>
-		<slot></slot>
-	</label>
-	<div v-else class="checkbox">
-		<label>
-			<input
-			  v-model="modelValue"
-			  :value="value"
-			  @change="change($event)"
-			  :name="name"
-			  type="checkbox"
-			  class="mr-1"
-			>
-			<slot></slot>
-		</label>
-	</div>
+  <label v-if="inline" class="checkbox-inline">
+    <input
+      v-model="model"
+      :value="value"
+      :name="name"
+      type="checkbox"
+      class="mr-1"
+      v-bind="$attrs"
+    />
+    <slot></slot>
+  </label>
+  <div v-else class="checkbox">
+    <label>
+      <input
+        v-model="model"
+        :value="value"
+        :name="name"
+        type="checkbox"
+        class="mr-1"
+        v-bind="$attrs"
+      />
+      <slot></slot>
+    </label>
+  </div>
 </template>
 
 <script>
-import {toRefs} from 'vue';
+import { toRefs } from "vue";
 
 export default {
-	name: "InputCheckbox",
-	inheritAttrs: true,
-	components: {},
-	props: {
-		name: String,
-		modelValue: [String, Number, Boolean, Array],
-		value: {
-			type: [String, Number, Boolean],
-			default: true
-		},
-		inline: Boolean
-	},
-	emits: ['update:modelValue'],
-	setup(props) {
-		let propRefs = toRefs(props);
+  name: "InputCheckbox",
+  inheritAttrs: false,
+  components: {},
+  props: {
+    name: String,
+    modelValue: [String, Number, Boolean, Array],
+    value: {
+      type: [String, Number, Boolean],
+      default: true,
+    },
+    inline: Boolean,
+  },
+  emits: ["update:modelValue"],
+  setup(props) {
+    let propRefs = toRefs(props);
 
-		return {
-			value: propRefs.value,
-			inline: propRefs.inline
-		};
-	},
-	computed: {},
-	methods: {
-		change($event) {
-			//console.log('Checkbox change', $event.target.value, this.modelValue);
-			this.$emit('update:modelValue', $event.target.value)
-		}
-	},
-	mounted() {
-	},
-	unmounted() {
-
-	}
-}
+    return {
+      value: propRefs.value,
+      inline: propRefs.inline,
+    };
+  },
+  computed: {
+    model: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
+    },
+  },
+  methods: {},
+  mounted() {},
+  unmounted() {},
+};
 </script>
 
 <style scoped>
-
 </style>

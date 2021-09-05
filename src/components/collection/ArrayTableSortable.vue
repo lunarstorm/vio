@@ -17,7 +17,10 @@
       <template #item="{ element: item, index }">
         <tr>
           <td class="handle text-center px-0">
-            <i class="bi-grip-vertical text-muted"></i>
+            <i
+              class="bi-grip-vertical text-muted"
+              style="font-size: 1.5rem"
+            ></i>
           </td>
           <slot
             name="row"
@@ -25,16 +28,16 @@
             :index="index"
             :items="modelValue"
           ></slot>
-          <td width="10" class="text-right">
+          <td width="10" class="text-right px-1">
             <div class="btn-group">
               <button
                 type="button"
-                class="btn btn-light px-1"
+                class="btn btn-light p-1"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <i class="bi bi-three-dots"></i>
+                <i class="bi bi-three-dots-vertical"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-right">
                 <a

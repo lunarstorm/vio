@@ -1,82 +1,88 @@
 <template>
-  <table class="table">
-    <thead v-if="!!$slots.head">
-      <tr>
-        <th></th>
-        <slot name="head" :items="modelValue"></slot>
-        <th width="30"></th>
-      </tr>
-    </thead>
-    <vue-draggable
-      :list="modelValue"
-      itemKey="_uuid"
-      :group="group"
-      tag="tbody"
-      handle=".handle"
-    >
-      <template #item="{ element: item, index }">
+  <div>
+    <table class="table">
+      <thead v-if="!!$slots.head">
         <tr>
-          <td class="handle text-center px-0">
-            <i
-              class="bi-grip-vertical text-muted"
-              style="font-size: 1.5rem"
-            ></i>
-          </td>
-          <slot
-            name="row"
-            :item="item"
-            :index="index"
-            :items="modelValue"
-          ></slot>
-          <td width="10" class="text-right px-1">
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn btn-light p-1"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="bi bi-three-dots-vertical"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a
-                  @click.prevent="copyItem(item)"
-                  href="#"
-                  class="dropdown-item"
+          <th></th>
+          <slot name="head" :items="modelValue"></slot>
+          <th width="30"></th>
+        </tr>
+      </thead>
+      <vue-draggable
+        :list="modelValue"
+        itemKey="_uuid"
+        :group="group"
+        tag="tbody"
+        handle=".handle"
+      >
+        <template #item="{ element: item, index }">
+          <tr>
+            <td class="handle text-center px-0">
+              <i
+                class="bi-grip-vertical text-muted"
+                style="font-size: 1.5rem"
+              ></i>
+            </td>
+            <slot
+              name="row"
+              :item="item"
+              :index="index"
+              :items="modelValue"
+            ></slot>
+            <td width="10" class="text-right px-1">
+              <div class="btn-group">
+                <button
+                  type="button"
+                  class="btn btn-light p-1"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
                 >
-                  <i class="fa fa-copy"></i> Copy
-                </a>
-                <a
-                  @click.prevent="removeItemAtIndex(index)"
-                  href="#"
-                  class="dropdown-item"
-                >
-                  <i class="fa fa-times text-danger"></i> Remove
-                </a>
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a
+                    @click.prevent="copyItem(item)"
+                    href="#"
+                    class="dropdown-item"
+                  >
+                    <i class="fa fa-copy"></i> Copy
+                  </a>
+                  <a
+                    @click.prevent="removeItemAtIndex(index)"
+                    href="#"
+                    class="dropdown-item"
+                  >
+                    <i class="fa fa-times text-danger"></i> Remove
+                  </a>
+                </div>
               </div>
-            </div>
+            </td>
+          </tr>
+        </template>
+      </vue-draggable>
+      <tfoot>
+        <tr v-if="!!$slots.foot">
+          <td></td>
+          <slot name="foot" :items="modelValue"></slot>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="100" class="text-center">
+            <a
+              @click.prevent="addItem"
+              href="#"
+              class="btn btn-sm btn-secondary"
+            >
+              <slot name="add-button">
+                <i class="fa fa-plus-circle"></i> Add
+              </slot>
+            </a>
           </td>
         </tr>
-      </template>
-    </vue-draggable>
-    <tfoot>
-      <tr v-if="!!$slots.foot">
-        <td></td>
-        <slot name="foot" :items="modelValue"></slot>
-        <td></td>
-      </tr>
-      <tr>
-        <td colspan="100" class="text-center">
-          <a @click.prevent="addItem" href="#" class="btn btn-sm btn-secondary">
-            <slot name="add-button">
-              <i class="fa fa-plus-circle"></i> Add
-            </slot>
-          </a>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+      </tfoot>
+    </table>
+  </div>
 </template>
 
 <script>

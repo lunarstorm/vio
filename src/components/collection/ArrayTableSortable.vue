@@ -118,7 +118,7 @@ export default {
   methods: {
     addKeys() {
       _.forEach(this.modelValue, (item, index) => {
-        if (!item._sortable_key) {
+        if (!item._sortable_key && !item._uuid) {
           item._uuid = uuidv4();
         }
       });

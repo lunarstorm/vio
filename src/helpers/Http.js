@@ -1,36 +1,40 @@
 import axios from "axios";
 import { reactive } from "vue";
+import Dialog from "vio/helpers/Dialog";
 
 class Http {
 
+    static busy = reactive({});
+
     constructor() {
-        this.busy = reactive({});
+        this._busy = reactive({});
+        this._axios = axios.create();
     }
 
-    create(name) {
-        const instance = axios.create();
-        this.busy[name] = false;
+    static create(name) {
+        const instance = new Http();
+        Http.busy[name] = false;
 
-        instance.interceptors.request.use(
+        instance._axios.interceptors.request.use(
             config => {
-                this.busy[name] = true;
+                Http.busy[name] = true;
                 return config;
             },
 
             error => {
-                this.busy[name] = false;
+                Http.busy[name] = false;
                 return Promise.reject(error);
             }
         );
 
-        instance.interceptors.response.use(
+        instance._axios.interceptors.response.use(
             response => {
-                this.busy[name] = false;
+                Http.busy[name] = false;
                 return response;
             },
 
             error => {
-                this.busy[name] = false;
+                Http.busy[name] = false;
                 return Promise.reject(error);
             }
         );
@@ -38,17 +42,102 @@ class Http {
         return instance;
     }
 
-    make(name) {
-        return this.create(name);
+    static make(name) {
+        return Http.create(name);
+    }
+
+    request(...args) {
+        return this._axios.request(...args);
     }
 
     get(...args) {
-        return this.create('default').get(...args);
+        return this._axios.get(...args);
     }
 
-    isBusy(name) {
-        return !!this.busy[name];
+    delete(...args) {
+        return this._axios.delete(...args);
+    }
+
+    head(...args) {
+        return this._axios.head(...args);
+    }
+
+    options(...args) {
+        return this._axios.options(...args);
+    }
+
+    post(...args) {
+        return this._axios.post(...args);
+    }
+
+    put(...args) {
+        return this._axios.put(...args);
+    }
+
+    patch(...args) {
+        return this._axios.patch(...args);
+    }
+
+    static request(...args) {
+        return this.make('default').request(...args);
+    }
+
+    static get(...args) {
+        return this.make('default').get(...args);
+    }
+
+    static delete(...args) {
+        return this.make('default').delete(...args);
+    }
+
+    static head(...args) {
+        return this.make('default').head(...args);
+    }
+
+    static options(...args) {
+        return this.make('default').options(...args);
+    }
+
+    static post(...args) {
+        return this.make('default').post(...args);
+    }
+
+    static put(...args) {
+        return this.make('default').put(...args);
+    }
+
+    static patch(...args) {
+        return this.make('default').patch(...args);
+    }
+
+    static isBusy(name) {
+        return !!Http.busy[name];
+    }
+
+    ask(message, level) {
+        this._axios.interceptors.request.use(
+            config => {
+                const promise = new Promise((resolve, reject) => {
+
+                    Dialog.confirm({
+                        message: message,
+                        level: level || 'danger',
+                        onYes: () => {
+                            resolve(config);
+                        },
+                        onClose: () => {
+                            reject('Declined');
+                        }
+                    });
+
+                });
+
+                return promise;
+            },
+        );
+
+        return this;
     }
 }
 
-export default new Http();
+export default Http;

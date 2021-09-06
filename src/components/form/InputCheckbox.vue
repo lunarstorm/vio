@@ -1,5 +1,5 @@
 <template>
-  <label v-if="inline" class="checkbox-inline">
+  <label v-if="inline" class="checkbox-inline mr-4">
     <input
       v-model="model"
       :value="value"

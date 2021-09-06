@@ -12,6 +12,7 @@ class Messages {
                 level: 'info',
                 title: '',
                 message: '',
+                position: 'top',
                 ...message
             }
 
@@ -26,36 +27,40 @@ class Messages {
             return queue.value.length > 0;
         }
 
-        this.info = (text) => {
+        this.info = (text, options) => {
             this.push({
                 message: text,
-                level: 'info'
+                level: 'info',
+                ...options
             });
         }
 
-        this.success = (text) => {
+        this.success = (text, options) => {
             this.push({
                 message: text,
-                level: 'success'
+                level: 'success',
+                ...options
             });
         }
 
-        this.warning = (text) => {
+        this.warning = (text, options) => {
             this.push({
                 message: text,
-                level: 'warning'
+                level: 'warning',
+                ...options
             });
         }
 
-        this.danger = (text) => {
+        this.danger = (text, options) => {
             this.push({
                 message: text,
-                level: 'danger'
+                level: 'danger',
+                ...options
             });
         }
 
-        this.error = (text) => {
-            this.danger(text);
+        this.error = (text, options) => {
+            this.danger(text, options);
         }
     }
 

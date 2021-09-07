@@ -1,5 +1,5 @@
 import axios from "axios";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import Dialog from "vio/helpers/Dialog";
 
 class Http {
@@ -7,7 +7,7 @@ class Http {
     static busy = reactive({});
 
     constructor() {
-        this._busy = reactive({});
+        this._busy = ref(false);
         this._axios = axios.create();
     }
 
@@ -18,11 +18,13 @@ class Http {
         instance._axios.interceptors.request.use(
             config => {
                 Http.busy[name] = true;
+                instance._busy = true;
                 return config;
             },
 
             error => {
                 Http.busy[name] = false;
+                instance._busy = false;
                 return Promise.reject(error);
             }
         );
@@ -30,11 +32,13 @@ class Http {
         instance._axios.interceptors.response.use(
             response => {
                 Http.busy[name] = false;
+                instance._busy = false;
                 return response;
             },
 
             error => {
                 Http.busy[name] = false;
+                instance._busy = false;
                 return Promise.reject(error);
             }
         );

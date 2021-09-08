@@ -1,6 +1,8 @@
 import axios from "axios";
 import { reactive, ref } from "vue";
 import Dialog from "vio/helpers/Dialog";
+import Messages from "vio/helpers/Messages";
+import Message from 'vio/helpers/Message';
 
 class Http {
 
@@ -9,22 +11,47 @@ class Http {
     constructor() {
         this._busy = ref(false);
         this._axios = axios.create();
+        this._messages = {
+            progress: null,
+            finish: null,
+            success: null,
+            error: null,
+            position: Message.POS_BOTTOM_RIGHT
+        };
     }
 
     static create(name) {
         const instance = new Http();
         Http.busy[name] = false;
 
+        let message = Messages.make();
+
         instance._axios.interceptors.request.use(
             config => {
                 Http.busy[name] = true;
                 instance._busy = true;
+
+                if (instance._messages.progress) {
+                    message.update({
+                        text: instance._messages.progress,
+                        level: 'light',
+                        spin: true,
+                        closeable: false,
+                        position: instance._messages.position
+                    }).show();
+                }
+
                 return config;
             },
 
             error => {
                 Http.busy[name] = false;
                 instance._busy = false;
+
+                if (message) {
+                    message.hide();
+                }
+
                 return Promise.reject(error);
             }
         );
@@ -33,12 +60,38 @@ class Http {
             response => {
                 Http.busy[name] = false;
                 instance._busy = false;
+
+                if (instance._messages.success) {
+                    message.text(instance._messages.success).update({
+                        spin: false,
+                        level: 'success',
+                        autohide: true,
+                        closeable: true,
+                        delay: 1500,
+                    });
+                }
+                else {
+                    message.hide();
+                }
+
                 return response;
             },
 
             error => {
                 Http.busy[name] = false;
                 instance._busy = false;
+
+                if (instance._messages.error) {
+                    message.text(instance._messages.error).update({
+                        spin: false,
+                        level: 'danger',
+                        closeable: true,
+                    });
+                }
+                else {
+                    message.hide();
+                }
+
                 return Promise.reject(error);
             }
         );
@@ -116,6 +169,20 @@ class Http {
 
     static isBusy(name) {
         return !!Http.busy[name];
+    }
+
+    progressMessage(message) {
+        this._messages.progress = message;
+        return this;
+    }
+
+    messages(messages) {
+        this._messages = {
+            ...this._messages,
+            ...messages
+        };
+
+        return this;
     }
 
     ask(message, level) {

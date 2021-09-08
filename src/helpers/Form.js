@@ -131,6 +131,7 @@ class Form {
     submit(url, options) {
         options = {
             onSuccess: () => { },
+            messages: {},
             data: null,
             ...options
         };
@@ -146,6 +147,7 @@ class Form {
         }
 
         return this._http
+            .messages(options.messages)
             .request({
                 url: url,
                 method: method,

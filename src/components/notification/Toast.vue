@@ -68,7 +68,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.id, "mounted()");
+    //console.log(this.id, "mounted()");
 
     this.refresh();
 
@@ -80,7 +80,7 @@ export default {
     );
 
     watchEffect(() => {
-      console.log("visibility changed", this.message.data.visible);
+      //console.log(this.id, "visibility changed", this.message.data.visible);
       if (this.message.data.visible) {
         this.show();
       } else {
@@ -155,11 +155,11 @@ export default {
       }
     },
     show() {
-      console.log(this.id, "show()");
+      //console.log(this.id, "show()");
       $(this.$refs.root).toast("show");
     },
     hide() {
-      console.log(this.id, "hide()");
+      //console.log(this.id, "hide()");
       $(this.$refs.root).toast("hide");
     },
     dispose() {
@@ -171,7 +171,7 @@ export default {
       this.show();
 
       if (this.message.data.autohide) {
-        console.log(this.id, "Hide in", this.message.data.delay);
+        //console.log(this.id, "Hide in", this.message.data.delay);
         this.timer = setTimeout(() => {
           this.hide();
         }, this.message.data.delay);

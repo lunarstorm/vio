@@ -121,7 +121,7 @@ export default {
 
 <style scoped>
 .toast-container {
-  z-index: 1050;
+  z-index: 9200 !important;
 }
 .top {
   position: fixed;

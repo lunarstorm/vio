@@ -10,7 +10,7 @@
       </thead>
       <vue-draggable
         :list="modelValue"
-        itemKey="_uuid"
+        :itemKey="itemKey"
         :group="group"
         tag="tbody"
         handle=".handle"
@@ -103,7 +103,7 @@ export default {
     },
     itemKey: {
       type: String,
-      default: "id",
+      default: "_uuid",
     },
     group: {
       type: String,

@@ -6,38 +6,56 @@
       class="d-flex justify-content-center align-items-center"
     >
       <div ref="top" class="toast-container top-left">
-        <template v-for="(item, index) in stack['top-left']" :key="index">
-          <toast-message :item="item"></toast-message>
+        <template
+          v-for="(message, index) in stack[Message.POS_TOP_LEFT]"
+          :key="index"
+        >
+          <toast-message :message="message"></toast-message>
         </template>
       </div>
 
       <div ref="top" class="toast-container top">
-        <template v-for="(item, index) in stack['top']" :key="index">
-          <toast-message :item="item"></toast-message>
+        <template
+          v-for="(message, index) in stack[Message.POS_TOP]"
+          :key="index"
+        >
+          <toast-message :message="message"></toast-message>
         </template>
       </div>
 
       <div ref="top" class="toast-container top-right">
-        <template v-for="(item, index) in stack['top-right']" :key="index">
-          <toast-message :item="item"></toast-message>
+        <template
+          v-for="(message, index) in stack[Message.POS_TOP_RIGHT]"
+          :key="index"
+        >
+          <toast-message :message="message"></toast-message>
         </template>
       </div>
 
       <div ref="top" class="toast-container bottom-left">
-        <template v-for="(item, index) in stack['bottom-left']" :key="index">
-          <toast-message :item="item"></toast-message>
+        <template
+          v-for="(message, index) in stack[Message.POS_BOTTOM_LEFT]"
+          :key="index"
+        >
+          <toast-message :message="message"></toast-message>
         </template>
       </div>
 
       <div ref="top" class="toast-container bottom">
-        <template v-for="(item, index) in stack['bottom']" :key="index">
-          <toast-message :item="item"></toast-message>
+        <template
+          v-for="(message, index) in stack[Message.POS_BOTTOM]"
+          :key="index"
+        >
+          <toast-message :message="message"></toast-message>
         </template>
       </div>
 
       <div ref="top" class="toast-container bottom-right">
-        <template v-for="(item, index) in stack['bottom-right']" :key="index">
-          <toast-message :item="item"></toast-message>
+        <template
+          v-for="(message, index) in stack[Message.POS_BOTTOM_RIGHT]"
+          :key="index"
+        >
+          <toast-message :message="message"></toast-message>
         </template>
       </div>
     </div>
@@ -45,9 +63,10 @@
 </template>
 
 <script>
-import ToastMessage from "vio/components/notification/Toast";
 import { ref, watchEffect } from "vue";
+import ToastMessage from "vio/components/notification/Toast";
 import Messages from "vio/helpers/Messages";
+import Message from "vio/helpers/Message";
 
 export default {
   name: "MessageContainer",
@@ -62,6 +81,7 @@ export default {
 
     return {
       Messages,
+      Message,
       items,
     };
   },
@@ -79,18 +99,18 @@ export default {
   },
   computed: {
     stack() {
-      let stack = {
-        top: [],
-        "top-right": [],
-        "top-left": [],
+      let stack = {};
 
-        bottom: [],
-        "bottom-right": [],
-        "bottom-left": [],
-      };
+      stack[Message.POS_TOP] = [];
+      stack[Message.POS_TOP_LEFT] = [];
+      stack[Message.POS_TOP_RIGHT] = [];
+      stack[Message.POS_BOTTOM] = [];
+      stack[Message.POS_BOTTOM_LEFT] = [];
+      stack[Message.POS_BOTTOM_RIGHT] = [];
 
       _.forEach(this.items, (message) => {
-        stack[message.position || "top"].push(message);
+        let pos = message.data.position || Message.POS_TOP;
+        stack[pos].push(message);
       });
 
       return stack;

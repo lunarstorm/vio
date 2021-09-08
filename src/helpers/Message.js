@@ -176,13 +176,12 @@ class Message {
     }
 
     show(config) {
-        Object.assign(this.data, {
-            ...config,
-        });
-
-        this.data.ticks++;
-
-        this.visible(true);
+        if(config){
+            this.update({
+                ...config,
+                visible: true
+            })
+        }
 
         if (!this.pushed) {
             Messages.push(this);

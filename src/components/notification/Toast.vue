@@ -58,10 +58,12 @@ export default {
   setup(props) {
     const root = ref(null);
     let timer = null;
+    let id = _.uniqueId("toast");
 
     return {
       root,
       timer,
+      id,
     };
   },
   mounted() {
@@ -143,11 +145,11 @@ export default {
       }
     },
     show() {
-      console.log("show()");
+      console.log(this.id, "show()");
       $(this.$refs.root).toast("show");
     },
     hide() {
-      console.log("hide()");
+      console.log(this.id, "hide()");
       $(this.$refs.root).toast("hide");
     },
     dispose() {
@@ -159,7 +161,7 @@ export default {
       this.show();
 
       if (this.message.data.autohide) {
-        console.log("Hide in", this.message.data.delay);
+        console.log(this.id, "Hide in", this.message.data.delay);
         this.timer = setTimeout(() => {
           this.hide();
         }, this.message.data.delay);

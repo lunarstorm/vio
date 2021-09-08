@@ -134,9 +134,7 @@ export default {
     init() {
       $(this.$refs.root).toast({
         ...this.message.data,
-
-        // handle the hiding manually
-        autohide: false,
+        autohide: false, // handle the hiding manually
       });
     },
     resetTimers() {
@@ -145,26 +143,29 @@ export default {
       }
     },
     show() {
+      console.log("show()");
       $(this.$refs.root).toast("show");
-
-      if (this.message.data.autohide) {
-        this.timer = setTimeout(() => {
-          this.hide();
-        }, this.message.data.delay);
-      }
     },
     hide() {
-      this.resetTimers();
+      console.log("hide()");
       $(this.$refs.root).toast("hide");
+      this.resetTimers();
     },
     dispose() {
-      this.resetTimers();
       $(this.$refs.root).toast("dispose");
+      this.resetTimers();
     },
     refresh() {
       this.resetTimers();
       this.init();
       this.show();
+
+      if (this.message.data.autohide) {
+        console.log("Hide in", this.message.data.delay);
+        this.timer = setTimeout(() => {
+          this.hide();
+        }, this.message.data.delay);
+      }
     },
   },
 };

@@ -36,6 +36,7 @@ class Http {
                         text: instance._messages.progress,
                         level: 'light',
                         spin: true,
+                        autohide: false,
                         closeable: false,
                         position: instance._messages.position
                     }).show();
@@ -68,7 +69,7 @@ class Http {
                         autohide: true,
                         closeable: true,
                         delay: 1500,
-                    });
+                    }).show();
                 }
                 else {
                     message.hide();
@@ -86,7 +87,8 @@ class Http {
                         spin: false,
                         level: 'danger',
                         closeable: true,
-                    });
+                        autohide: false
+                    }).show();
                 }
                 else {
                     message.hide();

@@ -1,27 +1,36 @@
 import { defineAsyncComponent, h, ref, render } from 'vue';
+import Message from "vio/helpers/Message";
 
 const MessageContainer = defineAsyncComponent(() => import('vio/components/notification/MessageContainer'));
-
 class Messages {
+
     constructor() {
         const queue = ref([]);
         this.queue = queue;
-        //this.seen = ref([]);
+
         this.push = (message) => {
-            message = {
-                level: 'info',
-                title: '',
-                message: '',
-                position: 'top',
-                ...message
+            if (!(message instanceof Message)) {
+                message = Message.make(message);
             }
 
             queue.value.push(message);
         }
 
+        this.make = (config) => {
+            return Message.make(config);
+        }
+
         this.pop = () => {
             return queue.value.shift();
         }
+
+        this.remove = message => {
+            console.log("remove please", message.data.id, queue.value);
+            return _.remove(queue.value, item => {
+                console.log('remove?', item, message.data.id);
+                return item.id == message.data.id;
+            });
+        };
 
         this.hasItems = () => {
             return queue.value.length > 0;
@@ -29,32 +38,32 @@ class Messages {
 
         this.info = (text, options) => {
             this.push({
-                message: text,
-                level: 'info',
+                text: text,
+                level: Message.LEVEL_INFO,
                 ...options
             });
         }
 
         this.success = (text, options) => {
             this.push({
-                message: text,
-                level: 'success',
+                text: text,
+                level: Message.LEVEL_SUCCESS,
                 ...options
             });
         }
 
         this.warning = (text, options) => {
             this.push({
-                message: text,
-                level: 'warning',
+                text: text,
+                level: Message.LEVEL_WARNING,
                 ...options
             });
         }
 
         this.danger = (text, options) => {
             this.push({
-                message: text,
-                level: 'danger',
+                text: text,
+                level: Message.LEVEL_DANGER,
                 ...options
             });
         }
@@ -79,4 +88,6 @@ class Messages {
     }
 }
 
-export default new Messages();
+const messages = new Messages();
+
+export default messages;

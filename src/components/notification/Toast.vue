@@ -149,11 +149,9 @@ export default {
     hide() {
       console.log("hide()");
       $(this.$refs.root).toast("hide");
-      this.resetTimers();
     },
     dispose() {
       $(this.$refs.root).toast("dispose");
-      this.resetTimers();
     },
     refresh() {
       this.resetTimers();

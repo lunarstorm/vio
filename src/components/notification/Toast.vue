@@ -1,7 +1,8 @@
 <template>
   <div
+    :id="id"
     ref="root"
-    class="toast"
+    class="toast hide"
     role="alert"
     aria-live="assertive"
     aria-atomic="true"
@@ -67,6 +68,8 @@ export default {
     };
   },
   mounted() {
+    console.log(this.id, "mounted()");
+
     this.refresh();
 
     watch(

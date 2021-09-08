@@ -125,6 +125,11 @@ export default {
       return classes;
     },
   },
+  unmounted() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+  },
   methods: {
     init() {
       $(this.$refs.root).toast({
@@ -134,28 +139,32 @@ export default {
         autohide: false,
       });
     },
-    show() {
-      $(this.$refs.root).toast("show");
-    },
-    hide() {
-      $(this.$refs.root).toast("hide");
-    },
-    dispose() {
-      $(this.$refs.root).toast("dispose");
-    },
-    refresh() {
+    resetTimers() {
       if (this.timer) {
         clearTimeout(this.timer);
       }
-
-      this.init();
-      this.show();
+    },
+    show() {
+      $(this.$refs.root).toast("show");
 
       if (this.message.data.autohide) {
         this.timer = setTimeout(() => {
           this.hide();
         }, this.message.data.delay);
       }
+    },
+    hide() {
+      this.resetTimers();
+      $(this.$refs.root).toast("hide");
+    },
+    dispose() {
+      this.resetTimers();
+      $(this.$refs.root).toast("dispose");
+    },
+    refresh() {
+      this.resetTimers();
+      this.init();
+      this.show();
     },
   },
 };

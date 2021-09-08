@@ -2,7 +2,7 @@
   <div
     :id="id"
     ref="root"
-    class="toast hide"
+    class="toast"
     role="alert"
     aria-live="assertive"
     aria-atomic="true"
@@ -80,7 +80,10 @@ export default {
     );
 
     watchEffect(() => {
-      if (!this.message.data.visible) {
+      console.log("visibility changed", this.message.data.visible);
+      if (this.message.data.visible) {
+        this.show();
+      } else {
         this.hide();
       }
     });
@@ -106,6 +109,10 @@ export default {
 
       if (item.ticks < 1) {
         classes.main.push("fade");
+      }
+
+      if (!item.visible) {
+        classes.main.push("hide");
       }
 
       if (item.level) {

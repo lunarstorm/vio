@@ -16,7 +16,7 @@ class Http {
             finish: null,
             success: null,
             error: null,
-            position: Message.POS_BOTTOM_RIGHT
+            position: Message.POS_TOP
         };
     }
 

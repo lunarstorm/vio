@@ -4,9 +4,8 @@ import Dialog from "vio/helpers/Dialog";
 import Messages from "vio/helpers/Messages";
 import Message from 'vio/helpers/Message';
 
+const busy = reactive({});
 class Http {
-
-    static busy = reactive({});
 
     constructor() {
         this._busy = ref(false);
@@ -18,6 +17,10 @@ class Http {
             error: null,
             position: Message.POS_TOP
         };
+    }
+
+    static get busy() {
+        return busy;
     }
 
     static create(name) {

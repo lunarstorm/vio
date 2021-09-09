@@ -25,6 +25,11 @@ class Http {
 
     static create(name) {
         const instance = new Http();
+
+        if(!name){
+            name = "default";
+        }
+
         Http.busy[name] = false;
 
         let message = Messages.make();
@@ -197,7 +202,7 @@ class Http {
 
                     Dialog.confirm({
                         message: message,
-                        level: level || 'danger',
+                        level: level ?? 'danger',
                         onYes: () => {
                             resolve(config);
                         },

@@ -73,7 +73,7 @@ class Http {
                 if (instance._messages.success) {
                     message.text(instance._messages.success).update({
                         spin: false,
-                        level: 'success',
+                        level: 'info',
                         autohide: true,
                         closeable: true,
                         delay: 1500,

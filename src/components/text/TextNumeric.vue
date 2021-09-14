@@ -1,41 +1,38 @@
 <template>
-	<span><slot></slot>{{ valueFormatted }}</span>
+  <span><slot></slot>{{ valueFormatted }}</span>
 </template>
 
 <script>
-import {toRefs} from 'vue';
-import numeral from 'numeral';
+import { toRefs } from "vue";
+import numeral from "numeral";
 
 export default {
-	name: "TextNumeric",
-	props: {
-		value: [String, Number],
-		format: {
-			type: String,
-			default: '0,0'
-		},
-		precision: Number
-	},
-	setup(props) {
-		return {
-			value: toRefs(props).value,
-			format: toRefs(props).format
-		}
-	},
-	methods: {
-
-	},
-	computed: {
-		numeralInstance(){
-			return numeral(this.value);
-		},
-		valueFormatted() {
-			return this.numeralInstance.format(this.format);
-		}
-	}
-}
+  name: "TextNumeric",
+  props: {
+    value: [String, Number],
+    format: {
+      type: String,
+      default: "0,0",
+    },
+    precision: Number,
+  },
+  setup(props) {
+    return {
+      value: toRefs(props).value,
+      format: toRefs(props).format,
+    };
+  },
+  methods: {},
+  computed: {
+    numeralInstance() {
+      return numeral(this.value);
+    },
+    valueFormatted() {
+      return this.numeralInstance.format(this.format);
+    },
+  },
+};
 </script>
 
 <style scoped>
-
 </style>

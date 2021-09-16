@@ -10,7 +10,9 @@
       ref="multiselect"
       v-bind="$attrs"
     >
-      <slot></slot>
+      <template v-for="(_, slot) of $slots" v-slot:[slot]="scope">
+        <slot :name="slot" v-bind="scope" />
+      </template>
     </multi-select>
     <form-error v-model="error"></form-error>
   </div>

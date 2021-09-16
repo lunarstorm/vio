@@ -92,12 +92,15 @@ class Http {
                 Http.busy[name] = false;
                 instance._busy = false;
 
-                if (instance._messages.error) {
-                    message.text(instance._messages.error).update({
+                let errorMessage = instance._messages.error || _.get(error.response, 'data.message');
+
+                if (errorMessage) {
+                    message.text(errorMessage).update({
                         spin: false,
                         level: 'danger',
+                        autohide: true,
                         closeable: true,
-                        autohide: false
+                        delay: 3000
                     }).show();
                 }
                 else {

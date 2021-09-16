@@ -26,18 +26,20 @@ class Http {
     static create(name) {
         const instance = new Http();
 
-        if(!name){
+        if (!name) {
             name = "default";
         }
 
         Http.busy[name] = false;
 
-        let message = Messages.make();
+        let message = null;
 
         instance._axios.interceptors.request.use(
             config => {
                 Http.busy[name] = true;
                 instance._busy = true;
+
+                message = Messages.make();
 
                 if (instance._messages.progress) {
                     message.update({
@@ -80,7 +82,7 @@ class Http {
                     }).show();
                 }
                 else {
-                    message.hide();
+                    message.remove();
                 }
 
                 return response;
@@ -99,7 +101,7 @@ class Http {
                     }).show();
                 }
                 else {
-                    message.hide();
+                    message.remove();
                 }
 
                 return Promise.reject(error);

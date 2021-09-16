@@ -77,16 +77,13 @@ export default {
     messages: Array,
   },
   setup(props) {
-    const items = ref([]);
-
     return {
       Messages,
       Message,
-      items,
     };
   },
   mounted() {
-    watchEffect(() => {
+    /* watchEffect(() => {
       let limit = 0;
       while (Messages.hasItems()) {
         this.items.push(Messages.pop());
@@ -95,9 +92,12 @@ export default {
           break;
         }
       }
-    });
+    }); */
   },
   computed: {
+    items() {
+      return Messages.queue.value;
+    },
     stack() {
       let stack = {};
 

@@ -79,14 +79,26 @@ export default {
       }
     );
 
-    watchEffect(() => {
-      //console.log(this.id, "visibility changed", this.message.data.visible);
+    watch(
+      () => this.message.data.visible,
+      (visible) => {
+        console.log(this.id, "visibility changed", visible);
+        if (visible) {
+          this.show();
+        } else {
+          this.hide();
+        }
+      }
+    );
+
+    /* watchEffect(() => {
+      console.log(this.id, "visibility changed", this.message.data.visible);
       if (this.message.data.visible) {
         this.show();
       } else {
         this.hide();
       }
-    });
+    }); */
   },
   computed: {
     title() {
@@ -171,7 +183,6 @@ export default {
       this.show();
 
       if (this.message.data.autohide) {
-        //console.log(this.id, "Hide in", this.message.data.delay);
         this.timer = setTimeout(() => {
           this.hide();
         }, this.message.data.delay);

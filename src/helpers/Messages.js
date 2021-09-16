@@ -1,4 +1,4 @@
-import { defineAsyncComponent, h, ref, render } from 'vue';
+import { defineAsyncComponent, h, ref, render, unref } from 'vue';
 import Message from "vio/helpers/Message";
 
 const MessageContainer = defineAsyncComponent(() => import('vio/components/notification/MessageContainer'));
@@ -25,11 +25,7 @@ class Messages {
         }
 
         this.remove = message => {
-            console.log("remove please", message.data.id, queue.value);
-            return _.remove(queue.value, item => {
-                console.log('remove?', item, message.data.id);
-                return item.id == message.data.id;
-            });
+            _.remove(queue.value, item => item.data.id == message.data.id);
         };
 
         this.hasItems = () => {

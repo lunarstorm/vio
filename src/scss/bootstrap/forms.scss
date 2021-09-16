@@ -1,0 +1,11 @@
+// Forms
+label {
+    font-weight: bolder;
+}
+
+.form-control[readonly],
+.from-control[disabled],
+input:disabled,
+input:read-only {
+    background-color: darken($input-bg, 4%);
+}

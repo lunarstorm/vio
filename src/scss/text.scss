@@ -1,0 +1,8 @@
+// Font Size Helpers
+$sizes: 110, 120, 130, 140, 150, 160, 170, 180, 190, 200;
+@each $size in $sizes {
+    .font-#{$size} {
+        font-size: $size + '%';
+    }
+}
+

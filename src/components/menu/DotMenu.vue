@@ -3,13 +3,13 @@
     <slot name="before"></slot>
     <button
       type="button"
-      class="btn btn-light p-1"
+      class="btn btn-light px-2"
       data-toggle="dropdown"
       data-boundary="viewport"
       aria-haspopup="true"
       aria-expanded="false"
     >
-      <i class="bi bi-three-dots"></i>
+      <i class="bi bi-three-dots font-size-130"></i>
     </button>
     <div class="dropdown-menu dropdown-menu-right">
       <slot name="items"></slot>
@@ -18,20 +18,15 @@
 </template>
 
 <script>
-
 export default {
   name: "DotMenu",
   inheritAttrs: false,
-  props: {
-  },
-  components: {
-  },
+  props: {},
+  components: {},
   setup(props) {
-    return {
-    };
+    return {};
   },
-  computed: {
-  },
+  computed: {},
   mounted() {},
 };
 </script>

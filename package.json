@@ -1,6 +1,6 @@
 {
   "name": "vio",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Vue 3 components, JS utilities and helpers.",
   "main": "index.js",
   "exports": {

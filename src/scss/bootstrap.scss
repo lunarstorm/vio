@@ -2,10 +2,4 @@
  * Essential fixes and overrides for quirks
  * in bootstrap.
  */
- @import "./bootstrap/forms.scss";
 
-// Dropdowns clipping at the edges of responsive tables
-.table-responsive {
-    overflow-x: visible !important;
-    overflow-y: visible !important;
-}

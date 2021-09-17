@@ -2,24 +2,26 @@
   <table class="table">
     <thead v-if="!!$slots.head">
       <tr>
-        <th width="25"></th>
         <slot name="head" :items="items"></slot>
-        <th width="30"></th>
+        <th width="10"></th>
       </tr>
     </thead>
     <tbody>
       <template v-for="(item, index) in items" :key="index">
         <tr>
-          <td width="25"></td>
           <slot name="row" :item="item" :index="index" :items="items"></slot>
-          <td width="30" class="text-right">
-            <a
-              @click.prevent="removeItemAtIndex(index)"
-              href="#"
-              class="btn btn-secondary btn-icon"
-            >
-              <i class="fa fa-times"></i>
-            </a>
+          <td width="10" class="text-right">
+            <dot-menu>
+              <template #items>
+                <a
+                  @click.prevent="removeItemAtIndex(index)"
+                  href="#"
+                  class="dropdown-item"
+                >
+                  <i class="fa fa-times"></i> Remove
+                </a>
+              </template>
+            </dot-menu>
           </td>
         </tr>
       </template>
@@ -40,9 +42,13 @@
 
 <script>
 import _ from "lodash";
+import DotMenu from "vio/components/menu/DotMenu";
 
 export default {
   name: "ArrayTable",
+  components: {
+    DotMenu,
+  },
   props: {
     items: {
       type: Array,
@@ -53,7 +59,6 @@ export default {
       default: {},
     },
   },
-  components: {},
   setup(props) {
     return {};
   },

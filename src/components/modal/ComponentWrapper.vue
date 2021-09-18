@@ -35,13 +35,23 @@ export default {
     const resolvedProps = reactive({});
 
     if (typeof props.props === "function") {
-      waiting.value = true;
-      props.props().then((resolved) => {
-        Object.assign(resolvedProps, resolved);
-        waiting.value = false;
-      });
-    }
-    else{
+      let promise = props.props();
+      if (
+        promise &&
+        typeof promise.then === "function" &&
+        promise[Symbol.toStringTag] === "Promise"
+      ) {
+        waiting.value = true;
+        props.props().then((resolved) => {
+          Object.assign(resolvedProps, resolved);
+          waiting.value = false;
+        });
+      } else {
+        throw new Error(
+          "Component props, when in function form, must be an async function."
+        );
+      }
+    } else {
       Object.assign(resolvedProps, props.props);
     }
 

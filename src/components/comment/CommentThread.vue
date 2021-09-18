@@ -88,7 +88,7 @@ import _ from 'lodash';
 import io from 'io/app';
 import api from 'vio/Api';
 import $ from 'jquery';
-import Spinner from 'vio/ui/Spinner.vue'
+import Spinner from 'vio/components/spinner/Spinner'
 
 const CommentForm = defineAsyncComponent(() => import("./CommentForm.vue"));
 const CommentItem = defineAsyncComponent(() => import("./CommentItem.vue"));

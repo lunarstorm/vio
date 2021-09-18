@@ -88,12 +88,10 @@ class Modal {
         Modal.make().mountVNode(vNode);
     }
 
-    component(component, props, modalConfig) {
+    async component(component, props, modalConfig) {
         let vNode = h(ComponentWrapper, {
             component: component,
-            props: {
-                ...props,
-            },
+            props: props,
             onDispose: () => {
                 vNode.destroy();
             },

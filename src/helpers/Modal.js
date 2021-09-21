@@ -88,7 +88,7 @@ class Modal {
         Modal.make().mountVNode(vNode);
     }
 
-    async component(component, props, modalConfig) {
+    component(component, props, modalConfig) {
         let vNode = h(ComponentWrapper, {
             component: component,
             props: props,

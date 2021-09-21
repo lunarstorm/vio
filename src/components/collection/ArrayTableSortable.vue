@@ -1,7 +1,7 @@
 <template>
   <div>
     <table class="table">
-      <thead v-if="!!$slots.head">
+      <thead v-if="!!$slots.head" :class="headClass">
         <tr>
           <th></th>
           <slot name="head" :items="modelValue"></slot>
@@ -109,6 +109,10 @@ export default {
       type: String,
       default: null,
     },
+    headClass: {
+        type: String,
+        default: ''
+    }
   },
   components: {
     VueDraggable,

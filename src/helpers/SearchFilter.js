@@ -51,6 +51,10 @@ class SearchFilter {
         Object.assign(this.data.values, values);
     }
 
+    fill(values) {
+        this.assignValues(values);
+    }
+
     setValues(values) {
         this.assignValues(values);
     }

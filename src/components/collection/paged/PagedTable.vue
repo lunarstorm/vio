@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="table-responsive">
-      <table class="table">
+      <table class="table" v-bind="$attrs">
         <template v-if="page.data && page.data.length > 0">
           <slot name="head" :page="page"></slot>
           <tbody>
@@ -64,6 +64,7 @@ import TextNumeric from "vio/components/text/TextNumeric";
 
 export default {
   name: "PagedTable",
+  inheritAttrs: false,
   components: {
     Paginator,
     TextNumeric,

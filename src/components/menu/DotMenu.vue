@@ -20,7 +20,6 @@
 <script>
 export default {
   name: "DotMenu",
-  inheritAttrs: false,
   props: {},
   components: {},
   setup(props) {

@@ -15,6 +15,12 @@
           v-model="filter.data.values[modelAttr.key]"
           :options="Metadata.get(modelAttr.optionsMetaKey)"
         ></options-multi>
+        <options-multi
+          v-if="modelAttr.type === 'multiselect'"
+          v-model="filter.data.values[modelAttr.key]"
+          :options="Metadata.get(modelAttr.optionsMetaKey)"
+          mode="tags"
+        ></options-multi>
         <input-date
           v-if="modelAttr.type === 'date'"
           v-model="filter.data.values[modelAttr.key]"
@@ -23,10 +29,6 @@
           v-if="modelAttr.type === 'checkbox'"
           v-model="filter.data.values[modelAttr.key]"
         ></input-checkbox>
-        <input-number-range
-          v-if="modelAttr.type === 'range'"
-          v-model="filter.data.values[modelAttr.key]"
-        ></input-number-range>
       </filter-field>
     </template>
 
@@ -48,7 +50,6 @@
 
 <script>
 import InputText from "vio/components/form/InputText";
-import InputNumberRange from "vio/components/form/InputNumberRange";
 import InputDate from "vio/components/form/InputDate";
 import InputCheckbox from "vio/components/form/InputCheckbox";
 import FormGroup from "vio/components/form/FormGroup";
@@ -62,7 +63,6 @@ export default {
   name: "FilterForm",
   components: {
     InputText,
-    InputNumberRange,
     InputDate,
     InputCheckbox,
     FormGroup,

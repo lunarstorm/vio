@@ -78,7 +78,30 @@ export default {
           ...props,
       }
   },
-  methods: {},
+  methods: {
+    refresh() {
+      let msg = this.$Messages
+        .make()
+        .text("Searching...")
+        .spin()
+        .level("light")
+        .show();
+      this.$inertia.reload({
+        data: {
+          ...this.filter.getValues(),
+          page: 1,
+        },
+        only: ["page", "query"],
+        onFinish() {
+          msg.remove();
+        },
+      });
+    },
+    reset(){
+      this.filter.resetAll();
+      this.refresh();
+    }
+  },
 };
 </script>
 

@@ -23,6 +23,10 @@
           v-if="modelAttr.type === 'checkbox'"
           v-model="filter.data.values[modelAttr.key]"
         ></input-checkbox>
+        <input-number-range
+          v-if="modelAttr.type === 'range'"
+          v-model="filter.data.values[modelAttr.key]"
+        ></input-number-range>
       </filter-field>
     </template>
 
@@ -44,6 +48,7 @@
 
 <script>
 import InputText from "vio/components/form/InputText";
+import InputNumberRange from "vio/components/form/InputNumberRange";
 import InputDate from "vio/components/form/InputDate";
 import InputCheckbox from "vio/components/form/InputCheckbox";
 import FormGroup from "vio/components/form/FormGroup";
@@ -57,6 +62,7 @@ export default {
   name: "FilterForm",
   components: {
     InputText,
+    InputNumberRange,
     InputDate,
     InputCheckbox,
     FormGroup,
@@ -74,6 +80,9 @@ export default {
   },
   setup(props) {
       console.log(props)
+      props.filterModel.map(attr => {
+        if(attr.type === 'range' && attr.range ) props.filter.data.values[attr.key] = attr.range
+      })
       return {
           ...props,
       }

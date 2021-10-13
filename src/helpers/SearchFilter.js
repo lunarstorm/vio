@@ -51,6 +51,10 @@ class SearchFilter {
         Object.assign(this.data.values, values);
     }
 
+    fill(values) {
+        this.assignValues(values);
+    }
+
     setValues(values) {
         this.assignValues(values);
     }
@@ -90,6 +94,19 @@ class SearchFilter {
         _.forEach(this.data.values, (val, key) => {
             this.clear(key);
         });
+    }
+
+    toQueryString() {
+        let obj = this.data.values;
+        let str = [];
+
+        for (var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        }
+
+        return str.join("&");
     }
 }
 

@@ -107,6 +107,10 @@ class Form {
         );
     }
 
+    reset(){
+        this.clearErrors();
+    }
+
     countErrors() {
         let n = 0;
 

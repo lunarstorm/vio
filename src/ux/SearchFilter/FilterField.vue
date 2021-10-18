@@ -16,7 +16,7 @@ export default {
   components: {},
   props: {
     label: String,
-    modelValue: [String, Number, Boolean],
+    modelValue: [String, Number, Boolean, Array],
   },
   emits: ["update:modelValue"],
   setup(props) {},

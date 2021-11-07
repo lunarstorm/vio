@@ -41,6 +41,12 @@
                   <i class="bi bi-three-dots-vertical"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
+                  <slot
+                    name="row-dropdown"
+                    :item="item"
+                    :index="index"
+                    :items="modelValue"
+                  ></slot>
                   <a
                     @click.prevent="copyItem(item)"
                     href="#"
@@ -110,9 +116,9 @@ export default {
       default: null,
     },
     headClass: {
-        type: String,
-        default: ''
-    }
+      type: String,
+      default: "",
+    },
   },
   components: {
     VueDraggable,

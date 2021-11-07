@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="table">
+    <table class="table" v-bind="$attrs">
       <thead v-if="!!$slots.head" :class="headClass">
         <tr>
           <th></th>
@@ -98,6 +98,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "ArrayTableSortable",
+  inheritAttrs: false,
   props: {
     modelValue: {
       type: Array,

@@ -29,25 +29,20 @@
       <spinner class="text-muted"></spinner>
     </div>
 
-    <!-- .conversation-list -->
     <ul class="conversation-list">
-      <!-- .conversation-inbound -->
-      <template v-for="comment in comments" :key="comment.id">
+      <template v-for="comment in items" :key="comment.id">
         <li class="conversation-inbound">
-          <pre>{{ comment.id }}</pre>
           <conversation-item
             :key="comment.id"
             :comment-data="comment"
             :params="{ id: comment.id }"
             :can-reply="params.canReply"
-            :show-replies="params.showReplies && comment.numReplies > 0"
+            :show-replies="params.showReplies && comment.replies_count > 0"
             @destroyed="removeComment"
           ></conversation-item>
         </li>
-        <!-- /.conversation-inbound -->
       </template>
     </ul>
-    <!-- /.conversation-list -->
 
     <div v-if="hasNext" class="text-center mb-3">
       <a @click.prevent="next" href="#" class="btn btn-xs btn-secondary">
@@ -61,6 +56,7 @@
           :params="formParams"
           @comment-submitted="insertComment"
           class="my-2"
+          @submit="$emit('submit', $event)"
         ></conversation-input>
       </div>
       <div v-else>
@@ -96,7 +92,18 @@ export default {
   props: {
     params: Object,
     hasFocus: Boolean,
+    topic: String,
+    topicId: [Number, String],
+    comments: {
+      type: Array,
+      default: [],
+    },
+    direction: {
+      type: String,
+      default: "desc",
+    },
   },
+  emits: ["submit", "remove"],
   setup(props) {
     let propRefs = toRefs(props);
 
@@ -130,7 +137,7 @@ export default {
 
     //console.log('CommentThread props', propRefs.params);
 
-    const comments = ref([]);
+    const items = ref([]);
     const hasNext = ref(false);
     const hasPrev = ref(false);
     const total = ref(0);
@@ -155,8 +162,8 @@ export default {
     //console.log('setup busyLoading', busyLoading);
 
     return {
+      items,
       formParams,
-      comments,
       params,
       hasNext,
       hasPrev,
@@ -220,9 +227,7 @@ export default {
       };
 
       var data = {
-        obj: self.params.obj,
-        oid: self.params.oid,
-        p: self.page,
+        page: self.page,
         l: o.limit,
         ref: o.ref,
         ord: self.params.ord,
@@ -241,7 +246,7 @@ export default {
 
       return http
         .make("loadingComments")
-        .get("/comments", {
+        .get(this.apiBase, {
           params: data,
         })
         .then((res) => {
@@ -249,12 +254,8 @@ export default {
 
           console.log("o.type", o.type);
 
-          result.data.map(function (item) {
-            if (o.type === "append") {
-              self.comments.push(item);
-            } else {
-              self.comments.unshift(item);
-            }
+          result.data.map((item) => {
+            this.insertComment(item);
           });
 
           self.total = result.total;
@@ -266,19 +267,22 @@ export default {
       this.params.showForm = !this.params.showForm;
       return false;
     },
-    insertComment(commentData) {
-      if (this.params.ord == "desc") {
-        this.comments.unshift(commentData);
+    insertComment(comment) {
+      if (this.direction == "desc") {
+        this.items.unshift(comment);
       } else {
-        this.comments.push(commentData);
+        this.items.push(comment);
       }
     },
     removeComment(id) {
-      let removed = _.remove(this.comments, (item) => item.id == id);
+      let removed = _.remove(this.items, (item) => item.id == id);
       this.total -= removed.length;
     },
   },
   computed: {
+    apiBase() {
+      return `/threads/${this.topic}/${this.topicId}`;
+    },
     noun() {
       if (this.params.parent) {
         return "Replies";
@@ -287,7 +291,7 @@ export default {
       return "Comments";
     },
     nCommentsUnshown() {
-      return this.total - this.comments.length;
+      return this.total - this.items.length;
     },
     hasMoreAbove() {},
     hasMoreBelow() {},

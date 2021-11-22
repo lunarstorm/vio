@@ -51,7 +51,7 @@ export default {
   directives: {
     autosize,
   },
-  emits: ["commentSubmitted"],
+  emits: ["submit", "cancel"],
   props: {
     params: Object,
     hasFocus: Boolean,
@@ -101,37 +101,16 @@ export default {
       this.params.body = e.target.innerHTML;
       //console.log(e.target.innerHTML);
     },
+    payload() {
+      return {
+        obj: this.params.obj,
+        oid: this.params.oid,
+        body: this.params.body,
+        reply_id: this.params.reply_id,
+      };
+    },
     submit() {
-      let self = this;
-
-      this.busy = true;
-
-      return io.api
-        .post("comments", {
-          _json: {
-            obj: self.params.obj,
-            oid: self.params.oid,
-            body: self.params.body,
-            reply_id: self.params.reply_id,
-          },
-          //busyFlag: self.busy.submitting
-        })
-        .done(function (response) {
-          if (response.status == "success") {
-            self.reset();
-            self.$emit("commentSubmitted", response.data);
-          }
-
-          /*if (ko.isObservable(data.toggle)) {
-					data.toggle(false);
-				}*/
-
-          if (typeof self.params.afterSubmit === "function") {
-            self.params.afterSubmit(response);
-          }
-
-          this.busy = false;
-        });
+      this.$emit("submit", this.payload());
     },
   },
   computed: {
@@ -151,33 +130,6 @@ export default {
     },
   },
   mounted() {
-    /*let tribute = new Tribute({
-			lookup: 'name',
-			values: function (text, callback) {
-				//console.log('Lookup', text);
-				api.get('users', {
-					data: {
-						q: text
-					}
-				}).done(function (response) {
-					if (response.status == 'success') {
-						//console.log(response.data.users);
-						callback(response.data.users);
-					}
-				});
-			},
-			selectTemplate: function (item) {
-				//console.log(item);
-				return `<span class="tag-mention" contenteditable="false" data-token="${item.original.tag.token}">${item.original.name}</span>`;
-			},
-			onReplaced: function (e) {
-				//console.log(e);
-				$(e.detail.instance.element).trigger('input');
-			}
-		});
-
-		tribute.attach(this.$refs.inputField);*/
-
     if (this.params.hasFocus) {
       this.$refs.inputField.focus();
     }

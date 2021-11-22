@@ -14,7 +14,7 @@
               v-if="comment.isWithinCutoff"
               :value="comment.date"
             ></text-time-ago>
-            <span v-else>{{ comment.dateString }}</span>
+            <span v-else>{{ comment.date_string }}</span>
           </span>
         </div>
         <div class="conversation-message-text">
@@ -43,7 +43,7 @@
             </form>
           </div>
           <div v-else>
-            <div v-html="comment.bodyHtml" data-bind="html: bodyHtml"></div>
+            <div v-html="comment.body_html"></div>
           </div>
         </div>
 
@@ -84,7 +84,7 @@
         </div>
 
         <div v-if="showReplies">
-          <comment-replies :params="replyThreadParams"></comment-replies>
+          <comment-replies v-bind="replyThreadParams"></comment-replies>
         </div>
       </div>
     </div>
@@ -183,8 +183,6 @@ export default {
       var showForm = comment.numReplies == 0;
 
       var params = {
-        obj: comment.obj,
-        oid: comment.oid,
         reply_id: replyId,
         parent: comment.id,
         limit: 1,
@@ -216,8 +214,13 @@ export default {
           //self.replyingTo(false);
         },
       };
+
       //console.log(params);
-      return params;
+      return {
+          params: params,
+          topic: comment.obj,
+          topicId: comment.oid,
+      };
     },
   },
   mounted() {},

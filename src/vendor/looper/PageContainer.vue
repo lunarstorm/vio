@@ -23,7 +23,12 @@
       </div>
     </div>
 
-    <div v-if="hasSidebar()" class="page-sidebar" :style="sidebarStyle()">
+    <div
+      v-if="hasSidebar()"
+      class="page-sidebar"
+      :class="{ 'page-sidebar-fixed': sidebarFixed }"
+      :style="sidebarStyle()"
+    >
       <header class="sidebar-header d-sm-none">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
@@ -52,6 +57,7 @@ export default {
       default: false,
     },
     sidebarFill: Boolean,
+    sidebarFixed: Boolean,
     sidebarWidth: [String],
   },
   mounted() {},

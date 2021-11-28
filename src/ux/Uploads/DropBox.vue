@@ -31,8 +31,10 @@ export default {
       ...this.params,
     });
 
-    drop.on("success", (file) => {
-      this.$emit("success", file);
+    drop.on("totaluploadprogress", (totalUploadProgress) => {
+      if (totalUploadProgress == 100) {
+        this.$emit("success");
+      }
     });
   },
   unmounted() {

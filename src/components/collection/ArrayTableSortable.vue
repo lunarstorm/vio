@@ -205,7 +205,6 @@ export default {
       this.$emit("remove-items", removed);
     },
     removeItem(itemToRemove) {
-      console.log("removeItem", itemToRemove);
       _.remove(this.modelValue, (item) => {
         return itemToRemove._uuid == item._uuid;
       });

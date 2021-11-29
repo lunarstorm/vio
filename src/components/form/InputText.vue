@@ -7,6 +7,7 @@
     type="text"
     class="form-control"
     v-bind="$attrs"
+    v-focus="focus"
   />
   <form-error v-model="error"></form-error>
 </template>
@@ -20,10 +21,26 @@ export default {
   components: {
     FormError,
   },
+  directives: {
+    focus: {
+      mounted(el, binding) {
+        if (binding.value) {
+          el.focus();
+        }
+      },
+      updated(el, binding) {
+        console.log("updated.v-focus", binding.value);
+        if (binding.value) {
+          el.focus();
+        }
+      },
+    },
+  },
   props: {
     modelValue: [String, Number],
     label: [String],
     error: [Array, String],
+    focus: Boolean,
   },
   emits: ["update:modelValue"],
   setup(props) {
@@ -32,7 +49,11 @@ export default {
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    /* focus() {
+      this.$refs.field.focus();
+    }, */
+  },
   mounted() {},
   unmounted() {},
 };

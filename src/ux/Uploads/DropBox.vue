@@ -28,6 +28,10 @@ export default {
   mounted() {
     drop = new Dropzone(this.container, {
       url: this.url,
+      headers: {
+        "X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]')
+          .content,
+      },
       ...this.params,
     });
 

@@ -34,7 +34,7 @@ export default {
   },
   emits: ["update:modelValue"],
   props: {
-    modelValue: [String, Number, Array],
+    modelValue: [String, Number, Array, Object],
     placeholder: [String, Number],
     options: {
       type: [Array, Object, Function],
@@ -71,6 +71,7 @@ export default {
 
         return item.value == this.modelValue;
       });
+      
       return index > -1;
     },
     _placeholder() {

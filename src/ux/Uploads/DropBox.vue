@@ -16,8 +16,9 @@ export default {
   props: {
     url: String,
     params: Object,
+    onSuccess: Function,
   },
-  emits: ["success"],
+  emits: ["success", "finished"],
   setup(props) {
     const container = ref(null);
 
@@ -37,7 +38,14 @@ export default {
 
     drop.on("totaluploadprogress", (totalUploadProgress) => {
       if (totalUploadProgress == 100) {
-        this.$emit("success");
+        this.$emit("finished");
+      }
+    });
+
+    drop.on("success", (file, response) => {
+      this.$emit("success", file, response);
+      if (typeof this.onSuccess === "function") {
+        this.onSuccess(file, response);
       }
     });
   },

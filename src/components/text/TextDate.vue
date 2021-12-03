@@ -5,6 +5,7 @@
 <script>
 import { toRefs } from "vue";
 import { DateTime } from "luxon";
+import Date from "vio/helpers/Date";
 
 const DATE_FORMAT = "yyyy-MM-dd";
 
@@ -14,7 +15,7 @@ export default {
     date: String,
     from: {
       type: String,
-      default: "SQL",
+      default: null,
     },
     format: {
       type: String,
@@ -30,12 +31,7 @@ export default {
   methods: {},
   computed: {
     dateObject() {
-      switch (this.from) {
-        case "SQL":
-          return DateTime.fromSQL(this.date);
-      }
-
-      return DateTime.fromISO(this.date);
+      return Date.parse(this.date);
     },
     dateFormatted() {
       let dt = this.dateObject;

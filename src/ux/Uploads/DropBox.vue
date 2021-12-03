@@ -27,11 +27,17 @@ export default {
     };
   },
   mounted() {
+    let token = null;
+    let csrfMetaTag = document.head.querySelector('meta[name="csrf-token"]');
+    
+    if(csrfMetaTag){
+      token = csrfMetaTag.content;
+    }
+
     drop = new Dropzone(this.container, {
       url: this.url,
       headers: {
-        "X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]')
-          .content,
+        "X-CSRF-TOKEN": token,
       },
       ...this.params,
     });

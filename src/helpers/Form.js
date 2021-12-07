@@ -3,11 +3,11 @@ import _ from 'lodash';
 import Http from "vio/helpers/Http";
 
 class Form {
-    constructor(data) {
+    constructor(data, http) {
         let root = this;
 
-        this.id = _.uniqueId('form');
-        this._http = Http.make(this.id);
+        this.id = http.id ?? _.uniqueId('form');
+        this._http = http ?? Http.make(this.id);
 
         this.config = {
             method: 'post',
@@ -129,7 +129,7 @@ class Form {
     }
 
     isBusy() {
-        return Http.isBusy(this.id);
+        return Http.isBusy(this._http.id);
     }
 
     submit(url, options) {

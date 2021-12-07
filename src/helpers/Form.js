@@ -6,7 +6,13 @@ class Form {
     constructor(data, http) {
         let root = this;
 
-        this.id = http.id ?? _.uniqueId('form');
+        if(http && http.id){
+            this.id = http.id;
+        }
+        else{
+            this.id =  _.uniqueId('form');
+        }
+
         this._http = http ?? Http.make(this.id);
 
         this.config = {

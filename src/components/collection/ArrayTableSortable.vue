@@ -68,25 +68,32 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                   <slot
-                    name="row-dropdown"
+                    name="row-menu"
                     :item="item"
                     :index="index"
                     :items="modelValue"
-                  ></slot>
-                  <a
-                    @click.prevent="copyItem(item)"
-                    href="#"
-                    class="dropdown-item"
                   >
-                    <i class="fa fa-copy"></i> Copy
-                  </a>
-                  <a
-                    @click.prevent="removeItemAtIndex(index, item)"
-                    href="#"
-                    class="dropdown-item"
-                  >
-                    <i class="fa fa-times text-danger"></i> Remove
-                  </a>
+                    <slot
+                      name="row-dropdown"
+                      :item="item"
+                      :index="index"
+                      :items="modelValue"
+                    ></slot>
+                    <a
+                      @click.prevent="copyItem(item)"
+                      href="#"
+                      class="dropdown-item"
+                    >
+                      <i class="fa fa-copy"></i> Copy
+                    </a>
+                    <a
+                      @click.prevent="removeItemAtIndex(index, item)"
+                      href="#"
+                      class="dropdown-item"
+                    >
+                      <i class="fa fa-times text-danger"></i> Remove
+                    </a>
+                  </slot>
                 </div>
               </div>
             </td>
@@ -100,16 +107,20 @@
           <td></td>
         </tr>
         <tr>
-          <td colspan="100" class="text-center">
-            <a
-              @click.prevent="addItem"
-              href="#"
-              class="btn btn-sm btn-secondary"
-            >
-              <slot name="add-button">
-                <i class="fa fa-plus-circle"></i> Add
-              </slot>
-            </a>
+          <td colspan="100">
+            <slot name="bottom-bar">
+              <div class="text-center">
+                <a
+                  @click.prevent="addItem"
+                  href="#"
+                  class="btn btn-sm btn-secondary"
+                >
+                  <slot name="add-button">
+                    <i class="fa fa-plus-circle"></i> Add
+                  </slot>
+                </a>
+              </div>
+            </slot>
           </td>
         </tr>
       </tfoot>

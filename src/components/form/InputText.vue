@@ -29,7 +29,6 @@ export default {
         }
       },
       updated(el, binding) {
-        console.log("updated.v-focus", binding.value);
         if (binding.value) {
           el.focus();
         }

@@ -1,5 +1,5 @@
 <template>
-  <span ref="el" :title="title">{{ dateFormatted }}</span>
+  <span ref="el" :title="title" :key="dateFormatted">{{ dateFormatted }}</span>
 </template>
 
 <script>
@@ -19,7 +19,9 @@ export default {
     };
   },
   mounted() {},
-  updated() {},
+  updated() {
+
+  },
   methods: {},
   computed: {
     dateFormatted() {

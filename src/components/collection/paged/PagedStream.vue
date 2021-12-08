@@ -4,16 +4,18 @@
       <table class="table" v-bind="$attrs">
         <template v-if="page.data && page.data.length > 0">
           <slot name="head" :page="page"></slot>
-          <tbody>
-            <template v-for="(item, index) in page.data" :key="item.id">
-              <slot
-                name="row"
-                :item="item"
-                :index="index"
-                :items="page.data"
-              ></slot>
-            </template>
-          </tbody>
+          <slot name="body" :page="page">
+            <tbody>
+              <template v-for="(item, index) in page.data" :key="item.id">
+                <slot
+                  name="row"
+                  :item="item"
+                  :index="index"
+                  :items="page.data"
+                ></slot>
+              </template>
+            </tbody>
+          </slot>
         </template>
         <tbody v-else>
           <tr>

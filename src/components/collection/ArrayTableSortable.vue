@@ -16,13 +16,13 @@
               <i v-else class="bi-square text-muted"></i>
             </a>
           </th>
-          <th></th>
+          <th width="10"></th>
           <slot
             name="head"
             :items="modelValue"
             :selected-items="selected"
           ></slot>
-          <th width="30"></th>
+          <th v-if="rowControls" width="30"></th>
         </tr>
       </thead>
       <vue-draggable
@@ -55,7 +55,7 @@
               :index="index"
               :items="modelValue"
             ></slot>
-            <td width="10" class="text-right px-1">
+            <td v-if="rowControls" width="10" class="text-right px-1">
               <div class="btn-group">
                 <button
                   type="button"
@@ -162,6 +162,10 @@ export default {
     selectable: {
       type: Boolean,
       default: false,
+    },
+    rowControls: {
+      type: Boolean,
+      default: true,
     },
   },
   components: {

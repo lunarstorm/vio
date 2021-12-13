@@ -3,9 +3,9 @@
   <input
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
-    ref="field"
     type="text"
     class="form-control"
+    ref="field"
     v-bind="$attrs"
   />
   <form-error v-model="error"></form-error>
@@ -20,25 +20,10 @@ export default {
   components: {
     FormError,
   },
-  directives: {
-    focus: {
-      mounted(el, binding) {
-        if (binding.value) {
-          el.focus();
-        }
-      },
-      updated(el, binding) {
-        if (binding.value) {
-          el.focus();
-        }
-      },
-    },
-  },
   props: {
     modelValue: [String, Number],
     label: [String],
     error: [Array, String],
-    focus: Boolean,
   },
   emits: ["update:modelValue"],
   setup(props) {
@@ -46,19 +31,13 @@ export default {
       options: props.options,
     };
   },
-  computed: {},
-  methods: {
-    /* focus() {
-      this.$refs.field.focus();
-    }, */
+  computed: {
+    ref() {
+      return this.$refs.field;
+    },
   },
-  mounted() {
-    this.$nextTick(() => {
-      if (this.focus) {
-        this.$refs.field.focus();
-      }
-    });
-  },
+  methods: {},
+  mounted() {},
   unmounted() {},
 };
 </script>

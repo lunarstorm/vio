@@ -7,7 +7,6 @@
     type="text"
     class="form-control"
     v-bind="$attrs"
-    v-focus="focus"
   />
   <form-error v-model="error"></form-error>
 </template>
@@ -53,7 +52,13 @@ export default {
       this.$refs.field.focus();
     }, */
   },
-  mounted() {},
+  mounted() {
+    this.$nextTick(() => {
+      if (this.focus) {
+        this.$refs.field.focus();
+      }
+    });
+  },
   unmounted() {},
 };
 </script>

@@ -16,8 +16,9 @@ export default {
   props: {
     url: String,
     params: Object,
+    onSuccess: Function,
   },
-  emits: ["success"],
+  emits: ["success", "finished"],
   setup(props) {
     const container = ref(null);
 
@@ -26,14 +27,31 @@ export default {
     };
   },
   mounted() {
+    let token = null;
+    let csrfMetaTag = document.head.querySelector('meta[name="csrf-token"]');
+    
+    if(csrfMetaTag){
+      token = csrfMetaTag.content;
+    }
+
     drop = new Dropzone(this.container, {
       url: this.url,
+      headers: {
+        "X-CSRF-TOKEN": token,
+      },
       ...this.params,
     });
 
     drop.on("totaluploadprogress", (totalUploadProgress) => {
       if (totalUploadProgress == 100) {
-        this.$emit("success");
+        this.$emit("finished");
+      }
+    });
+
+    drop.on("success", (file, response) => {
+      this.$emit("success", file, response);
+      if (typeof this.onSuccess === "function") {
+        this.onSuccess(file, response);
       }
     });
   },

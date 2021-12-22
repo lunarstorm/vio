@@ -7,9 +7,10 @@ import Message from 'vio/helpers/Message';
 const busy = reactive({});
 class Http {
 
-    constructor() {
+    constructor(config) {
+        this.id = _.uniqueId('http');
         this._busy = ref(false);
-        this._axios = axios.create();
+        this._axios = axios.create(config);
         this._messages = {
             progress: null,
             finish: null,
@@ -19,24 +20,26 @@ class Http {
         };
     }
 
+    setId(id){
+        this.id = id;
+    }
+
     static get busy() {
         return busy;
     }
 
-    static create(name) {
-        const instance = new Http();
+    static create(name, config) {
+        const instance = new Http(config);
+        instance.setId(name);
+        let key = instance.id;
 
-        if (!name) {
-            name = "default";
-        }
-
-        Http.busy[name] = false;
+        Http.busy[key] = false;
 
         let message = null;
 
         instance._axios.interceptors.request.use(
             config => {
-                Http.busy[name] = true;
+                Http.busy[key] = true;
                 instance._busy = true;
 
                 message = Messages.make();
@@ -56,7 +59,7 @@ class Http {
             },
 
             error => {
-                Http.busy[name] = false;
+                Http.busy[key] = false;
                 instance._busy = false;
 
                 if (message) {
@@ -69,7 +72,7 @@ class Http {
 
         instance._axios.interceptors.response.use(
             response => {
-                Http.busy[name] = false;
+                Http.busy[key] = false;
                 instance._busy = false;
 
                 if (instance._messages.success) {
@@ -89,7 +92,7 @@ class Http {
             },
 
             error => {
-                Http.busy[name] = false;
+                Http.busy[key] = false;
                 instance._busy = false;
 
                 let errorMessage = instance._messages.error || _.get(error.response, 'data.message');
@@ -114,8 +117,8 @@ class Http {
         return instance;
     }
 
-    static make(name) {
-        return Http.create(name);
+    static make(name, config) {
+        return Http.create(name, config);
     }
 
     request(...args) {
@@ -183,6 +186,10 @@ class Http {
     }
 
     static isBusy(name) {
+        if (!name) {
+            name = "default";
+        }
+
         return !!Http.busy[name];
     }
 

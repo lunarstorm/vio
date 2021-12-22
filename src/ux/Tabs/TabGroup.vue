@@ -58,7 +58,7 @@ export default {
     };
   },
   mounted() {
-    console.log("Slots", this.$slots);
+    //console.log("Slots", this.$slots);
   },
   computed: {
     tabs() {

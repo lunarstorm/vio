@@ -1,9 +1,9 @@
 <template>
-  <div class="card">
-    <div class="table-responsive">
-      <table class="table" v-bind="$attrs">
-        <template v-if="page.data && page.data.length > 0">
-          <slot name="head" :page="page"></slot>
+  <div class="table-responsive">
+    <table class="table" v-bind="$attrs">
+      <template v-if="page.data && page.data.length > 0">
+        <slot name="head" :page="page"></slot>
+        <slot name="body" :page="page">
           <tbody>
             <template v-for="(item, index) in page.data" :key="item.id">
               <slot
@@ -14,26 +14,22 @@
               ></slot>
             </template>
           </tbody>
-        </template>
-        <tbody v-else>
-          <tr>
-            <td class="p-4 text-center text-muted">No Items</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div v-if="page.next_page_url" class="card-footer">
-      <div class="card-footer-content">
-        <div class="d-flex align-items-center text-center">
-          <div class="mx-auto align-middle">
-            <button
-              @click.prevent="loadMore"
-              type="button"
-              class="btn btn-light"
-            >
-              Load More
-            </button>
-          </div>
+        </slot>
+      </template>
+      <tbody v-else>
+        <tr>
+          <td class="p-4 text-center text-muted">No Items</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div v-if="page.next_page_url" class="card-footer">
+    <div class="card-footer-content">
+      <div class="d-flex align-items-center text-center">
+        <div class="mx-auto align-middle">
+          <button @click.prevent="loadMore" type="button" class="btn btn-light">
+            Load More
+          </button>
         </div>
       </div>
     </div>

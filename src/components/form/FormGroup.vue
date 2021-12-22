@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { inject } from "vue";
 import FormField from "vio/components/form/FormField";
 
 export default {
@@ -17,7 +18,11 @@ export default {
     error: [Array, String, Number],
   },
   setup(props) {
-    return {};
+    const form = inject("form", null);
+
+    return {
+      form,
+    };
   },
   computed: {},
   methods: {},

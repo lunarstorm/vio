@@ -16,13 +16,13 @@
               <i v-else class="bi-square text-muted"></i>
             </a>
           </th>
-          <th></th>
+          <th width="10"></th>
           <slot
             name="head"
             :items="modelValue"
             :selected-items="selected"
           ></slot>
-          <th width="30"></th>
+          <th v-if="rowControls" width="30"></th>
         </tr>
       </thead>
       <vue-draggable
@@ -55,7 +55,7 @@
               :index="index"
               :items="modelValue"
             ></slot>
-            <td width="10" class="text-right px-1">
+            <td v-if="rowControls" width="10" class="text-right px-1">
               <div class="btn-group">
                 <button
                   type="button"
@@ -68,25 +68,32 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                   <slot
-                    name="row-dropdown"
+                    name="row-menu"
                     :item="item"
                     :index="index"
                     :items="modelValue"
-                  ></slot>
-                  <a
-                    @click.prevent="copyItem(item)"
-                    href="#"
-                    class="dropdown-item"
                   >
-                    <i class="fa fa-copy"></i> Copy
-                  </a>
-                  <a
-                    @click.prevent="removeItemAtIndex(index, item)"
-                    href="#"
-                    class="dropdown-item"
-                  >
-                    <i class="fa fa-times text-danger"></i> Remove
-                  </a>
+                    <slot
+                      name="row-dropdown"
+                      :item="item"
+                      :index="index"
+                      :items="modelValue"
+                    ></slot>
+                    <a
+                      @click.prevent="copyItem(item)"
+                      href="#"
+                      class="dropdown-item"
+                    >
+                      <i class="fa fa-copy"></i> Copy
+                    </a>
+                    <a
+                      @click.prevent="removeItemAtIndex(index, item)"
+                      href="#"
+                      class="dropdown-item"
+                    >
+                      <i class="fa fa-times text-danger"></i> Remove
+                    </a>
+                  </slot>
                 </div>
               </div>
             </td>
@@ -100,16 +107,20 @@
           <td></td>
         </tr>
         <tr>
-          <td colspan="100" class="text-center">
-            <a
-              @click.prevent="addItem"
-              href="#"
-              class="btn btn-sm btn-secondary"
-            >
-              <slot name="add-button">
-                <i class="fa fa-plus-circle"></i> Add
-              </slot>
-            </a>
+          <td colspan="100">
+            <slot name="bottom-bar">
+              <div class="text-center">
+                <a
+                  @click.prevent="addItem"
+                  href="#"
+                  class="btn btn-sm btn-secondary"
+                >
+                  <slot name="add-button">
+                    <i class="fa fa-plus-circle"></i> Add
+                  </slot>
+                </a>
+              </div>
+            </slot>
           </td>
         </tr>
       </tfoot>
@@ -151,6 +162,10 @@ export default {
     selectable: {
       type: Boolean,
       default: false,
+    },
+    rowControls: {
+      type: Boolean,
+      default: true,
     },
   },
   components: {

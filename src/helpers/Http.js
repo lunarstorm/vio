@@ -20,7 +20,7 @@ class Http {
         };
     }
 
-    setId(id){
+    setId(id) {
         this.id = id;
     }
 
@@ -207,7 +207,7 @@ class Http {
         return this;
     }
 
-    ask(message, level) {
+    ask(message, level, dialogOptions) {
         this._axios.interceptors.request.use(
             config => {
                 const promise = new Promise((resolve, reject) => {
@@ -220,7 +220,8 @@ class Http {
                         },
                         onClose: () => {
                             reject('Declined');
-                        }
+                        },
+                        ...dialogOptions
                     });
 
                 });
@@ -230,6 +231,10 @@ class Http {
         );
 
         return this;
+    }
+
+    dialog(message, options) {
+        return this.ask(message, 'info', options);
     }
 }
 

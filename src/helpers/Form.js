@@ -147,7 +147,7 @@ class Form {
         };
 
         url = url || this.url;
-        let method = "post";
+        let method = options.method ?? "post";
         let payload = options.data ?? this.state.data;
         let errors = 0;
 

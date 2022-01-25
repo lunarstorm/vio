@@ -96,17 +96,38 @@ class SearchFilter {
         });
     }
 
-    toQueryString() {
-        let obj = this.data.values;
-        let str = [];
+    serialize = function (obj, prefix) {
+        var str = [],
+            p;
 
-        for (var p in obj) {
+        for (p in obj) {
             if (obj.hasOwnProperty(p)) {
-                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                var k = prefix ? prefix + "[" + p + "]" : p,
+                    v = obj[p];
+
+                let encoded = '';
+
+                if (v !== null && typeof v === "object") {
+                    encoded = serialize(v, k);
+                }
+                else {
+                    if (v === null) {
+                        encoded = '';
+                    }
+                    else {
+                        encoded = encodeURIComponent(v);
+                    }
+                }
+
+                str.push(encodeURIComponent(k) + "=" + encoded);
             }
         }
 
         return str.join("&");
+    }
+
+    toQueryString() {
+        return this.serialize(this.data.values);
     }
 }
 

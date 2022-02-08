@@ -96,7 +96,7 @@ class SearchFilter {
         });
     }
 
-    serialize = function (obj, prefix) {
+    serialize(obj, prefix) {
         var str = [],
             p;
 

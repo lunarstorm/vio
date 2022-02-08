@@ -6,11 +6,11 @@ class Form {
     constructor(data, http) {
         let root = this;
 
-        if(http && http.id){
+        if (http && http.id) {
             this.id = http.id;
         }
-        else{
-            this.id =  _.uniqueId('form');
+        else {
+            this.id = _.uniqueId('form');
         }
 
         this._http = http ?? Http.make(this.id);
@@ -113,7 +113,7 @@ class Form {
         );
     }
 
-    reset(){
+    reset() {
         this.clearErrors();
     }
 
@@ -143,6 +143,7 @@ class Form {
             onSuccess: () => { },
             messages: {},
             data: null,
+            appendId: true,
             ...options
         };
 
@@ -153,7 +154,9 @@ class Form {
 
         if (payload.id) {
             method = "put";
-            url += `/${payload.id}`;
+            if (options.appendId) {
+                url += `/${payload.id}`;
+            }
         }
 
         return this._http

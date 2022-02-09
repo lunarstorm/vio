@@ -19,37 +19,14 @@ export default {
 	components: {},
 	props: {
 		modelValue: [String, Object],
-		files: Array,
 		onFileChange: Function,
-		options: {
-			type: Object,
-			default: {}
-		}
 	},
 	setup(props) {
 		let propRefs = toRefs(props);
-		let FP = null;
-
 		return {
 			options: propRefs.options,
-			FP
 		};
 	},
-	computed: {
-	},
-	methods: {},
-	created() {
-	},
-	mounted() {
-		let $field = this.$refs.field;
-
-		this.FP = $field;
-	},
-	unmounted() {
-		if (this.FP) {
-			this.FP.destroy();
-		}
-	}
 }
 </script>
 

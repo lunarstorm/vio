@@ -117,6 +117,10 @@ class Form {
         this.clearErrors();
     }
 
+    error(path) {
+        return _.get(this.state.errors, path);
+    }
+
     countErrors() {
         let n = 0;
 

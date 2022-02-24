@@ -1,5 +1,5 @@
 <template>
-  <span><slot></slot>{{ valueFormatted }}</span>
+  <span><slot></slot><span v-if="isNumeric(value)">{{ valueFormatted }}</span></span>
 </template>
 
 <script>
@@ -22,7 +22,11 @@ export default {
       format: toRefs(props).format,
     };
   },
-  methods: {},
+  methods: {
+    isNumeric(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    },
+  },
   computed: {
     numeralInstance() {
       return numeral(this.value);

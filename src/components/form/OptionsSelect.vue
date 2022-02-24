@@ -25,15 +25,15 @@ export default {
       type: String,
       default: "",
     },
-    placeholder: {
+    caption: {
       type: Boolean,
       default: true,
     },
-    caption: {
+    placeholder: {
       type: String,
       default: "Select an option",
     },
-    modelValue: String,
+    modelValue: [String, Number],
     options: {
       type: [Array, Object],
       default: [],

@@ -145,6 +145,7 @@ class Form {
     submit(url, options) {
         options = {
             onSuccess: () => { },
+            onError: () => { },
             messages: {},
             data: null,
             appendId: true,
@@ -178,6 +179,7 @@ class Form {
             .catch((error) => {
                 if (error.response) {
                     this.fillErrors(error.response.data.errors);
+                    options.onError(error.response);
                 }
 
                 errors++;

@@ -17,6 +17,7 @@ export default {
     url: String,
     params: Object,
     onSuccess: Function,
+    onRemove: Function,
   },
   emits: ["success", "finished"],
   setup(props) {
@@ -45,6 +46,12 @@ export default {
     drop.on("totaluploadprogress", (totalUploadProgress) => {
       if (totalUploadProgress == 100) {
         this.$emit("finished");
+      }
+    });
+
+    drop.on("removedfile", (file) => {
+      if( typeof this.onRemove === "function") {
+        this.onRemove(file);
       }
     });
 

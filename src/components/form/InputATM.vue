@@ -1,6 +1,6 @@
 <template>
   <input
-    :value="modelValue"
+    :value="valueFormatted"
     @input.prevent="handleInput"
     type="text"
     class="form-control text-right"
@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import numeral from "numeral";
+
 export default {
   name: "InputATM",
   components: {},
@@ -28,14 +30,25 @@ export default {
     ref() {
       return this.$refs.field;
     },
+    valueFormatted() {
+      return numeral(this.modelValue).format("0.00");
+    },
   },
   methods: {
     handleInput(event) {
+      //this.$emit("update:modelValue", event.target.value);
       this.$emit("update:modelValue", this.normalize(event.target.value));
     },
-    normalize(number) {
-      number = number.replace(/\D/g, "");
-      let formatted = Math.round(parseFloat(number) * 100) / 100 / 100;
+    normalize(raw) {
+      // Strip any non digits
+      let str = String(raw).replace(/\D/g, "");
+
+      // Normalize
+      str = Math.round(parseFloat(str) * 100) / 100 / 100;
+
+      // Format
+      let formatted = numeral(str).format("0.00");
+
       return isNaN(formatted) ? 0 : formatted;
     },
   },

@@ -5,7 +5,7 @@
     <div class="page-inner p-2" :style="pageInnerStyle">
       <button
         v-if="hasSidebar()"
-        class="btn btn-success btn-floated d-xl-none"
+        class="btn btn-primary btn-floated d-xl-none"
         type="button"
         data-toggle="sidebar"
       >

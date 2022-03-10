@@ -42,6 +42,10 @@ export default {
   },
   methods: {
     decimalToPercent(value) {
+      if (!value) {
+        return null;
+      }
+
       return value * 100;
     },
     percentToDecimal(value) {

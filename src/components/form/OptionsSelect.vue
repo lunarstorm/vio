@@ -5,7 +5,7 @@
     :name="name"
     class="form-control"
   >
-    <option v-if="placeholder" :value="null" disabled>{{ caption }}</option>
+    <option v-if="placeholder" :value="null" disabled>{{ placeholder }}</option>
     <option v-for="opt in optionsParsed" :value="opt.value" :key="opt.value">
       {{ opt.text }}
     </option>

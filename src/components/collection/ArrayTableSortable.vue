@@ -3,6 +3,7 @@
     <table class="table" v-bind="$attrs">
       <thead v-if="!!$slots.head" :class="headClass">
         <tr>
+          <th width="10"></th>
           <th v-if="selectable" class="text-center px-0 align-middle">
             <a
               v-if="modelValue.length > 0"
@@ -16,7 +17,6 @@
               <i v-else class="bi-square text-muted"></i>
             </a>
           </th>
-          <th width="10"></th>
           <slot
             name="head"
             :items="modelValue"
@@ -34,6 +34,12 @@
       >
         <template #item="{ element: item, index }">
           <tr>
+            <td class="handle text-center px-0">
+              <i
+                class="bi-grip-vertical text-muted"
+                style="font-size: 1.5rem"
+              ></i>
+            </td>
             <td v-if="selectable" class="text-center align-middle">
               <a @click.prevent="toggleSelect(item)" href="#">
                 <i
@@ -42,12 +48,6 @@
                 ></i>
                 <i v-else class="bi-square text-muted"></i>
               </a>
-            </td>
-            <td class="handle text-center px-0">
-              <i
-                class="bi-grip-vertical text-muted"
-                style="font-size: 1.5rem"
-              ></i>
             </td>
             <slot
               name="row"
@@ -132,7 +132,7 @@
 import _ from "lodash";
 import VueDraggable from "vuedraggable";
 import { v4 as uuidv4 } from "uuid";
-import { ref } from "@vue/reactivity";
+import { ref, watch, watchEffect } from "vue";
 import BatchSelector from "vio/helpers/BatchSelector";
 
 export default {
@@ -171,7 +171,7 @@ export default {
   components: {
     VueDraggable,
   },
-  emits: ["add-item", "copy-item", "remove-items"],
+  emits: ["add-item", "copy-item", "remove-items", "selection-change"],
   setup(props) {
     const batch = new BatchSelector();
     const selected = ref([]);
@@ -183,6 +183,19 @@ export default {
   },
   mounted() {
     this.addKeys();
+
+    watch(
+      () => this.selected.length,
+      (length) => {
+        this.$emit("selection-change", this.selected);
+      }
+    );
+
+    watchEffect(() => {
+      _.remove(this.selected, (item) => {
+        return this.modelValue.indexOf(item) == -1;
+      });
+    });
   },
   computed: {
     selectedItems() {

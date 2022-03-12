@@ -9,7 +9,9 @@
       <slot>Actions</slot>
     </button>
     <div :class="cssDropdownMenu" class="dropdown-menu" role="menu">
-      <dropdown-items :items="items"></dropdown-items>
+      <slot name="items">
+        <dropdown-items :items="items"></dropdown-items>
+      </slot>
     </div>
   </div>
 </template>

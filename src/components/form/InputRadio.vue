@@ -5,6 +5,7 @@
       :value="value"
       @input="$emit('update:modelValue', $event.target.value)"
       :name="name"
+      :disabled="!!disabled"
       type="radio"
       class="mr-1"
     />
@@ -17,6 +18,7 @@
         :value="value"
         @input="$emit('update:modelValue', $event.target.value)"
         :name="name"
+        :disabled="!!disabled"
         type="radio"
         class="mr-1"
       />
@@ -37,6 +39,10 @@ export default {
     modelValue: [String, Number, Boolean],
     value: [String, Number, Boolean],
     inline: Boolean,
+    disabled:{
+      type: Boolean,
+      default: false
+    },
   },
   emits: ["update:modelValue"],
   setup(props) {

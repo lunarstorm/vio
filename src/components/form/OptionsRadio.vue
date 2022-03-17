@@ -8,6 +8,7 @@
 	  :inline="inline"
 	  class="mr-3"
 	  v-bind="$attrs"
+	  :disabled="disabled"
 	>
 		{{ opt.text }}
 	</input-radio>
@@ -31,6 +32,7 @@ export default {
 			type: [Array, Object],
 			default: []
 		},
+		disabled: Boolean,
 		inline: Boolean
 	},
 	emits: ['update:modelValue'],

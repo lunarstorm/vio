@@ -3,18 +3,18 @@
     <div class="card-header">
       <div class="d-flex align-items-center">
         <div class="text-muted mr-auto">
-          <template v-if="page.total > 0">
+          <template v-if="meta.total > 0">
             Showing
-            <text-numeric :value="page.from"></text-numeric>
+            <text-numeric :value="meta.from"></text-numeric>
             to
-            <text-numeric :value="page.to"></text-numeric>
+            <text-numeric :value="meta.to"></text-numeric>
             of
-            <text-numeric :value="page.total"></text-numeric>
+            <text-numeric :value="meta.total"></text-numeric>
           </template>
           <template v-else> No items </template>
         </div>
         <div>
-          <paginator v-if="page.total > 0" :page="page"></paginator>
+          <paginator v-if="meta.total > 0" :page="page"></paginator>
         </div>
       </div>
     </div>
@@ -47,12 +47,12 @@
         <div class="d-flex align-items-center">
           <div class="align-middle text-muted">
             Page
-            <text-numeric :value="page.current_page"></text-numeric>
+            <text-numeric :value="meta.current_page"></text-numeric>
             of
-            <text-numeric :value="page.last_page"></text-numeric>
+            <text-numeric :value="meta.last_page"></text-numeric>
           </div>
           <div class="ml-auto">
-            <paginator v-if="page.total > 0" :page="page"></paginator>
+            <paginator v-if="meta.total > 0" :page="links"></paginator>
           </div>
         </div>
       </div>
@@ -73,6 +73,26 @@ export default {
   },
   props: {
     page: Object,
+    wrap: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    meta() {
+      if (this.wrap) {
+        return this.page.meta;
+      }
+
+      return this.page;
+    },
+    links() {
+      if (this.wrap) {
+        return this.page.links;
+      }
+
+      return this.page;
+    },
   },
 };
 </script>

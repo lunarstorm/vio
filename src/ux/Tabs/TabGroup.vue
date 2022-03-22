@@ -58,13 +58,16 @@ export default {
     };
   },
   mounted() {
-    //console.log("Slots", this.$slots);
+    if (!this.activeTab) {
+      this.select(this.firstSlug);
+    }
   },
   computed: {
     tabs() {
       let tabs = [];
 
       _.forEach(this.$slots, (slot, key) => {
+        console.log(slot.$props);
         tabs.push({
           label: _.startCase(key),
           slug: _.kebabCase(key),
@@ -73,6 +76,11 @@ export default {
       });
 
       return tabs;
+    },
+    firstSlug() {
+      let first = _.first(this.tabs);
+
+      return first ? first.slug : null;
     },
   },
   methods: {

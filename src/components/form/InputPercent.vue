@@ -1,19 +1,15 @@
 <template>
-  <div>
-    <input-group>
-      <input
-        :value="decimalToPercent(modelValue)"
-        @input="
-          $emit('update:modelValue', percentToDecimal($event.target.value))
-        "
-        type="text"
-        class="form-control"
-        ref="field"
-        v-bind="$attrs"
-      />
-      <template #after> % </template>
-    </input-group>
-  </div>
+  <input-group>
+    <input
+      :value="decimalToPercent(modelValue)"
+      @input="$emit('update:modelValue', percentToDecimal($event.target.value))"
+      type="text"
+      class="form-control"
+      ref="field"
+      v-bind="$attrs"
+    />
+    <template #after> % </template>
+  </input-group>
 </template>
 
 <script>

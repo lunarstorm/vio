@@ -4,6 +4,7 @@
 
 <script>
 import { ref } from "vue";
+import axios from "axios";
 
 export default {
   props: {
@@ -26,7 +27,7 @@ export default {
       res,
       loading,
     };
-  }
+  },
 };
 </script>
 

@@ -81,14 +81,14 @@ export default {
   computed: {
     meta() {
       if (this.wrap) {
-        return this.page.meta;
+        return this.page.meta || {};
       }
 
       return this.page;
     },
     links() {
       if (this.wrap) {
-        return this.page.links;
+        return this.page.links || {};
       }
 
       return this.page;

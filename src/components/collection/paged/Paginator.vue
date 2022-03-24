@@ -3,13 +3,9 @@
     <ul class="pagination mb-0">
       <li
         class="paginate_button page-item previous"
-        :class="{ disabled: !page.prev_page_url }"
+        :class="{ disabled: !prev_page_url }"
       >
-        <a
-          v-if="page.prev_page_url"
-          :href="page.prev_page_url"
-          class="page-link"
-        >
+        <a v-if="prev_page_url" :href="prev_page_url" class="page-link">
           <i class="fa fa-lg fa-angle-left mx-1"></i>
           Prev
         </a>
@@ -20,13 +16,9 @@
       </li>
       <li
         class="paginate_button page-item next"
-        :class="{ disabled: !page.next_page_url }"
+        :class="{ disabled: !next_page_url }"
       >
-        <a
-          v-if="page.next_page_url"
-          :href="page.next_page_url"
-          class="page-link"
-        >
+        <a v-if="next_page_url" :href="next_page_url" class="page-link">
           Next
           <i class="fa fa-lg fa-angle-right mx-1"></i>
         </a>
@@ -45,6 +37,29 @@ export default {
   components: {},
   props: {
     page: Object,
+  },
+  computed: {
+    meta() {
+      if (!!this.page.meta) {
+        return this.page.meta;
+      }
+
+      return this.page;
+    },
+    prev_page_url() {
+      if (this.page.links) {
+        return this.page.links.prev;
+      }
+
+      return this.page.prev_page_url;
+    },
+    next_page_url() {
+      if (this.page.links) {
+        return this.page.links.next;
+      }
+
+      return this.page.next_page_url;
+    },
   },
 };
 </script>

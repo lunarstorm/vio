@@ -52,7 +52,7 @@
             <text-numeric :value="meta.last_page"></text-numeric>
           </div>
           <div class="ml-auto">
-            <paginator v-if="meta.total > 0" :page="links"></paginator>
+            <paginator v-if="meta.total > 0" :page="page"></paginator>
           </div>
         </div>
       </div>

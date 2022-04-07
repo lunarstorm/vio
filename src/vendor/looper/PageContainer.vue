@@ -1,6 +1,6 @@
 <template>
   <div ref="page" class="page" :class="pageClasses()">
-    <div v-if="hasSidebar()" class="sidebar-backdrop"></div>
+    <div v-if="hasSidebar()" class="sidebar-backdrop" />
 
     <div class="page-inner p-2" :style="pageInnerStyle">
       <button
@@ -10,16 +10,16 @@
         data-toggle="sidebar"
       >
         <slot name="sidebar-toggle">
-          <i class="fa fa-bars"></i>
+          <i class="fa fa-bars" />
         </slot>
       </button>
 
       <header v-if="!!$slots.titlebar" class="page-title-bar">
-        <slot name="titlebar"></slot>
+        <slot name="titlebar" />
       </header>
 
       <div class="page-section">
-        <slot></slot>
+        <slot />
       </div>
     </div>
 
@@ -34,7 +34,7 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item active">
               <a href="#" @click.prevent="toggleSidebar">
-                <i class="breadcrumb-icon fa fa-angle-left mr-2"></i>
+                <i class="breadcrumb-icon fa fa-angle-left mr-2" />
                 Back
               </a>
             </li>
@@ -42,7 +42,7 @@
         </nav>
       </header>
       <div :class="sidebarClasses()">
-        <slot name="sidebar"></slot>
+        <slot name="sidebar" />
       </div>
     </div>
   </div>
@@ -50,70 +50,78 @@
 
 <script>
 export default {
-  name: "PageContainer",
-  props: {
-    sidebarFluid: {
-      type: Boolean,
-      default: false,
+    name: 'PageContainer',
+    props: {
+        sidebarFluid: {
+            type: Boolean,
+            default: false,
+        },
+        sidebarHidden: {
+            type: Boolean,
+            default: false,
+        },
+        sidebarFill: Boolean,
+        sidebarFixed: Boolean,
+        sidebarWidth: [String],
     },
-    sidebarFill: Boolean,
-    sidebarFixed: Boolean,
-    sidebarWidth: [String],
-  },
-  mounted() {},
-  computed: {
-    pageInnerStyle() {
-      let style = {};
+    computed: {
+        pageInnerStyle() {
+            let style = {};
 
-      if (this.sidebarWidth) {
-        style["margin-right"] = this.sidebarWidth;
-      }
+            if (this.sidebarWidth) {
+                style['margin-right'] = this.sidebarWidth;
+            }
 
-      return style;
+            return style;
+        },
     },
-  },
-  methods: {
-    toggleSidebar() {
-      Looper.toggleSidebar();
+    mounted() {},
+    methods: {
+        toggleSidebar() {
+            Looper.toggleSidebar();
+        },
+        hasSidebar() {
+            return !!this.$slots.sidebar;
+        },
+        pageClasses() {
+            let items = [];
+
+            if (this.hasSidebar()) {
+                items.push('has-sidebar');
+
+                if (!this.sidebarHidden) {
+                    items.push('has-sidebar-expand-xl');
+                }
+            }
+
+            if (this.sidebarFluid) {
+                items.push('has-sidebar-fluid');
+            }
+
+            return items;
+        },
+        sidebarClasses() {
+            let items = [];
+
+            if (this.sidebarFill) {
+                items.push('sidebar-section-fill');
+            } else {
+                items.push('sidebar-section');
+            }
+
+            return items;
+        },
+        sidebarStyle() {
+            let style = {};
+
+            if (this.sidebarWidth) {
+                style['width'] = this.sidebarWidth;
+                style['max-width'] = this.sidebarWidth;
+            }
+
+            return style;
+        },
     },
-    hasSidebar() {
-      return !!this.$slots.sidebar;
-    },
-    pageClasses() {
-      let items = [];
-
-      if (this.hasSidebar()) {
-        items.push("has-sidebar has-sidebar-expand-xl");
-      }
-
-      if (this.sidebarFluid) {
-        items.push("has-sidebar-fluid");
-      }
-
-      return items;
-    },
-    sidebarClasses() {
-      let items = [];
-
-      if (this.sidebarFill) {
-        items.push("sidebar-section-fill");
-      } else {
-        items.push("sidebar-section");
-      }
-
-      return items;
-    },
-    sidebarStyle() {
-      let style = {};
-
-      if (this.sidebarWidth) {
-        style["width"] = this.sidebarWidth;
-        style["max-width"] = this.sidebarWidth;
-      }
-
-      return style;
-    },
-  },
 };
 </script>
 

@@ -1,11 +1,9 @@
 import { reactive, computed, ref, watchEffect, watch } from 'vue';
 import _ from 'lodash';
-import Http from "vio/helpers/Http";
+import Http from 'vio/helpers/Http';
 
 class Form {
     constructor(data, http) {
-        let root = this;
-
         if (http && http.id) {
             this.id = http.id;
         }
@@ -17,15 +15,15 @@ class Form {
 
         this.config = {
             method: 'post',
-            url: window.location.href
+            url: window.location.href,
         };
 
         this.state = reactive({
             data: {
-                ...data
+                ...data,
             },
             errors: {},
-            extraParams: {}
+            extraParams: {},
         });
 
         this.data = new Proxy(this.state, {
@@ -46,7 +44,7 @@ class Form {
             set(target, prop, value) {
                 target.data[prop] = value;
                 return true;
-            }
+            },
         });
 
         this.errors = new Proxy(this.state, {
@@ -67,7 +65,7 @@ class Form {
             set(target, prop, value) {
                 target.errors[prop] = value;
                 return true;
-            }
+            },
         });
 
         this.busy = ref(false);
@@ -75,16 +73,7 @@ class Form {
 
         watchEffect(() => {
             this.busy = this.isBusy();
-
-            let n = 0;
-
-            _.forEach(this.state.errors, item => {
-                if (!_.isNull(item)) {
-                    n++;
-                }
-            });
-
-            this.hasErrors = n > 0;
+            this.hasErrors = this.countErrors() > 0;
         });
     }
 
@@ -109,7 +98,7 @@ class Form {
     clearErrors() {
         Object.assign(
             this.state.errors,
-            _.mapValues(this.state.errors, () => null)
+            _.mapValues(this.state.errors, () => null),
         );
     }
 
@@ -128,7 +117,7 @@ class Form {
             if (!_.isNull(item)) {
                 n++;
             }
-        })
+        });
 
         return n;
     }
@@ -149,16 +138,16 @@ class Form {
             messages: {},
             data: null,
             appendId: true,
-            ...options
+            ...options,
         };
 
         url = url || this.url;
-        let method = options.method ?? "post";
+        let method = options.method ?? 'post';
         let payload = options.data ?? this.state.data;
         let errors = 0;
 
         if (payload.id) {
-            method = "put";
+            method = 'put';
             if (options.appendId) {
                 url += `/${payload.id}`;
             }
@@ -174,7 +163,7 @@ class Form {
                 },
                 params: {
                     ...this.state.extraParams,
-                }
+                },
             })
             .catch((error) => {
                 if (error.response) {
@@ -190,7 +179,7 @@ class Form {
 
                 return {
                     response: res,
-                    errors: errors
+                    errors: errors,
                 };
             });
     }

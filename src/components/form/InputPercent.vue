@@ -1,55 +1,73 @@
 <template>
   <input-group>
     <input
-      :value="decimalToPercent(modelValue)"
-      @input="$emit('update:modelValue', percentToDecimal($event.target.value))"
+      ref="field"
+      :value="valueIn(modelValue)"
       type="text"
       class="form-control"
-      ref="field"
       v-bind="$attrs"
-    />
-    <template #after> % </template>
+      @input="$emit('update:modelValue', valueOut($event.target.value))"
+    >
+    <template #after>
+      %
+    </template>
   </input-group>
 </template>
 
 <script>
-import InputGroup from "vio/components/form/InputGroup";
-export default {
-  name: "InputPercent",
-  inheritAttrs: false,
-  components: {
-    InputGroup,
-  },
-  props: {
-    modelValue: [String, Number],
-    label: [String],
-    error: [Array, String],
-  },
-  emits: ["update:modelValue"],
-  setup(props) {
-    return {
-      options: props.options,
-    };
-  },
-  computed: {
-    ref() {
-      return this.$refs.field;
-    },
-  },
-  methods: {
-    decimalToPercent(value) {
-      if (!value) {
-        return null;
-      }
+import InputGroup from 'vio/components/form/InputGroup';
 
-      return value * 100;
+export default {
+    name: 'InputPercent',
+    components: {
+        InputGroup,
     },
-    percentToDecimal(value) {
-      return value / 100;
+    inheritAttrs: false,
+    props: {
+        modelValue: [String, Number],
+        label: [String],
+        error: [Array, String],
+        asInteger: Boolean,
     },
-  },
-  mounted() {},
-  unmounted() {},
+    emits: ['update:modelValue'],
+    setup(props) {
+        return {
+            options: props.options,
+        };
+    },
+    computed: {
+        ref() {
+            return this.$refs.field;
+        },
+    },
+    mounted() {},
+    unmounted() {},
+    methods: {
+        valueIn(value){
+            if(this.asInteger){
+                return value;
+            }
+
+            return this.decimalToPercent(value);
+        },
+        valueOut(value){
+            if(this.asInteger){
+                return value;
+            }
+
+            return this.percentToDecimal(value);
+        },
+        decimalToPercent(value) {
+            if (!value) {
+                return null;
+            }
+
+            return value * 100;
+        },
+        percentToDecimal(value) {
+            return value / 100;
+        },
+    },
 };
 </script>
 

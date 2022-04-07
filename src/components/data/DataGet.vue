@@ -1,33 +1,41 @@
 <template>
-  <slot :response="res" :loading="loading"></slot>
+  <slot :response="res" :loading="loading" />
 </template>
 
 <script>
-import { ref } from "vue";
-import axios from "axios";
+import { ref } from 'vue';
+import axios from 'axios';
 
 export default {
-  props: {
-    url: String,
-  },
-  components: {},
-  setup(props) {
-    const res = ref("");
-    const loading = ref(true);
+    components: {},
+    props: {
+        url: String,
+        params: Object,
+        onLoaded: Function,
+    },
+    setup(props) {
+        const res = ref('');
+        const loading = ref(true);
 
-    axios
-      .get(props.url)
-      .then((response) => response.data)
-      .then((response) => {
-        res.value = response;
-        loading.value = false;
-      });
+        axios
+            .get(props.url, {
+                params: this.params,
+            })
+            .then((response) => response.data)
+            .then((response) => {
+                res.value = response;
+                loading.value = false;
 
-    return {
-      res,
-      loading,
-    };
-  },
+                if(this.onLoaded){
+                    this.onLoaded(response);
+                }
+            });
+
+        return {
+            res,
+            loading,
+        };
+    },
 };
 </script>
 

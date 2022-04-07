@@ -19,15 +19,15 @@ export default {
 
         axios
             .get(props.url, {
-                params: this.params,
+                params: props.params,
             })
             .then((response) => response.data)
             .then((response) => {
                 res.value = response;
                 loading.value = false;
 
-                if(this.onLoaded){
-                    this.onLoaded(response);
+                if(props.onLoaded){
+                    props.onLoaded(response);
                 }
             });
 

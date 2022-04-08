@@ -174,6 +174,7 @@ class Form {
                 errors++;
             }).then(res => {
                 if (errors === 0) {
+                    this.clearErrors();
                     options.onSuccess(res);
                 }
 

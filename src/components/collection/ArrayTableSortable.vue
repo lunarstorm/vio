@@ -3,31 +3,31 @@
     <table class="table" v-bind="$attrs">
       <thead v-if="!!$slots.head" :class="headClass">
         <tr>
-          <th width="10"></th>
+          <th width="10" />
           <th v-if="selectable" class="text-center px-0 align-middle">
             <a
               v-if="modelValue.length > 0"
-              @click.prevent="toggleSelectAll"
               href="#"
+              @click.prevent="toggleSelectAll"
             >
               <i
                 v-if="isAllSelected()"
                 class="bi-check-square-fill text-primary"
-              ></i>
-              <i v-else class="bi-square text-muted"></i>
+              />
+              <i v-else class="bi-square text-muted" />
             </a>
           </th>
           <slot
             name="head"
             :items="modelValue"
             :selected-items="selected"
-          ></slot>
-          <th v-if="rowControls" width="30"></th>
+          />
+          <th v-if="rowControls" width="30" />
         </tr>
       </thead>
       <vue-draggable
         :list="modelValue"
-        :itemKey="itemKey"
+        :item-key="itemKey"
         :group="group"
         tag="tbody"
         handle=".handle"
@@ -38,15 +38,15 @@
               <i
                 class="bi-grip-vertical text-muted"
                 style="font-size: 1.5rem"
-              ></i>
+              />
             </td>
             <td v-if="selectable" class="text-center align-middle">
-              <a @click.prevent="toggleSelect(item)" href="#">
+              <a href="#" @click.prevent="toggleSelect(item)">
                 <i
                   v-if="isSelected(item)"
                   class="bi-check-square-fill text-primary"
-                ></i>
-                <i v-else class="bi-square text-muted"></i>
+                />
+                <i v-else class="bi-square text-muted" />
               </a>
             </td>
             <slot
@@ -54,7 +54,7 @@
               :item="item"
               :index="index"
               :items="modelValue"
-            ></slot>
+            />
             <td v-if="rowControls" width="10" class="text-right px-1">
               <div class="btn-group">
                 <button
@@ -64,7 +64,7 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <i class="bi bi-three-dots-vertical"></i>
+                  <i class="bi bi-three-dots-vertical" />
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                   <slot
@@ -78,20 +78,20 @@
                       :item="item"
                       :index="index"
                       :items="modelValue"
-                    ></slot>
+                    />
                     <a
-                      @click.prevent="copyItem(item)"
                       href="#"
                       class="dropdown-item"
+                      @click.prevent="copyItem(item)"
                     >
-                      <i class="fa fa-copy"></i> Copy
+                      <i class="fa fa-copy" /> Copy
                     </a>
                     <a
-                      @click.prevent="removeItemAtIndex(index, item)"
                       href="#"
                       class="dropdown-item"
+                      @click.prevent="removeItemAtIndex(index, item)"
                     >
-                      <i class="fa fa-times text-danger"></i> Remove
+                      <i class="fa fa-times text-danger" /> Remove
                     </a>
                   </slot>
                 </div>
@@ -102,21 +102,21 @@
       </vue-draggable>
       <tfoot>
         <tr v-if="!!$slots.foot">
-          <td></td>
-          <slot name="foot" :items="modelValue"></slot>
-          <td></td>
+          <td />
+          <slot name="foot" :items="modelValue" />
+          <td />
         </tr>
         <tr>
           <td colspan="100">
             <slot name="bottom-bar">
               <div class="text-center">
                 <a
-                  @click.prevent="addItem"
                   href="#"
                   class="btn btn-sm btn-secondary"
+                  @click.prevent="addItem"
                 >
                   <slot name="add-button">
-                    <i class="fa fa-plus-circle"></i> Add
+                    <i class="fa fa-plus-circle" /> Add
                   </slot>
                 </a>
               </div>
@@ -129,173 +129,173 @@
 </template>
 
 <script>
-import _ from "lodash";
-import VueDraggable from "vuedraggable";
-import { v4 as uuidv4 } from "uuid";
-import { ref, watch, watchEffect } from "vue";
-import BatchSelector from "vio/helpers/BatchSelector";
+import _ from 'lodash';
+import VueDraggable from 'vuedraggable';
+import { v4 as uuidv4 } from 'uuid';
+import { ref, watch, watchEffect } from 'vue';
+import BatchSelector from 'vio/helpers/BatchSelector';
 
 export default {
-  name: "ArrayTableSortable",
-  inheritAttrs: false,
-  props: {
-    modelValue: {
-      type: Array,
-      default: [],
+    name: 'ArrayTableSortable',
+    components: {
+        VueDraggable,
     },
-    itemDef: {
-      type: Object,
-      default: {},
-    },
-    itemKey: {
-      type: String,
-      default: "_uuid",
-    },
-    group: {
-      type: String,
-      default: null,
-    },
-    headClass: {
-      type: String,
-      default: "",
-    },
-    selectable: {
-      type: Boolean,
-      default: false,
-    },
-    rowControls: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  components: {
-    VueDraggable,
-  },
-  emits: ["add-item", "copy-item", "remove-items", "selection-change"],
-  setup(props) {
-    const batch = new BatchSelector();
-    const selected = ref([]);
-
-    return {
-      batch,
-      selected,
-    };
-  },
-  mounted() {
-    this.addKeys();
-
-    watch(
-      () => this.selected.length,
-      (length) => {
-        this.$emit("selection-change", this.selected);
-      }
-    );
-
-    watchEffect(() => {
-      _.remove(this.selected, (item) => {
-        return this.modelValue.indexOf(item) == -1;
-      });
-    });
-  },
-  computed: {
-    selectedItems() {
-      return this.selected;
-    },
-  },
-  methods: {
-    addKeys() {
-      _.forEach(this.modelValue, (item, index) => {
-        if (!item._sortable_key && !item._uuid) {
-          item._uuid = uuidv4();
-        }
-      });
-    },
-    addItem() {
-      let itemToAdd = Object.assign(
-        {
-          _uuid: uuidv4(),
+    inheritAttrs: false,
+    props: {
+        modelValue: {
+            type: Array,
+            default: [],
         },
-        this.itemDef
-      );
-      this.modelValue.push(itemToAdd);
-      this.$emit("add-item", itemToAdd);
+        itemDef: {
+            type: Object,
+            default: {},
+        },
+        itemKey: {
+            type: String,
+            default: '_uuid',
+        },
+        group: {
+            type: String,
+            default: null,
+        },
+        headClass: {
+            type: String,
+            default: '',
+        },
+        selectable: {
+            type: Boolean,
+            default: false,
+        },
+        rowControls: {
+            type: Boolean,
+            default: true,
+        },
     },
-    copyItem(item) {
-      let copy = Object.assign({}, item, {
-        _uuid: uuidv4(),
-      });
-      this.modelValue.push(copy);
-      this.$emit("copy-item", copy);
-    },
-    removeItemAtIndex(index, item) {
-      let removed = this.modelValue.splice(index, 1);
-      this.unselectItem(item);
-      this.$emit("remove-items", removed);
-    },
-    removeItem(itemToRemove) {
-      _.remove(this.modelValue, (item) => {
-        return itemToRemove._uuid == item._uuid;
-      });
+    emits: ['add-item', 'copy-item', 'remove-items', 'selection-change'],
+    setup(props) {
+        const batch = new BatchSelector();
+        const selected = ref([]);
 
-      this.unselectItem(itemToRemove);
+        return {
+            batch,
+            selected,
+        };
     },
-    removeItems(items) {
-      let uuids = _.map(items, (item) => item._uuid);
-      _.remove(this.modelValue, (item) => {
-        let match = _.includes(uuids, item._uuid);
-        if (match) {
-          this.unselectItem(item);
-        }
-        return match;
-      });
+    computed: {
+        selectedItems() {
+            return this.selected;
+        },
     },
-    selectItem(item) {
-      if (this.isSelected(item)) {
-        return;
-      }
-      this.selected.push(item);
-    },
-    unselectItem(item) {
-      _.remove(this.selected, (selectedItem) => {
-        return item._uuid == selectedItem._uuid;
-      });
-    },
-    isSelected(item) {
-      let index = _.findIndex(this.selected, (selectedItem) => {
-        return item._uuid == selectedItem._uuid;
-      });
+    mounted() {
+        this.addKeys();
 
-      return index > -1;
-    },
-    isAllSelected() {
-      let N = this.modelValue.length;
-      return N > 0 && this.selected.length >= N;
-    },
-    toggleSelectAll() {
-      if (this.isAllSelected()) {
-        return this.unselectAll();
-      }
+        watch(
+            () => this.selected.length,
+            (length) => {
+                this.$emit('selection-change', this.selected);
+            },
+        );
 
-      return this.selectAll();
+        watchEffect(() => {
+            _.remove(this.selected, (item) => {
+                return this.modelValue.indexOf(item) == -1;
+            });
+        });
     },
-    toggleSelect(item) {
-      if (this.isSelected(item)) {
-        this.unselectItem(item);
-      } else {
-        this.selectItem(item);
-      }
+    methods: {
+        addKeys() {
+            _.forEach(this.modelValue, (item, index) => {
+                if (!item._sortable_key && !item._uuid) {
+                    item._uuid = uuidv4();
+                }
+            });
+        },
+        addItem() {
+            let itemToAdd = Object.assign(
+                {
+                    _uuid: uuidv4(),
+                },
+                this.itemDef,
+            );
+            this.modelValue.push(itemToAdd);
+            this.$emit('add-item', itemToAdd);
+        },
+        copyItem(item) {
+            let copy = Object.assign({}, item, {
+                _uuid: uuidv4(),
+            });
+            this.modelValue.push(copy);
+            this.$emit('copy-item', copy);
+        },
+        removeItemAtIndex(index, item) {
+            let removed = this.modelValue.splice(index, 1);
+            this.unselectItem(item);
+            this.$emit('remove-items', removed);
+        },
+        removeItem(itemToRemove) {
+            _.remove(this.modelValue, (item) => {
+                return itemToRemove._uuid == item._uuid;
+            });
+
+            this.unselectItem(itemToRemove);
+        },
+        removeItems(items) {
+            let uuids = _.map(items, (item) => item._uuid);
+            _.remove(this.modelValue, (item) => {
+                let match = _.includes(uuids, item._uuid);
+                if (match) {
+                    this.unselectItem(item);
+                }
+                return match;
+            });
+        },
+        selectItem(item) {
+            if (this.isSelected(item)) {
+                return;
+            }
+            this.selected.push(item);
+        },
+        unselectItem(item) {
+            _.remove(this.selected, (selectedItem) => {
+                return item._uuid == selectedItem._uuid;
+            });
+        },
+        isSelected(item) {
+            let index = _.findIndex(this.selected, (selectedItem) => {
+                return item._uuid == selectedItem._uuid;
+            });
+
+            return index > -1;
+        },
+        isAllSelected() {
+            let N = this.modelValue.length;
+            return N > 0 && this.selected.length >= N;
+        },
+        toggleSelectAll() {
+            if (this.isAllSelected()) {
+                return this.unselectAll();
+            }
+
+            return this.selectAll();
+        },
+        toggleSelect(item) {
+            if (this.isSelected(item)) {
+                this.unselectItem(item);
+            } else {
+                this.selectItem(item);
+            }
+        },
+        unselectAll() {
+            this.selected = [];
+        },
+        selectAll() {
+            _.forEach(this.modelValue, (item) => {
+                if (!this.isSelected(item)) {
+                    this.selectItem(item);
+                }
+            });
+        },
     },
-    unselectAll() {
-      this.selected = [];
-    },
-    selectAll() {
-      _.forEach(this.modelValue, (item) => {
-        if (!this.isSelected(item)) {
-          this.selectItem(item);
-        }
-      });
-    },
-  },
 };
 </script>
 

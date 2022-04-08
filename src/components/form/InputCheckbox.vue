@@ -7,8 +7,8 @@
       type="checkbox"
       class="mr-1"
       v-bind="$attrs"
-    />
-    <slot></slot>
+    >
+    <slot />
   </label>
   <div v-else class="checkbox">
     <label>
@@ -19,50 +19,50 @@
         type="checkbox"
         class="mr-1"
         v-bind="$attrs"
-      />
-      <slot></slot>
+      >
+      <slot />
     </label>
   </div>
 </template>
 
 <script>
-import { toRefs } from "vue";
+import { toRefs } from 'vue';
 
 export default {
-  name: "InputCheckbox",
-  inheritAttrs: false,
-  components: {},
-  props: {
-    name: String,
-    modelValue: [String, Number, Boolean, Array],
-    value: {
-      type: [String, Number, Boolean],
-      default: true,
+    name: 'InputCheckbox',
+    components: {},
+    inheritAttrs: false,
+    props: {
+        name: String,
+        modelValue: [String, Number, Boolean, Array],
+        value: {
+            type: [String, Number, Boolean],
+            default: true,
+        },
+        inline: Boolean,
     },
-    inline: Boolean,
-  },
-  emits: ["update:modelValue"],
-  setup(props) {
-    let propRefs = toRefs(props);
+    emits: ['update:modelValue'],
+    setup(props) {
+        let propRefs = toRefs(props);
 
-    return {
-      value: propRefs.value,
-      inline: propRefs.inline,
-    };
-  },
-  computed: {
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
+        return {
+            value: propRefs.value,
+            inline: propRefs.inline,
+        };
     },
-  },
-  methods: {},
-  mounted() {},
-  unmounted() {},
+    computed: {
+        model: {
+            get() {
+                return this.modelValue;
+            },
+            set(value) {
+                this.$emit('update:modelValue', value);
+            },
+        },
+    },
+    mounted() {},
+    unmounted() {},
+    methods: {},
 };
 </script>
 

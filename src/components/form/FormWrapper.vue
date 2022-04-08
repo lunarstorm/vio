@@ -1,30 +1,30 @@
 <template>
   <div>
-    <slot name="head"></slot>
-    <slot></slot>
+    <slot name="head" />
+    <slot />
   </div>
 </template>
 
 <script>
-import { provide } from "vue";
-import Form from "vio/helpers/Form";
+import { provide } from 'vue';
+import Form from 'vio/helpers/Form';
 
 export default {
-  name: "FormWrapper",
-  inheritAttrs: true,
-  components: {},
-  props: {
-    form: [Form],
-  },
-  setup(props) {
-    provide("form", props.form);
+    name: 'FormWrapper',
+    components: {},
+    inheritAttrs: true,
+    props: {
+        form: [Form],
+    },
+    setup(props) {
+        provide('form', props.form);
 
-    return {};
-  },
-  computed: {},
-  methods: {},
-  mounted() {},
-  unmounted() {},
+        return {};
+    },
+    computed: {},
+    mounted() {},
+    unmounted() {},
+    methods: {},
 };
 </script>
 

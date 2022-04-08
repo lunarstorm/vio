@@ -6,11 +6,11 @@
         :class="{ disabled: !prev_page_url }"
       >
         <a v-if="prev_page_url" :href="prev_page_url" class="page-link">
-          <i class="fa fa-lg fa-angle-left mx-1"></i>
+          <i class="fa fa-lg fa-angle-left mx-1" />
           Prev
         </a>
         <div v-else class="page-link">
-          <i class="fa fa-lg fa-angle-left mx-1"></i>
+          <i class="fa fa-lg fa-angle-left mx-1" />
           Prev
         </div>
       </li>
@@ -20,11 +20,11 @@
       >
         <a v-if="next_page_url" :href="next_page_url" class="page-link">
           Next
-          <i class="fa fa-lg fa-angle-right mx-1"></i>
+          <i class="fa fa-lg fa-angle-right mx-1" />
         </a>
         <div v-else class="page-link">
           Next
-          <i class="fa fa-lg fa-angle-right mx-1"></i>
+          <i class="fa fa-lg fa-angle-right mx-1" />
         </div>
       </li>
     </ul>
@@ -33,34 +33,34 @@
 
 <script>
 export default {
-  name: "Paginator",
-  components: {},
-  props: {
-    page: Object,
-  },
-  computed: {
-    meta() {
-      if (!!this.page.meta) {
-        return this.page.meta;
-      }
-
-      return this.page;
+    name: 'Paginator',
+    components: {},
+    props: {
+        page: Object,
     },
-    prev_page_url() {
-      if (this.page.links) {
-        return this.page.links.prev;
-      }
+    computed: {
+        meta() {
+            if (this.page.meta) {
+                return this.page.meta;
+            }
 
-      return this.page.prev_page_url;
-    },
-    next_page_url() {
-      if (this.page.links) {
-        return this.page.links.next;
-      }
+            return this.page;
+        },
+        prev_page_url() {
+            if (this.page.links) {
+                return this.page.links.prev;
+            }
 
-      return this.page.next_page_url;
+            return this.page.prev_page_url;
+        },
+        next_page_url() {
+            if (this.page.links) {
+                return this.page.links.next;
+            }
+
+            return this.page.next_page_url;
+        },
     },
-  },
 };
 </script>
 

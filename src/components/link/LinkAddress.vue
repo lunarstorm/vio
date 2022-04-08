@@ -5,39 +5,39 @@
     title="Open in Google Maps"
     target="_blank"
   >
-    <i class="fa fa-map-marker"></i> {{ addressString }}
+    <i class="fa fa-map-marker" /> {{ addressString }}
   </a>
 </template>
 
 <script>
-import { ref } from "vue";
-import _ from "lodash";
+import { ref } from 'vue';
+import _ from 'lodash';
 
 export default {
-  name: "LinkAddress",
-  props: {
-    address: {
-      type: [String, Array],
-      default: null,
+    name: 'LinkAddress',
+    props: {
+        address: {
+            type: [String, Array],
+            default: null,
+        },
     },
-  },
-  setup(props) {
-    return {};
-  },
-  computed: {
-    href() {
-      return `//maps.google.com/?q=${this.addressString}`;
+    setup(props) {
+        return {};
     },
-    addressString() {
-      let str = this.address;
-      if (_.isArray(str)) {
-        str = this.address.join(", ");
-      }
+    computed: {
+        href() {
+            return `//maps.google.com/?q=${this.addressString}`;
+        },
+        addressString() {
+            let str = this.address;
+            if (_.isArray(str)) {
+                str = this.address.join(', ');
+            }
 
-      return str.trim();
+            return str.trim();
+        },
     },
-  },
-  mounted() {},
+    mounted() {},
 };
 </script>
 

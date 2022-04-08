@@ -11,56 +11,56 @@
 </template>
 
 <script>
-import FormOptions from "vio/helpers/FormOptions";
-import { toRefs } from "vue";
-import InputCheckbox from "vio/components/form/InputCheckbox";
+import FormOptions from 'vio/helpers/FormOptions';
+import { toRefs } from 'vue';
+import InputCheckbox from 'vio/components/form/InputCheckbox';
 
 export default {
-  name: "OptionsCheckbox",
-  inheritAttrs: true,
-  components: {
-    InputCheckbox,
-  },
-  props: {
-    name: String,
-    modelValue: [String, Number, Array],
-    options: {
-      type: [Array, Object],
-      default: [],
+    name: 'OptionsCheckbox',
+    components: {
+        InputCheckbox,
     },
-    inline: Boolean,
-  },
-  emits: ["update:modelValue"],
-  setup(props) {
-    return {
-      options: toRefs(props).options,
-      inline: props.inline,
-    };
-  },
-  computed: {
-    optionsParsed() {
-      return FormOptions.normalize(this.options);
+    inheritAttrs: true,
+    props: {
+        name: String,
+        modelValue: [String, Number, Array],
+        options: {
+            type: [Array, Object],
+            default: [],
+        },
+        inline: Boolean,
     },
-    model: {
-      get() {
-        return this.modelValue;
-      },
-      set(value) {
-        this.$emit("update:modelValue", value);
-      },
+    emits: ['update:modelValue'],
+    setup(props) {
+        return {
+            options: toRefs(props).options,
+            inline: props.inline,
+        };
     },
-  },
-  methods: {
-    change($event) {
-      console.log(
-        "Options Checkbox change",
-        $event.target.value,
-        this.modelValue
-      );
+    computed: {
+        optionsParsed() {
+            return FormOptions.normalize(this.options);
+        },
+        model: {
+            get() {
+                return this.modelValue;
+            },
+            set(value) {
+                this.$emit('update:modelValue', value);
+            },
+        },
     },
-  },
-  mounted() {},
-  unmounted() {},
+    mounted() {},
+    unmounted() {},
+    methods: {
+        change($event) {
+            console.log(
+                'Options Checkbox change',
+                $event.target.value,
+                this.modelValue,
+            );
+        },
+    },
 };
 </script>
 

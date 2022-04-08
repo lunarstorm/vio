@@ -10,50 +10,50 @@
     </button>
     <div :class="cssDropdownMenu" class="dropdown-menu" role="menu">
       <slot name="items">
-        <dropdown-items :items="items"></dropdown-items>
+        <dropdown-items :items="items" />
       </slot>
     </div>
   </div>
 </template>
 
 <script>
-import { toRefs } from "vue";
-import DropdownItems from "./DropdownItems.vue";
+import { toRefs } from 'vue';
+import DropdownItems from './DropdownItems.vue';
 
 export default {
-  name: "ButtonMenu",
-  inheritAttrs: false,
-  props: {
-    items: {
-      type: Array,
-      default: [],
+    name: 'ButtonMenu',
+    components: {
+        DropdownItems,
     },
-    align: {
-      type: String,
-      default: "left",
+    inheritAttrs: false,
+    props: {
+        items: {
+            type: Array,
+            default: [],
+        },
+        align: {
+            type: String,
+            default: 'left',
+        },
     },
-  },
-  components: {
-    DropdownItems,
-  },
-  setup(props) {
-    return {
-      items: toRefs(props).items,
-      align: props.align,
-    };
-  },
-  computed: {
-    cssDropdownMenu() {
-      let classes = [];
+    setup(props) {
+        return {
+            items: toRefs(props).items,
+            align: props.align,
+        };
+    },
+    computed: {
+        cssDropdownMenu() {
+            let classes = [];
 
-      if (this.align == "right") {
-        classes.push("dropdown-menu-right");
-      }
+            if (this.align == 'right') {
+                classes.push('dropdown-menu-right');
+            }
 
-      return classes;
+            return classes;
+        },
     },
-  },
-  mounted() {},
+    mounted() {},
 };
 </script>
 

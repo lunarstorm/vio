@@ -1,33 +1,33 @@
 <template>
   <form-field :error="error" class="form-group">
-    <slot></slot>
+    <slot />
   </form-field>
 </template>
 
 <script>
-import { inject } from "vue";
-import FormField from "vio/components/form/FormField";
+import { inject } from 'vue';
+import FormField from 'vio/components/form/FormField';
 
 export default {
-  name: "FormGroup",
-  inheritAttrs: true,
-  components: {
-    FormField,
-  },
-  props: {
-    error: [Array, String, Number],
-  },
-  setup(props) {
-    const form = inject("form", null);
+    name: 'FormGroup',
+    components: {
+        FormField,
+    },
+    inheritAttrs: true,
+    props: {
+        error: [Array, String, Number],
+    },
+    setup(props) {
+        const form = inject('form', null);
 
-    return {
-      form,
-    };
-  },
-  computed: {},
-  methods: {},
-  mounted() {},
-  unmounted() {},
+        return {
+            form,
+        };
+    },
+    computed: {},
+    mounted() {},
+    unmounted() {},
+    methods: {},
 };
 </script>
 

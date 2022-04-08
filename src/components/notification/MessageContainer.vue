@@ -10,7 +10,7 @@
           v-for="(message, index) in stack[Message.POS_TOP_LEFT]"
           :key="index"
         >
-          <toast-message :message="message"></toast-message>
+          <toast-message :message="message" />
         </template>
       </div>
 
@@ -19,7 +19,7 @@
           v-for="(message, index) in stack[Message.POS_TOP]"
           :key="index"
         >
-          <toast-message :message="message"></toast-message>
+          <toast-message :message="message" />
         </template>
       </div>
 
@@ -28,7 +28,7 @@
           v-for="(message, index) in stack[Message.POS_TOP_RIGHT]"
           :key="index"
         >
-          <toast-message :message="message"></toast-message>
+          <toast-message :message="message" />
         </template>
       </div>
 
@@ -37,7 +37,7 @@
           v-for="(message, index) in stack[Message.POS_BOTTOM_LEFT]"
           :key="index"
         >
-          <toast-message :message="message"></toast-message>
+          <toast-message :message="message" />
         </template>
       </div>
 
@@ -46,7 +46,7 @@
           v-for="(message, index) in stack[Message.POS_BOTTOM]"
           :key="index"
         >
-          <toast-message :message="message"></toast-message>
+          <toast-message :message="message" />
         </template>
       </div>
 
@@ -55,7 +55,7 @@
           v-for="(message, index) in stack[Message.POS_BOTTOM_RIGHT]"
           :key="index"
         >
-          <toast-message :message="message"></toast-message>
+          <toast-message :message="message" />
         </template>
       </div>
     </div>
@@ -63,26 +63,48 @@
 </template>
 
 <script>
-import { ref, watchEffect } from "vue";
-import ToastMessage from "vio/components/notification/Toast";
-import Messages from "vio/helpers/Messages";
-import Message from "vio/helpers/Message";
+import { ref, watchEffect } from 'vue';
+import ToastMessage from 'vio/components/notification/Toast';
+import Messages from 'vio/helpers/Messages';
+import Message from 'vio/helpers/Message';
 
 export default {
-  name: "MessageContainer",
-  components: {
-    ToastMessage,
-  },
-  props: {
-    messages: Array,
-  },
-  setup(props) {
-    return {
-      Messages,
-      Message,
-    };
-  },
-  mounted() {
+    name: 'MessageContainer',
+    components: {
+        ToastMessage,
+    },
+    props: {
+        messages: Array,
+    },
+    setup(props) {
+        return {
+            Messages,
+            Message,
+        };
+    },
+    computed: {
+        items() {
+            return Messages.queue.value;
+        },
+        stack() {
+            let stack = {};
+
+            stack[Message.POS_TOP] = [];
+            stack[Message.POS_TOP_LEFT] = [];
+            stack[Message.POS_TOP_RIGHT] = [];
+            stack[Message.POS_BOTTOM] = [];
+            stack[Message.POS_BOTTOM_LEFT] = [];
+            stack[Message.POS_BOTTOM_RIGHT] = [];
+
+            _.forEach(this.items, (message) => {
+                let pos = message.data.position || Message.POS_TOP;
+                stack[pos].push(message);
+            });
+
+            return stack;
+        },
+    },
+    mounted() {
     /* watchEffect(() => {
       let limit = 0;
       while (Messages.hasItems()) {
@@ -93,29 +115,7 @@ export default {
         }
       }
     }); */
-  },
-  computed: {
-    items() {
-      return Messages.queue.value;
     },
-    stack() {
-      let stack = {};
-
-      stack[Message.POS_TOP] = [];
-      stack[Message.POS_TOP_LEFT] = [];
-      stack[Message.POS_TOP_RIGHT] = [];
-      stack[Message.POS_BOTTOM] = [];
-      stack[Message.POS_BOTTOM_LEFT] = [];
-      stack[Message.POS_BOTTOM_RIGHT] = [];
-
-      _.forEach(this.items, (message) => {
-        let pos = message.data.position || Message.POS_TOP;
-        stack[pos].push(message);
-      });
-
-      return stack;
-    },
-  },
 };
 </script>
 

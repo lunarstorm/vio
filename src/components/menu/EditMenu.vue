@@ -8,16 +8,16 @@
         :target="firstItem.target"
         class="btn btn-secondary"
       >
-        <i :class="firstItem.icon" class="fa fa-fw"></i>
+        <i :class="firstItem.icon" class="fa fa-fw" />
       </a>
       <a
         v-else
-        @click.prevent="firstItem.fn"
         :title="firstItem.text"
         href="#"
         class="btn btn-secondary"
+        @click.prevent="firstItem.fn"
       >
-        <i :class="firstItem.icon" class="fa fa-fw"></i>
+        <i :class="firstItem.icon" class="fa fa-fw" />
       </a>
     </template>
     <button
@@ -26,44 +26,44 @@
       data-toggle="dropdown"
       data-boundary="viewport"
     >
-      <i class="fa fa-ellipsis-h"></i>
+      <i class="fa fa-ellipsis-h" />
     </button>
     <div class="dropdown-menu dropdown-menu-right" role="menu">
-      <dropdown-items :items="items"></dropdown-items>
+      <dropdown-items :items="items" />
     </div>
   </div>
 </template>
 
 <script>
-import { ref, toRefs } from "vue";
-import DropdownItems from "./DropdownItems.vue";
+import { ref, toRefs } from 'vue';
+import DropdownItems from './DropdownItems.vue';
 
 export default {
-  name: "EditMenu",
-  props: {
-    items: {
-      type: Array,
-      default: [],
+    name: 'EditMenu',
+    components: {
+        DropdownItems,
     },
-  },
-  components: {
-    DropdownItems,
-  },
-  setup(props) {
-    return {
-      items: toRefs(props).items,
-    };
-  },
-  computed: {
-    firstItem() {
-      if (this.items.length > 0) {
-        return this.items[0];
-      }
+    props: {
+        items: {
+            type: Array,
+            default: [],
+        },
+    },
+    setup(props) {
+        return {
+            items: toRefs(props).items,
+        };
+    },
+    computed: {
+        firstItem() {
+            if (this.items.length > 0) {
+                return this.items[0];
+            }
 
-      return null;
+            return null;
+        },
     },
-  },
-  mounted() {},
+    mounted() {},
 };
 </script>
 

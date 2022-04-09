@@ -131,6 +131,22 @@ class Form {
         return Http.isBusy(this._http.id);
     }
 
+    put(url, options){
+        return this.submit(url, {
+            method: 'put',
+            appendId: false,
+            ...options,
+        });
+    }
+
+    post(url, options){
+        return this.submit(url, {
+            method: 'post',
+            appendId: false,
+            ...options,
+        });
+    }
+
     submit(url, options) {
         options = {
             onSuccess: () => { },

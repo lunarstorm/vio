@@ -62,7 +62,7 @@ export default {
                 return null;
             }
 
-            return value * 100;
+            return Math.round(value * 100);
         },
         percentToDecimal(value) {
             return value / 100;

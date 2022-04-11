@@ -1,40 +1,40 @@
 <template>
-  <span><slot></slot><span v-if="isNumeric(value)">{{ valueFormatted }}</span></span>
+  <span><slot /><span v-if="isNumeric(value)">{{ valueFormatted }}</span></span>
 </template>
 
 <script>
-import { toRefs } from "vue";
-import numeral from "numeral";
+import { toRefs } from 'vue';
+import numeral from 'numeral';
 
 export default {
-  name: "TextNumeric",
-  props: {
-    value: [String, Number],
-    format: {
-      type: String,
-      default: "0,0",
+    name: 'TextNumeric',
+    props: {
+        value: [String, Number],
+        format: {
+            type: String,
+            default: '0,0',
+        },
+        precision: Number,
     },
-    precision: Number,
-  },
-  setup(props) {
-    return {
-      value: toRefs(props).value,
-      format: toRefs(props).format,
-    };
-  },
-  methods: {
-    isNumeric(n) {
-      return !isNaN(parseFloat(n)) && isFinite(n);
+    setup(props) {
+        return {
+            value: toRefs(props).value,
+            format: toRefs(props).format,
+        };
     },
-  },
-  computed: {
-    numeralInstance() {
-      return numeral(this.value);
+    computed: {
+        numeralInstance() {
+            return numeral(this.value);
+        },
+        valueFormatted() {
+            return this.numeralInstance.format(this.format);
+        },
     },
-    valueFormatted() {
-      return this.numeralInstance.format(this.format);
+    methods: {
+        isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        },
     },
-  },
 };
 </script>
 

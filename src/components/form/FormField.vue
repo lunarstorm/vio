@@ -1,29 +1,29 @@
 <template>
   <div>
-    <slot></slot>
-    <form-error v-model="error"></form-error>
+    <slot />
+    <form-error v-model="error" />
   </div>
 </template>
 
 <script>
-import FormError from "vio/components/form/FormError";
+import FormError from 'vio/components/form/FormError';
 
 export default {
-  name: "FormField",
-  inheritAttrs: true,
-  components: {
-    FormError,
-  },
-  props: {
-    error: [Array, String, Number],
-  },
-  setup(props) {
-    return {};
-  },
-  computed: {},
-  methods: {},
-  mounted() {},
-  unmounted() {},
+    name: 'FormField',
+    components: {
+        FormError,
+    },
+    inheritAttrs: true,
+    props: {
+        error: [Array, String, Number],
+    },
+    setup(props) {
+        return {};
+    },
+    computed: {},
+    mounted() {},
+    unmounted() {},
+    methods: {},
 };
 </script>
 

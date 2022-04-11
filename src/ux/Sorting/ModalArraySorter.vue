@@ -1,13 +1,15 @@
 <template>
   <modal size="lg" :center="true" :scroll="false">
     <template #title>
-      <slot name="title">Sort Items </slot>
+      <slot name="title">
+        Sort Items
+      </slot>
     </template>
     <template #default>
       <table class="table">
         <vue-draggable
           :list="modelValue"
-          :itemKey="itemKey"
+          :item-key="itemKey"
           :group="group"
           tag="tbody"
           handle=".handle"
@@ -18,10 +20,10 @@
                 <i
                   class="bi-grip-vertical text-muted"
                   style="font-size: 1.5rem"
-                ></i>
+                />
               </td>
               <td class="align-middle">
-                <slot name="item" :item="item" :index="index"></slot>
+                <slot name="item" :item="item" :index="index" />
               </td>
             </tr>
           </template>
@@ -29,35 +31,37 @@
       </table>
     </template>
     <template #footer="{ close }">
-      <button @click.prevent="close" class="btn btn-primary">Dismiss</button>
+      <button class="btn btn-primary" @click.prevent="close">
+        Dismiss
+      </button>
     </template>
   </modal>
 </template>
 
 <script>
-import Modal from "vio/components/modal/Modal";
-import VueDraggable from "vuedraggable";
+import Modal from 'vio/components/modal/Modal';
+import VueDraggable from 'vuedraggable';
 
 export default {
-  name: "ModalArraySorter",
-  components: {
-    Modal,
-    VueDraggable,
-  },
-  props: {
-    modelValue: [Array],
-    itemKey: String,
-    group: {
-      type: String,
-      default: () => {
-        let timestamp = +new Date();
-        return "sort-group-" + timestamp;
-      },
+    name: 'ModalArraySorter',
+    components: {
+        Modal,
+        VueDraggable,
     },
-  },
-  emits: ["submit"],
-  setup(props) {},
-  methods: {},
+    props: {
+        modelValue: [Array],
+        itemKey: String,
+        group: {
+            type: String,
+            default: () => {
+                let timestamp = +new Date();
+                return 'sort-group-' + timestamp;
+            },
+        },
+    },
+    emits: ['submit'],
+    setup(props) {},
+    methods: {},
 };
 </script>
 

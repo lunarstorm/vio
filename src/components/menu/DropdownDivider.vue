@@ -1,24 +1,24 @@
 <template>
-	<div class="dropdown-divider"></div>
+  <div class="dropdown-divider" />
 </template>
 
 <script>
 import {ref, toRefs} from 'vue';
 
 export default {
-	name: "DropdownDivider",
-	props: {
-	},
-	setup(props) {
+    name: 'DropdownDivider',
+    props: {
+    },
+    setup(props) {
 
-		return {
-		}
-	},
-	computed: {
-	},
-	mounted() {
-	}
-}
+        return {
+        };
+    },
+    computed: {
+    },
+    mounted() {
+    },
+};
 </script>
 
 <style scoped>

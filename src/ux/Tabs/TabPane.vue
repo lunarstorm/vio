@@ -7,19 +7,19 @@
 <script>
 
 export default {
-  name: "TabPane",
-  components: {},
-  emits: [],
-  props: {},
-  setup(props) {
-    return {};
-  },
-  mounted() {
-  },
-  computed: {},
-  methods: {
-    clear() {},
-  },
+    name: 'TabPane',
+    components: {},
+    props: {},
+    emits: [],
+    setup(props) {
+        return {};
+    },
+    computed: {},
+    mounted() {
+    },
+    methods: {
+        clear() {},
+    },
 };
 </script>
 

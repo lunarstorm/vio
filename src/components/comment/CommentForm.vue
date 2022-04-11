@@ -10,25 +10,25 @@
         </strong>
       </div>
       <div class="media-body mx-3">
-        <form @submit.prevent="submit" method="POST">
+        <form method="POST" @submit.prevent="submit">
           <textarea
-            v-model="params.body"
-            :placeholder="params.placeholder"
-            v-autosize
             ref="inputField"
+            v-model="params.body"
+            v-autosize
+            :placeholder="params.placeholder"
             rows="1"
             class="form-control"
-          ></textarea>
+          />
 
           <div v-if="params.body.length > 0" class="form-group mt-2 mb-0">
             <button type="submit" class="btn btn-primary">
-              <i v-if="busy" class="fa fa-refresh fa-spin text-faint"></i>
+              <i v-if="busy" class="fa fa-refresh fa-spin text-faint" />
               Post
             </button>
             <button
-              @click="reset"
               type="button"
               class="btn btn-link text-muted"
+              @click="reset"
             >
               Cancel
             </button>
@@ -40,121 +40,79 @@
 </template>
 
 <script>
-import io from "io/app";
-import api from "io/api";
-import autosize from "vio/directives/autosize";
-import $ from "jquery";
-import { reactive, watch, toRefs, ref } from "vue";
+import io from 'io/app';
+import api from 'io/api';
+import autosize from 'vio/directives/autosize';
+import $ from 'jquery';
+import { reactive, watch, toRefs, ref } from 'vue';
 
 export default {
-  name: "CommentForm",
-  components: {},
-  directives: {
-    autosize,
-  },
-  emits: ["commentSubmitted"],
-  props: {
-    params: Object,
-    hasFocus: Boolean,
-  },
-  setup(props) {
-    let propRefs = toRefs(props);
-
-    let defaults = {
-      obj: null,
-      oid: null,
-      reply_id: null,
-      body: "",
-      commentId: null,
-      toggle: true,
-      hasFocus: false,
-      afterSubmit: false,
-      afterCancel: false,
-      placeholder: "Say something...",
-      initials: io.data.user.initials,
-      avatar: {
-        initials: io.data.user.initials,
-        css: $.extend(
-          {
-            width: "40px",
-            height: "40px",
-          },
-          io.data.user.avatar
-        ),
-      },
-    };
-
-    const params = reactive({
-      ...defaults,
-      ...props.params,
-    });
-
-    //console.log('comment form', params);
-
-    return {
-      params,
-      busy: ref(false),
-    };
-  },
-  methods: {
-    reset() {
-      this.params.body = "";
-      this.$refs.inputField.innerHTML = "";
+    name: 'CommentForm',
+    components: {},
+    directives: {
+        autosize,
     },
-    onInput(e) {
-      this.params.body = e.target.innerHTML;
-      //console.log(e.target.innerHTML);
+    props: {
+        params: Object,
+        hasFocus: Boolean,
     },
-    submit() {
-      let self = this;
+    emits: ['commentSubmitted'],
+    setup(props) {
+        let propRefs = toRefs(props);
 
-      this.busy = true;
+        let defaults = {
+            obj: null,
+            oid: null,
+            reply_id: null,
+            body: '',
+            commentId: null,
+            toggle: true,
+            hasFocus: false,
+            afterSubmit: false,
+            afterCancel: false,
+            placeholder: 'Say something...',
+            initials: io.data.user.initials,
+            avatar: {
+                initials: io.data.user.initials,
+                css: $.extend(
+                    {
+                        width: '40px',
+                        height: '40px',
+                    },
+                    io.data.user.avatar,
+                ),
+            },
+        };
 
-      return io.api
-        .post("comments", {
-          _json: {
-            obj: self.params.obj,
-            oid: self.params.oid,
-            body: self.params.body,
-            reply_id: self.params.reply_id,
-          },
-          //busyFlag: self.busy.submitting
-        })
-        .done(function (response) {
-          if (response.status == "success") {
-            self.reset();
-            self.$emit("commentSubmitted", response.data);
-          }
-
-          /*if (ko.isObservable(data.toggle)) {
-					data.toggle(false);
-				}*/
-
-          if (typeof self.params.afterSubmit === "function") {
-            self.params.afterSubmit(response);
-          }
-
-          this.busy = false;
+        const params = reactive({
+            ...defaults,
+            ...props.params,
         });
-    },
-  },
-  computed: {
-    placeholder() {
-      if (this.params.reply_id) {
-        return "Add a reply...";
-      }
 
-      return "Say something...";
-    },
-    observedInput() {
-      if (this.params.body == "") {
-        this.$refs.inputField.innerHTML = "";
-      }
+        //console.log('comment form', params);
 
-      return this.params.body;
+        return {
+            params,
+            busy: ref(false),
+        };
     },
-  },
-  mounted() {
+    computed: {
+        placeholder() {
+            if (this.params.reply_id) {
+                return 'Add a reply...';
+            }
+
+            return 'Say something...';
+        },
+        observedInput() {
+            if (this.params.body == '') {
+                this.$refs.inputField.innerHTML = '';
+            }
+
+            return this.params.body;
+        },
+    },
+    mounted() {
     /*let tribute = new Tribute({
 			lookup: 'name',
 			values: function (text, callback) {
@@ -182,10 +140,52 @@ export default {
 
 		tribute.attach(this.$refs.inputField);*/
 
-    if (this.params.hasFocus) {
-      this.$refs.inputField.focus();
-    }
-  },
+        if (this.params.hasFocus) {
+            this.$refs.inputField.focus();
+        }
+    },
+    methods: {
+        reset() {
+            this.params.body = '';
+            this.$refs.inputField.innerHTML = '';
+        },
+        onInput(e) {
+            this.params.body = e.target.innerHTML;
+            //console.log(e.target.innerHTML);
+        },
+        submit() {
+            let self = this;
+
+            this.busy = true;
+
+            return io.api
+                .post('comments', {
+                    _json: {
+                        obj: self.params.obj,
+                        oid: self.params.oid,
+                        body: self.params.body,
+                        reply_id: self.params.reply_id,
+                    },
+                    //busyFlag: self.busy.submitting
+                })
+                .done(function (response) {
+                    if (response.status == 'success') {
+                        self.reset();
+                        self.$emit('commentSubmitted', response.data);
+                    }
+
+                    /*if (ko.isObservable(data.toggle)) {
+					data.toggle(false);
+				}*/
+
+                    if (typeof self.params.afterSubmit === 'function') {
+                        self.params.afterSubmit(response);
+                    }
+
+                    this.busy = false;
+                });
+        },
+    },
 };
 </script>
 

@@ -47,14 +47,14 @@ export default {
             return this.page;
         },
         prev_page_url() {
-            if (this.page.links) {
+            if (this.page.links?.prev) {
                 return this.page.links.prev;
             }
 
             return this.page.prev_page_url;
         },
         next_page_url() {
-            if (this.page.links) {
+            if (this.page.links?.next) {
                 return this.page.links.next;
             }
 

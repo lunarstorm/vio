@@ -4,7 +4,7 @@
       <div>
         <a v-if="enabled" href="#" @click.prevent="toggle">
           <i
-            :class="{ 'fa-rotate-90': expanded }"
+            :class="{ 'fa-rotate-90': isExpanded }"
             class="fa fa-caret-right mr-1"
           />
           <slot name="title" />
@@ -18,7 +18,7 @@
         <slot name="extra" />
       </div>
     </div>
-    <div v-if="expanded" class="mt-1">
+    <div v-if="isExpanded" class="mt-1">
       <slot name="more" />
     </div>
   </div>
@@ -42,6 +42,7 @@ export default {
     },
     setup(props) {
         return {
+            isExpanded: ref(props.expanded),
             disabled: ref(props.disable),
         };
     },
@@ -52,7 +53,7 @@ export default {
     },
     methods: {
         toggle() {
-            this.expanded = !this.expanded;
+            this.isExpanded ^= true;
             return false;
         },
     },

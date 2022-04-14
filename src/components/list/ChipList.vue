@@ -1,6 +1,6 @@
 <template>
   <ul class="list-inline">
-    <template v-for="item in itemsParsed">
+    <template v-for="(item, index) in itemsParsed" :key="index">
       <li v-if="item.value" class="list-inline-item">
         <text-chip :label="item.label">
           {{ item.value }}
@@ -11,9 +11,8 @@
 </template>
 
 <script>
-import TextChip from '../text/TextChip';
-import {toRefs} from 'vue';
-import FormOptions from '../../helpers/FormOptions';
+import TextChip from 'vio/components/text/TextChip';
+import FormOptions from 'vio/helpers/FormOptions';
 
 export default {
     name: 'ChipList',
@@ -25,7 +24,6 @@ export default {
     },
     setup(props) {
         return {
-            items: toRefs(props).items,
         };
     },
     computed: {

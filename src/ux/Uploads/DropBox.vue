@@ -1,5 +1,7 @@
 <template>
-  <div ref="container" class="dropzone" />
+  <div ref="container" class="dropzone">
+    <slot />
+  </div>
 </template>
 
 <script>
@@ -30,7 +32,7 @@ export default {
     mounted() {
         let token = null;
         let csrfMetaTag = document.head.querySelector('meta[name="csrf-token"]');
-    
+
         if(csrfMetaTag){
             token = csrfMetaTag.content;
         }

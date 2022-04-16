@@ -4,7 +4,7 @@
 
 <script>
 import { ref } from 'vue';
-import axios from 'axios';
+import Http from 'vio/helpers/Http';
 
 export default {
     components: {},
@@ -17,7 +17,7 @@ export default {
         const res = ref('');
         const loading = ref(true);
 
-        axios
+        Http.make()
             .get(props.url, {
                 params: props.params,
             })

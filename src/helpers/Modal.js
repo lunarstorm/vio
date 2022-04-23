@@ -1,7 +1,7 @@
 import { h, ref, render, watch } from 'vue';
 
-import VioModal from "vio/components/modal/Modal";
-import ComponentWrapper from "vio/components/modal/ComponentWrapper";
+import VioModal from 'vio/components/modal/Modal';
+import ComponentWrapper from 'vio/components/modal/ComponentWrapper';
 
 class Modal {
 
@@ -9,7 +9,7 @@ class Modal {
         this.config = {
             title: '',
             center: false,
-            ...config
+            ...config,
         };
     }
 
@@ -22,11 +22,11 @@ class Modal {
         window._modalCount = window._modalCount || 0;
 
         return isOpen || window._modalCount > 0;
-    };
+    }
 
     static addInsanceToStack(modal) {
         Modal.stack.push(modal);
-    };
+    }
 
     center(toggle) {
         this.config.center = typeof toggle === 'undefined' ? true : toggle;
@@ -59,7 +59,7 @@ class Modal {
             content: 'Hey!',
             footer: null,
             center: false,
-            ...o
+            ...o,
         };
 
         let vNode = h(VioModal, o);
@@ -69,7 +69,7 @@ class Modal {
     centered(o) {
         this.show({
             center: true,
-            ...o
+            ...o,
         });
     }
 
@@ -82,7 +82,7 @@ class Modal {
             onDispose: () => {
                 vNode.destroy();
             },
-            modalProps: modalProps
+            modalProps: modalProps,
         });
 
         Modal.make().mountVNode(vNode);
@@ -97,8 +97,8 @@ class Modal {
             },
             modalProps: {
                 ...this.config,
-                ...modalConfig
-            }
+                ...modalConfig,
+            },
         });
 
         this.mountVNode(vNode);
@@ -118,7 +118,7 @@ class Modal {
 
             el = null;
             vNode = null;
-        }
+        };
 
         render(vNode, el);
 
@@ -135,7 +135,7 @@ Modal.app = null;
 Modal.stack = ref([]);
 
 watch(() => Modal.stack, (value) => {
-    console.log("Modal stack changed:", value);
+    console.log('Modal stack changed:', value);
 });
 
 export default Modal;

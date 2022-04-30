@@ -30,7 +30,7 @@ class SearchFilter {
             set(data, prop, value) {
                 root.set(prop, value);
                 return true;
-            }
+            },
         });
     }
 
@@ -39,14 +39,14 @@ class SearchFilter {
             let self = this;
             callback(values, self);
         }, {
-            deep: true
+            deep: true,
         });
     }
 
     assignValues(values) {
         values = {
             ...this.data.defaults,
-            ...values
+            ...values,
         };
         Object.assign(this.data.values, values);
     }
@@ -77,7 +77,7 @@ class SearchFilter {
     }
 
     reset(key) {
-        this.data.values[key] = this.data.defaults[key];
+        this.data.values[key] = _.get(this.data.defaults, [key], '');
     }
 
     get(key) {
@@ -102,12 +102,12 @@ class SearchFilter {
 
         for (p in obj) {
             if (obj.hasOwnProperty(p)) {
-                var k = prefix ? prefix + "[" + p + "]" : p,
+                var k = prefix ? prefix + '[' + p + ']' : p,
                     v = obj[p];
 
                 let encoded = '';
 
-                if (v !== null && typeof v === "object") {
+                if (v !== null && typeof v === 'object') {
                     encoded = serialize(v, k);
                 }
                 else {
@@ -119,11 +119,11 @@ class SearchFilter {
                     }
                 }
 
-                str.push(encodeURIComponent(k) + "=" + encoded);
+                str.push(encodeURIComponent(k) + '=' + encoded);
             }
         }
 
-        return str.join("&");
+        return str.join('&');
     }
 
     toQueryString() {

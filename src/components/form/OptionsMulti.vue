@@ -40,6 +40,7 @@ export default {
             defaultValue: true,
         },
         error: [Array, String],
+        valueMustExist: Boolean,
     },
     emits: ['update:modelValue'],
     setup(props) {
@@ -70,7 +71,7 @@ export default {
             return index > -1;
         },
         _placeholder() {
-            if (!this.selectedValueExists) {
+            if (!this.selectedValueExists && !this.valueMustExist) {
                 return `${this.modelValue}`;
             }
 

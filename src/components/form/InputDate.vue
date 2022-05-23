@@ -10,7 +10,6 @@
 
 <script>
 import flatpickr from 'flatpickr';
-import { toRefs } from 'vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
@@ -26,11 +25,9 @@ export default {
     },
     emits: ['update:modelValue'],
     setup(props) {
-        let propRefs = toRefs(props);
         let FP = null;
 
         return {
-            options: propRefs.options,
             FP,
         };
     },

@@ -38,8 +38,6 @@ export default {
     },
     setup(props) {
         return {
-            items: toRefs(props).items,
-            align: props.align,
         };
     },
     computed: {

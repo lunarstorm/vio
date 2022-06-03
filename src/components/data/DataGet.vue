@@ -1,5 +1,5 @@
 <template>
-  <slot :response="res" :loading="loading" />
+  <slot :response="res" :loading="loading" :loaded="!loading" />
 </template>
 
 <script>

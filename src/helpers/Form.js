@@ -83,6 +83,7 @@ class Form {
 
     fill(data) {
         Object.assign(this.state.data, data);
+        return this;
     }
 
     method(value) {
@@ -100,10 +101,12 @@ class Form {
             this.state.errors,
             _.mapValues(this.state.errors, () => null),
         );
+
+        return this;
     }
 
     reset() {
-        this.clearErrors();
+        return this.clearErrors();
     }
 
     error(path) {

@@ -124,8 +124,6 @@ export default {
             comment,
             isEdit,
             isSaving: ref(false),
-            canReply: ref(props.canReply),
-            showReplies: ref(props.showReplies),
             clickedReply: ref(false),
         };
     },

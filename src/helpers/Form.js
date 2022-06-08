@@ -182,6 +182,7 @@ class Form {
                 },
                 params: {
                     ...this.state.extraParams,
+                    ...options.params,
                 },
             })
             .catch((error) => {

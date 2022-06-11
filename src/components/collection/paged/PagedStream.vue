@@ -25,7 +25,7 @@
       </tbody>
     </table>
   </div>
-  <div v-if="page.next_page_url" class="card-footer">
+  <div v-if="nextUrl" class="card-footer">
     <div class="card-footer-content">
       <div class="d-flex align-items-center text-center">
         <div class="mx-auto align-middle">
@@ -39,18 +39,42 @@
 </template>
 
 <script>
-import Paginator from 'vio/components/collection/paged/Paginator';
-import TextNumeric from 'vio/components/text/TextNumeric';
+import { ref } from 'vue';
 
 export default {
     name: 'PagedStream',
     components: {
-        Paginator,
-        TextNumeric,
     },
     inheritAttrs: false,
     props: {
         page: Object,
+        wrap: Boolean,
+    },
+    setup(props){
+        const data = ref(props.page);
+
+        return {
+            data,
+        };
+    },
+    computed: {
+        meta() {
+            if (this.page.meta) {
+                return this.page.meta;
+            }
+
+            return this.page;
+        },
+        links() {
+            if (this.page.links) {
+                return this.page.links;
+            }
+
+            return this.page;
+        },
+        nextUrl(){
+            return this.links.next ?? this.links.next_page_url;
+        },
     },
     methods: {
         loadMore() {
@@ -60,12 +84,22 @@ export default {
                     progress: 'Loading...',
                     position: 'bottomright',
                 })
-                .get(this.page.next_page_url)
+                .get(this.links.next)
                 .then((res) => {
-                    this.page.data.push(...res.data.data);
-                    this.page.prev_page_url = res.data.prev_page_url;
-                    this.page.next_page_url = res.data.next_page_url;
+                    this.update(res.data);
                 });
+        },
+        update(data){
+            if(this.wrap){
+                this.data.data.push(...data.data);
+                this.data.links = data.links;
+                this.data.meta = data.meta;
+                return;
+            }
+
+            this.data.data.push(...data.data);
+            this.data.prev_page_url = data.prev_page_url;
+            this.data.next_page_url = data.next_page_url;
         },
     },
 };

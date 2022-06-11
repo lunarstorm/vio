@@ -15,9 +15,7 @@ export default {
         label: String,
     },
     setup(props) {
-        let propRefs = toRefs(props);
         return {
-            label: propRefs.label,
         };
     },
     computed: {

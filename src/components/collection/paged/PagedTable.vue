@@ -1,5 +1,8 @@
 <template>
   <div class="card">
+    <div v-if="!!$slots.header" class="card-header">
+      <slot name="header" />
+    </div>
     <div class="card-header">
       <div class="d-flex align-items-center">
         <div class="text-muted mr-auto">

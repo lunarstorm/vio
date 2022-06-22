@@ -13,7 +13,7 @@ class Dialog {
             onYes: () => false,
             onClose: () => false,
             center: false,
-            ...config
+            ...config,
         };
     }
 
@@ -25,7 +25,7 @@ class Dialog {
         o = {
             title: 'Confirm',
             message: 'Are you sure?',
-            ...o
+            ...o,
         };
 
         return Dialog.make(o).show();
@@ -34,14 +34,14 @@ class Dialog {
     static confirmCenter(o) {
         return Dialog.confirm({
             center: true,
-            ...o
+            ...o,
         });
     }
 
     show(o) {
         this.config = {
             ...this.config,
-            ...o
+            ...o,
         };
 
         let vNode = h(VioDialog, this.config);
@@ -95,14 +95,14 @@ class Dialog {
     onYes(callback) {
         this.config.onYes = () => {
             callback(this);
-        }
+        };
         return this;
     }
 
     onClose(callback) {
         this.config.onClose = () => {
             callback(this);
-        }
+        };
         return this;
     }
 }

@@ -1,5 +1,5 @@
 import { defineAsyncComponent, h, ref, render, unref } from 'vue';
-import Message from "vio/helpers/Message";
+import Message from 'vio/helpers/Message';
 
 const MessageContainer = defineAsyncComponent(() => import('vio/components/notification/MessageContainer'));
 class Messages {
@@ -14,15 +14,15 @@ class Messages {
             }
 
             queue.value.push(message);
-        }
+        };
 
         this.make = (config) => {
             return Message.make(config);
-        }
+        };
 
         this.pop = () => {
             return queue.value.shift();
-        }
+        };
 
         this.remove = message => {
             _.remove(queue.value, item => item.data.id == message.data.id);
@@ -30,43 +30,43 @@ class Messages {
 
         this.hasItems = () => {
             return queue.value.length > 0;
-        }
+        };
 
         this.info = (text, options) => {
             this.push({
                 text: text,
                 level: Message.LEVEL_INFO,
-                ...options
+                ...options,
             });
-        }
+        };
 
         this.success = (text, options) => {
             this.push({
                 text: text,
                 level: Message.LEVEL_SUCCESS,
-                ...options
+                ...options,
             });
-        }
+        };
 
         this.warning = (text, options) => {
             this.push({
                 text: text,
                 level: Message.LEVEL_WARNING,
-                ...options
+                ...options,
             });
-        }
+        };
 
         this.danger = (text, options) => {
             this.push({
                 text: text,
                 level: Message.LEVEL_DANGER,
-                ...options
+                ...options,
             });
-        }
+        };
 
         this.error = (text, options) => {
             this.danger(text, options);
-        }
+        };
     }
 
     setApp(app) {

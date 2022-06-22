@@ -1,19 +1,19 @@
 import { reactive } from 'vue';
-import Messages from "vio/helpers/Messages";
+import Messages from 'vio/helpers/Messages';
 import _ from 'lodash';
 
-const LEVEL_INFO = "info",
-    LEVEL_SUCCESS = "success",
-    LEVEL_WARNING = "warning",
-    LEVEL_DANGER = "danger",
-    LEVEL_LIGHT = "light";
+const LEVEL_INFO = 'info',
+    LEVEL_SUCCESS = 'success',
+    LEVEL_WARNING = 'warning',
+    LEVEL_DANGER = 'danger',
+    LEVEL_LIGHT = 'light';
 
-const POS_TOP = "top",
-    POS_TOP_RIGHT = "topright",
-    POS_TOP_LEFT = "topleft",
-    POS_BOTTOM = "bottom",
-    POS_BOTTOM_LEFT = "bottomleft",
-    POS_BOTTOM_RIGHT = "bottomright";
+const POS_TOP = 'top',
+    POS_TOP_RIGHT = 'topright',
+    POS_TOP_LEFT = 'topleft',
+    POS_BOTTOM = 'bottom',
+    POS_BOTTOM_LEFT = 'bottomleft',
+    POS_BOTTOM_RIGHT = 'bottomright';
 
 class Message {
 
@@ -76,7 +76,7 @@ class Message {
             hidden: false,
             visible: true,
             spin: false,
-            ...config
+            ...config,
         });
 
         this.pushed = false;
@@ -179,8 +179,8 @@ class Message {
         if(config){
             this.update({
                 ...config,
-                visible: true
-            })
+                visible: true,
+            });
         }
 
         if (!this.pushed) {

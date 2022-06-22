@@ -17,7 +17,7 @@ class Postbox {
         //console.log("Postbox.post", topic, data);
         this.data.messages.push({
             topic: topic,
-            data: data
+            data: data,
         });
     }
 
@@ -25,7 +25,7 @@ class Postbox {
         //console.log("Postbox.commit", topic, data);
         this.data.messages.push({
             topic: `${topic}.commit`,
-            data: data
+            data: data,
         });
     }
 
@@ -58,7 +58,7 @@ class Postbox {
                 onUnmounted(() => {
                     //console.log('Postbox auto-unmounting?');
                     this.off(topic, callback);
-                })
+                });
             }
         });
     }
@@ -81,7 +81,7 @@ class Postbox {
     handleMessage(message) {
         let handlers = this.getHandlers(message.topic);
         _.forEach(handlers, handler => {
-            if (typeof handler == "function") {
+            if (typeof handler == 'function') {
                 handler(message.data, message.topic);
             }
         });
@@ -92,7 +92,7 @@ class Postbox {
             //console.log('commit detected', parts);
 
             if (parts.length > 0) {
-                let collections = this.getCollections(parts[0])
+                let collections = this.getCollections(parts[0]);
 
                 //console.log('collections', collections);
 
@@ -133,7 +133,7 @@ class Postbox {
                     this.handleMessage(message);
                 }
             },
-            { deep: true }
+            { deep: true },
         );
     }
 }

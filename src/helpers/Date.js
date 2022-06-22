@@ -1,15 +1,15 @@
-import { DateTime } from "luxon";
+import { DateTime } from 'luxon';
 
 class Date {
-	static parse(value) {
-		let dt = DateTime.fromISO(value);
+    static parse(value) {
+        let dt = DateTime.fromISO(value);
 
-		if (!dt.isValid) {
-			dt = DateTime.fromSQL(value);
-		}
+        if (!dt.isValid) {
+            dt = DateTime.fromSQL(value);
+        }
 
-		return dt;
-	}
+        return dt;
+    }
 }
 
 export default Date;

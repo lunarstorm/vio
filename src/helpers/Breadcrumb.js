@@ -1,17 +1,17 @@
-import { reactive, ref } from "vue";
+import { reactive, ref } from 'vue';
 
 class Breadcrumb {
 
     constructor(defaults) {
         this.data = reactive({
-            path: []
+            path: [],
         });
     }
 
     push(label, url) {
         this.data.path.push({
             title: label,
-            url: url
+            url: url,
         });
 
         return this.data.path;

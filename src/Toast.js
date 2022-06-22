@@ -3,13 +3,13 @@ import _ from 'lodash';
 
 class Toaster {
 
-	constructor() {
-		this.stacks = {
-			primary: [],
-			secondary: [],
-			passive: []
-		};
-	}
+    constructor() {
+        this.stacks = {
+            primary: [],
+            secondary: [],
+            passive: [],
+        };
+    }
 
 }
 

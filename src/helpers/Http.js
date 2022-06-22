@@ -1,7 +1,7 @@
-import axios from "axios";
-import { reactive, ref } from "vue";
-import Dialog from "vio/helpers/Dialog";
-import Messages from "vio/helpers/Messages";
+import axios from 'axios';
+import { reactive, ref } from 'vue';
+import Dialog from 'vio/helpers/Dialog';
+import Messages from 'vio/helpers/Messages';
 import Message from 'vio/helpers/Message';
 
 const busy = reactive({});
@@ -16,7 +16,7 @@ class Http {
             finish: null,
             success: null,
             error: null,
-            position: Message.POS_TOP
+            position: Message.POS_TOP,
         };
     }
 
@@ -51,7 +51,7 @@ class Http {
                         spin: true,
                         autohide: false,
                         closeable: false,
-                        position: instance._messages.position
+                        position: instance._messages.position,
                     }).show();
                 }
 
@@ -67,7 +67,7 @@ class Http {
                 }
 
                 return Promise.reject(error);
-            }
+            },
         );
 
         instance._axios.interceptors.response.use(
@@ -103,7 +103,7 @@ class Http {
                         level: 'danger',
                         autohide: true,
                         closeable: true,
-                        delay: 3000
+                        delay: 3000,
                     }).show();
                 }
                 else {
@@ -111,7 +111,7 @@ class Http {
                 }
 
                 return Promise.reject(error);
-            }
+            },
         );
 
         return instance;
@@ -187,7 +187,7 @@ class Http {
 
     static isBusy(name) {
         if (!name) {
-            name = "default";
+            name = 'default';
         }
 
         return !!Http.busy[name];
@@ -201,7 +201,7 @@ class Http {
     messages(messages) {
         this._messages = {
             ...this._messages,
-            ...messages
+            ...messages,
         };
 
         return this;
@@ -221,7 +221,7 @@ class Http {
                         onClose: () => {
                             reject('Declined');
                         },
-                        ...dialogOptions
+                        ...dialogOptions,
                     });
 
                 });

@@ -1,8 +1,8 @@
-import Dialog from "vio/helpers/Dialog";
-import Modal from "vio/helpers/Modal";
-import Messages from "vio/helpers/Messages";
-import Http from "vio/helpers/Http";
-import Metadata from "vio/helpers/Metadata";
+import Dialog from 'vio/helpers/Dialog';
+import Modal from 'vio/helpers/Modal';
+import Messages from 'vio/helpers/Messages';
+import Http from 'vio/helpers/Http';
+import Metadata from 'vio/helpers/Metadata';
 
 export default {
     install: (app, options) => {
@@ -16,5 +16,5 @@ export default {
         Object.defineProperty(app.config.globalProperties, '$http', { get: () => Http });
         Object.defineProperty(app.config.globalProperties, '$ajax', { get: () => Http });
         Object.defineProperty(app.config.globalProperties, '$Metadata', { get: () => Metadata });
-    }
-}
+    },
+};

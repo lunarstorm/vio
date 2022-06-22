@@ -25,7 +25,7 @@ class UI {
         $body.css({
             overflow: 'hidden',
             position: 'fixed',
-            width: '100%'
+            width: '100%',
         });
 
         //console.log('remember scroll', scrollPosition);
@@ -35,7 +35,7 @@ class UI {
         $body.css({
             overflow: 'auto',
             position: 'static',
-            width: 'auto'
+            width: 'auto',
         });
 
         //console.log('restore scroll', scrollPosition);
@@ -90,7 +90,7 @@ class UI {
         }*/
 
         $element.animate({
-            scrollTop: offset || 0
+            scrollTop: offset || 0,
         }, speed || 600);
     }
 
@@ -126,12 +126,12 @@ class UI {
             background: '#fff',
             'border-bottom': '1px solid #bbb',
             position: 'fixed',
-            'z-index': Z
+            'z-index': Z,
         };
         var calibrate = function () {
             var pos = $parent.offset();
             $this.css($.extend({
-                left: pos.left
+                left: pos.left,
             }, fixedStyle));
             $this.outerWidth($parent.outerWidth());
         };
@@ -162,7 +162,7 @@ class UI {
             background: '#fff',
             'border-top': '1px solid #bbb',
             position: 'fixed',
-            'z-index': Z - 1
+            'z-index': Z - 1,
         };
 
         var inModal = false,
@@ -175,7 +175,7 @@ class UI {
         let $wrapper = $('<div class="vio-affix-wrapper"></div>');
 
         $wrapper.css({
-            position: 'relative'
+            position: 'relative',
         });
 
         $parent.wrap($wrapper);
@@ -205,7 +205,7 @@ class UI {
             $this.css({
                 ...fixedStyle,
                 //bottom: bottom,
-                left: pos ? pos.left : 0
+                left: pos ? pos.left : 0,
             });
 
             bottomBuffer = thisH;
@@ -214,7 +214,7 @@ class UI {
 
             $parent.css({
                 position: 'relative',
-            })
+            });
 
             affixBottomCalibrated = true;
         }, 300);
@@ -223,7 +223,7 @@ class UI {
         setTimeout(calibrate, 0);
 
         let observer = null;
-        if (typeof ResizeObserver === "function" && $parent.length > 0) {
+        if (typeof ResizeObserver === 'function' && $parent.length > 0) {
             observer = new ResizeObserver(calibrate)
                 .observe($parent[0]);
         }
@@ -234,10 +234,10 @@ class UI {
                 window.removeEventListener('resize', calibrate);
 
                 if (observer && $parent.length > 0) {
-                    observer.unobserve($parent[0])
+                    observer.unobserve($parent[0]);
                 }
-            }
-        }
+            },
+        };
     }
 
     init() {

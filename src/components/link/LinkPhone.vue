@@ -1,5 +1,7 @@
 <template>
-  <i class="fa fa-phone-square text-dark mr-1" />
+  <slot name="icon">
+    <i class="fa fa-phone-square text-dark mr-1" />
+  </slot>
   <a
     v-if="number"
     :href="href"
@@ -23,7 +25,6 @@ export default {
     setup(props) {
 
         return {
-            number: ref(props.number),
         };
     },
     computed: {

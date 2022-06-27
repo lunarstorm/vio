@@ -1,5 +1,7 @@
 <template>
-  <i class="fa fa-envelope-o text-dark mr-1" />
+  <slot name="icon">
+    <i class="fa fa-envelope-o text-dark mr-1" />
+  </slot>
   <a
     v-if="!!email"
     :href="href"
@@ -23,7 +25,6 @@ export default {
     setup(props) {
 
         return {
-            email: toRefs(props).email,
         };
     },
     computed: {

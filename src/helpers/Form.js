@@ -24,6 +24,7 @@ class Form {
             },
             errors: {},
             extraParams: {},
+            dirty: false,
         });
 
         this.data = new Proxy(this.state, {
@@ -75,6 +76,10 @@ class Form {
             this.busy = this.isBusy();
             this.hasErrors = this.countErrors() > 0;
         });
+
+        watch(this.state.data, () => {
+            this.state.dirty = true;
+        });
     }
 
     static make(config) {
@@ -103,6 +108,14 @@ class Form {
         );
 
         return this;
+    }
+
+    isDirty(){
+        return !!this.state.dirty;
+    }
+
+    resetDirty(){
+        this.state.dirty = false;
     }
 
     reset() {
@@ -195,6 +208,8 @@ class Form {
             }).then(res => {
                 if (errors === 0) {
                     this.clearErrors();
+                    this.resetDirty();
+                    console.log('reset', this.state.dirty);
                     options.onSuccess(res);
                 }
 

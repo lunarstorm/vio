@@ -6,7 +6,9 @@
     :value="opt.value"
     :inline="inline"
   >
-    {{ opt.text }}
+    <slot name="label" :option="opt">
+      {{ opt.text }}
+    </slot>
   </input-checkbox>
 </template>
 

@@ -6,7 +6,7 @@
           <div class="modal-content">
             <div class="modal-header p-3">
               <h5 class="modal-title">
-                <slot name="title">
+                <slot name="title" :close="close">
                   {{ title }}&nbsp;
                 </slot>
               </h5>
@@ -22,7 +22,7 @@
             </div>
             <div class="modal-body p-2 vio-modal-parent">
               <div ref="modalContent" class="container-fluid vio-modal-content">
-                <slot name="default" />
+                <slot name="default" :close="close" />
               </div>
             </div>
             <div v-if="!!$slots.footer" class="modal-footer vio-modal-footer">

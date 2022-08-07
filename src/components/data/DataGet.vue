@@ -24,11 +24,12 @@ export default {
             .then((response) => response.data)
             .then((response) => {
                 res.value = response;
-                loading.value = false;
 
                 if(props.onLoaded){
                     props.onLoaded(response);
                 }
+
+                loading.value = false;
             });
 
         return {

@@ -2,8 +2,8 @@
   <div class="table-responsive">
     <table class="table" v-bind="$attrs">
       <template v-if="items && items.length > 0">
-        <slot name="head" :page="data" />
-        <slot name="body" :page="data">
+        <slot name="head" :page="page_" />
+        <slot name="body" :page="page_">
           <tbody>
             <template v-for="(item, index) in items" :key="item.id">
               <slot
@@ -51,32 +51,32 @@ export default {
         wrap: Boolean,
     },
     setup(props){
-        const _page = ref(props.page);
+        const page_ = ref(props.page);
 
         return {
-            _page,
+            page_,
         };
     },
     computed: {
         items(){
-            return this._page.data;
+            return this.page_.data;
         },
         meta() {
-            if (this._page.meta) {
-                return this._page.meta;
+            if (this.page_.meta) {
+                return this.page_.meta;
             }
 
-            return this._page;
+            return this.page_;
         },
         links() {
-            if (this._page.links) {
-                return this._page.links;
+            if (this.page_.links) {
+                return this.page_.links;
             }
 
-            return this._page;
+            return this.page_;
         },
         nextUrl(){
-            return this.links.next ?? this.links.next_page_url;
+            return this.links.next ?? this.links.nextpage__url;
         },
         hasMore(){
             return !!this.nextUrl;
@@ -101,15 +101,15 @@ export default {
         },
         update(data){
             if(this.wrap){
-                this._page.data.push(...data.data);
-                this._page.links = data.links;
-                this._page.meta = data.meta;
+                this.page_.data.push(...data.data);
+                this.page_.links = data.links;
+                this.page_.meta = data.meta;
                 return;
             }
 
-            this._page.data.push(...data.data);
-            this._page.prev_page_url = data.prev_page_url;
-            this._page.next_page_url = data.next_page_url;
+            this.page_.data.push(...data.data);
+            this.page_.prevpage__url = data.prevpage__url;
+            this.page_.nextpage__url = data.nextpage__url;
         },
     },
 };

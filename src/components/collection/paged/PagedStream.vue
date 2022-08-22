@@ -76,7 +76,7 @@ export default {
             return this.page_;
         },
         nextUrl(){
-            return this.links.next ?? this.links.nextpage__url;
+            return this.links.next ?? this.links.next_page_url;
         },
         hasMore(){
             return !!this.nextUrl;
@@ -108,8 +108,8 @@ export default {
             }
 
             this.page_.data.push(...data.data);
-            this.page_.prevpage__url = data.prevpage__url;
-            this.page_.nextpage__url = data.nextpage__url;
+            this.page_.prev_page_url = data.prev_page_url;
+            this.page_.next_page_url = data.next_page_url;
         },
     },
 };

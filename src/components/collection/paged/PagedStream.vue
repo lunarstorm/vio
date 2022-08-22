@@ -25,7 +25,7 @@
       </tbody>
     </table>
   </div>
-  <div v-if="nextUrl" class="card-footer">
+  <div v-if="hasMore" class="card-footer">
     <div class="card-footer-content">
       <div class="d-flex align-items-center text-center">
         <div class="mx-auto align-middle">
@@ -75,16 +75,23 @@ export default {
         nextUrl(){
             return this.links.next ?? this.links.next_page_url;
         },
+        hasMore(){
+            return !!this.nextUrl;
+        },
     },
     methods: {
         loadMore() {
+            if(!this.nextUrl){
+                return;
+            }
+
             this.$http
                 .make()
                 .messages({
                     progress: 'Loading...',
                     position: 'bottomright',
                 })
-                .get(this.links.next)
+                .get(this.nextUrl)
                 .then((res) => {
                     this.update(res.data);
                 });

@@ -1,16 +1,16 @@
 <template>
   <div class="table-responsive">
     <table class="table" v-bind="$attrs">
-      <template v-if="page.data && page.data.length > 0">
-        <slot name="head" :page="page" />
-        <slot name="body" :page="page">
+      <template v-if="items && items.length > 0">
+        <slot name="head" :page="data" />
+        <slot name="body" :page="data">
           <tbody>
-            <template v-for="(item, index) in page.data" :key="item.id">
+            <template v-for="(item, index) in items" :key="item.id">
               <slot
                 name="row"
                 :item="item"
                 :index="index"
-                :items="page.data"
+                :items="items"
               />
             </template>
           </tbody>
@@ -51,26 +51,29 @@ export default {
         wrap: Boolean,
     },
     setup(props){
-        const data = ref(props.page);
+        const _page = ref(props.page);
 
         return {
-            data,
+            _page,
         };
     },
     computed: {
+        items(){
+            return this._page.data;
+        },
         meta() {
-            if (this.page.meta) {
-                return this.page.meta;
+            if (this._page.meta) {
+                return this._page.meta;
             }
 
-            return this.page;
+            return this._page;
         },
         links() {
-            if (this.page.links) {
-                return this.page.links;
+            if (this._page.links) {
+                return this._page.links;
             }
 
-            return this.page;
+            return this._page;
         },
         nextUrl(){
             return this.links.next ?? this.links.next_page_url;
@@ -98,15 +101,15 @@ export default {
         },
         update(data){
             if(this.wrap){
-                this.data.data.push(...data.data);
-                this.data.links = data.links;
-                this.data.meta = data.meta;
+                this._page.data.push(...data.data);
+                this._page.links = data.links;
+                this._page.meta = data.meta;
                 return;
             }
 
-            this.data.data.push(...data.data);
-            this.data.prev_page_url = data.prev_page_url;
-            this.data.next_page_url = data.next_page_url;
+            this._page.data.push(...data.data);
+            this._page.prev_page_url = data.prev_page_url;
+            this._page.next_page_url = data.next_page_url;
         },
     },
 };

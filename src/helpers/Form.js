@@ -209,7 +209,6 @@ class Form {
                 if (errors === 0) {
                     this.clearErrors();
                     this.resetDirty();
-                    console.log('reset', this.state.dirty);
                     options.onSuccess(res);
                 }
 

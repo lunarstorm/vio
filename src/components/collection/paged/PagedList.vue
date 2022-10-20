@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import Paginator from 'vio/components/collection/paged/Paginator';
-import TextNumeric from 'vio/components/text/TextNumeric';
+import Paginator from 'vio/components/collection/paged/Paginator.vue';
+import TextNumeric from 'vio/components/text/TextNumeric.vue';
 
 export default {
     name: 'PagedList',

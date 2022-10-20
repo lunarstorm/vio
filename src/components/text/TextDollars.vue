@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import TextNumeric from 'vio/components/text/TextNumeric';
+import TextNumeric from 'vio/components/text/TextNumeric.vue';
 
 export default {
     name: 'TextDollars',

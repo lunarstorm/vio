@@ -1,5 +1,5 @@
 <template>
-  <input-checkbox
+  <InputCheckbox
     v-for="(opt, index) in optionsParsed"
     :key="index"
     v-model="model"
@@ -9,7 +9,7 @@
     <slot name="label" :option="opt">
       {{ opt.text }}
     </slot>
-  </input-checkbox>
+  </InputCheckbox>
 </template>
 
 <script>

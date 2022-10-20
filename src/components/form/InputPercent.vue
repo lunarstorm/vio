@@ -1,5 +1,5 @@
 <template>
-  <input-group>
+  <InputGroup>
     <input
       ref="field"
       :value="valueIn(modelValue)"
@@ -11,7 +11,7 @@
     <template #after>
       %
     </template>
-  </input-group>
+  </InputGroup>
 </template>
 
 <script>

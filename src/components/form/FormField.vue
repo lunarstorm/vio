@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot />
-    <form-error v-model="error" />
+    <FormError v-model="error" />
   </div>
 </template>
 

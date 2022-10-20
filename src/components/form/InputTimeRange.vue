@@ -1,6 +1,6 @@
 <template>
-  <input-group>
-    <input-time
+  <InputGroup>
+    <InputTime
       v-model="from"
       @change="$emit('update:from', $event.target.value)"
     />
@@ -9,11 +9,11 @@
         <slot>to</slot>
       </div>
     </div>
-    <input-time
+    <InputTime
       v-model="to"
       @change="$emit('update:to', $event.target.value)"
     />
-  </input-group>
+  </InputGroup>
 </template>
 
 <script>

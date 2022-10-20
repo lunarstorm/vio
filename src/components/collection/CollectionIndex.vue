@@ -23,19 +23,19 @@
             v-if="isBatchSelectable"
             class="mr-2 justify-content-center align-self-center"
           >
-            <faux-checkbox
+            <FauxCheckbox
               :checked="Batch.isAllSelected()"
               @toggle="Batch.selectAllToggle()"
             />
           </div>
           <div class="flex-grow-1 align-self-center">
-            <button-menu
+            <ButtonMenu
               v-if="Batch.count() > 0"
               :items="generateBatchMenu()"
               class="btn-primary"
             >
               {{ Batch.count() }} Selected
-            </button-menu>
+            </ButtonMenu>
             <div v-else>
               <slot name="toolbar" />
             </div>
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <infinite-list
+      <InfiniteList
         ref="list"
         :fetch="fetch"
         :on-mounted="onMounted"
@@ -58,7 +58,7 @@
         <template #item="{ item }" class="pl-0">
           <div class="d-flex align-items-start w-100">
             <div v-if="isBatchSelectable" class="mr-2">
-              <faux-checkbox
+              <FauxCheckbox
                 :checked="Batch.isSelected(item.id)"
                 @toggle="Batch.toggle(item.id)"
               />
@@ -70,11 +70,11 @@
               <slot :item="item" name="right" />
             </div>
             <div>
-              <context-menu :items="getItemMenu(item)" />
+              <ContextMenu :items="getItemMenu(item)" />
             </div>
           </div>
         </template>
-      </infinite-list>
+      </InfiniteList>
     </div>
   </div>
 </template>

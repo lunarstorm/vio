@@ -1,10 +1,10 @@
 <template>
-  <modal ref="modalWrapper" v-bind="modalProps" @disposed="dispose">
+  <Modal ref="modalWrapper" v-bind="modalProps" @disposed="dispose">
     <template #default>
-      <spinner v-if="waiting" class="text-center text-muted p-5 my-5" />
+      <Spinner v-if="waiting" class="text-center text-muted p-5 my-5" />
       <component :is="component" v-else v-bind="resolvedProps" />
     </template>
-  </modal>
+  </Modal>
 </template>
 
 <script>

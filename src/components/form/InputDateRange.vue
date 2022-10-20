@@ -1,6 +1,6 @@
 <template>
-  <input-group class="input-group input-group-alt">
-    <input-date
+  <InputGroup class="input-group input-group-alt">
+    <InputDate
       v-model="from"
       :placeholder="labelFrom"
       @change="$emit('update:from', $event.target.value)"
@@ -10,12 +10,12 @@
         <slot>to</slot>
       </div>
     </div>
-    <input-date
+    <InputDate
       v-model="to"
       :placeholder="labelTo"
       @change="$emit('update:to', $event.target.value)"
     />
-  </input-group>
+  </InputGroup>
 </template>
 
 <script>

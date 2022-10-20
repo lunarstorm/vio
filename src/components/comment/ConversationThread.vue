@@ -2,7 +2,7 @@
   <div role="log" class="conversations">
     <div v-if="params.ord == 'desc' && !params.commentId">
       <div v-if="params.showForm && formParams">
-        <conversation-input
+        <ConversationInput
           :params="formParams"
           @comment-submitted="insertComment"
         />
@@ -34,7 +34,7 @@
     </div>
 
     <div v-if="params.totalKnown > 0 && busyLoading" class="p-2 text-center small">
-      <spinner class="text-muted" />
+      <Spinner class="text-muted" />
     </div>
 
     <!-- .conversation-list -->
@@ -45,7 +45,7 @@
         :key="comment.id"
       >
         <li class="conversation-inbound">
-          <conversation-item
+          <ConversationItem
             :key="comment.id"
             :comment-data="comment"
             :params="{id: comment.id}"
@@ -72,7 +72,7 @@
 
     <div v-if="params.ord == 'asc' && !params.commentId">
       <div v-if="params.showForm">
-        <conversation-input
+        <ConversationInput
           :params="formParams"
           class="my-2"
           @comment-submitted="insertComment"

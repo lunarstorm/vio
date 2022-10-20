@@ -12,7 +12,7 @@
             :key="index"
             class="stream-item"
           >
-            <feed-item :item="item" />
+            <FeedItem :item="item" />
           </li>
         </ul>
 

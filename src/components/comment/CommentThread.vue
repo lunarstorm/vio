@@ -5,7 +5,7 @@
   >
     <div v-if="params.ord == 'desc' && !params.commentId">
       <div v-if="params.showForm && formParams">
-        <comment-form
+        <CommentForm
           :params="formParams"
           @comment-submitted="insertComment"
         />
@@ -37,10 +37,10 @@
     </div>
 
     <div v-if="params.totalKnown > 0 && busyLoading" class="p-2 text-center small">
-      <spinner class="text-muted" />
+      <Spinner class="text-muted" />
     </div>
 
-    <comment-item
+    <CommentItem
       v-for="comment in comments"
       :key="comment.id"
       :comment-data="comment"
@@ -65,7 +65,7 @@
 
     <div v-if="params.ord == 'asc' && !params.commentId">
       <div v-if="params.showForm">
-        <comment-form
+        <CommentForm
           :params="formParams"
           @comment-submitted="insertComment"
         />

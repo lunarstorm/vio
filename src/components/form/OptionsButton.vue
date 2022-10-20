@@ -16,7 +16,7 @@
         class="dropdown-item"
         @click="$emit('update:modelValue', nullValue)"
       >
-        <faux-checkbox :checked="modelValue == nullValue" />
+        <FauxCheckbox :checked="modelValue == nullValue" />
         {{ nullText }}
       </a>
       <a
@@ -26,7 +26,7 @@
         class="dropdown-item"
         @click="$emit('update:modelValue', opt.value)"
       >
-        <faux-checkbox :checked="modelValue == opt.value" />
+        <FauxCheckbox :checked="modelValue == opt.value" />
         {{ opt.text }}
       </a>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <input-radio
+  <InputRadio
     v-for="(opt, index) in optionsParsed"
     :key="opt.value"
     v-model="modelValue"
@@ -10,7 +10,7 @@
     @input="$emit('update:modelValue', $event.target.value)"
   >
     {{ opt.text }}
-  </input-radio>
+  </InputRadio>
 </template>
 
 <script>

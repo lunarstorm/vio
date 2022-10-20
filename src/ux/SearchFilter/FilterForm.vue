@@ -1,41 +1,41 @@
 <template>
   <form @submit.prevent="refresh">
     <template v-for="modelAttr in filterModel" :key="modelAttr.key">
-      <filter-field
+      <FilterField
         v-if="modelAttr.type !== 'none'"
         v-model="filter.data.values[modelAttr.key]"
         :label="modelAttr.label"
       >
-        <input-text
+        <InputText
           v-if="modelAttr.type === 'text'"
           v-model="filter.data.values[modelAttr.key]"
         />
-        <options-multi
+        <OptionsMulti
           v-if="modelAttr.type === 'select'"
           v-model="filter.data.values[modelAttr.key]"
           :options="Metadata.get(modelAttr.optionsMetaKey)"
         />
-        <options-multi
+        <OptionsMulti
           v-if="modelAttr.type === 'multiselect'"
           v-model="filter.data.values[modelAttr.key]"
           :options="Metadata.get(modelAttr.optionsMetaKey)"
           mode="tags"
         />
-        <input-date
+        <InputDate
           v-if="modelAttr.type === 'date'"
           v-model="filter.data.values[modelAttr.key]"
         />
-        <input-checkbox
+        <InputCheckbox
           v-if="modelAttr.type === 'checkbox'"
           v-model="filter.data.values[modelAttr.key]"
         />
-      </filter-field>
+      </FilterField>
     </template>
 
     <hr>
 
     <div>
-      <button-submit>Search</button-submit>
+      <ButtonSubmit>Search</ButtonSubmit>
       <a
         class="btn btn-light mx-1"
         href="#"

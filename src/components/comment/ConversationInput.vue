@@ -1,11 +1,11 @@
 <template>
   <div class="media pb-3">
-    <avatar
+    <Avatar
       :style="params.avatar.css"
       class="mr-2"
     >
       {{ params.avatar.initials }}
-    </avatar>
+    </Avatar>
     <div class="media-body">
       <div class="publisher keep-focus focus">
         <form

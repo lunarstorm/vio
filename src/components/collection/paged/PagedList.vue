@@ -29,12 +29,12 @@
         <div class="d-flex align-items-center">
           <div class="align-middle text-muted">
             Page
-            <text-numeric :value="page.current_page" />
+            <TextNumeric :value="page.current_page" />
             of
-            <text-numeric :value="page.last_page" />
+            <TextNumeric :value="page.last_page" />
           </div>
           <div class="ml-auto">
-            <paginator v-if="page.total > 0" :page="page" />
+            <Paginator v-if="page.total > 0" :page="page" />
           </div>
         </div>
       </div>

@@ -24,12 +24,12 @@
 
   <div class="tab-content">
     <template v-for="tab in tabs" :key="tab.slug">
-      <tab-pane
+      <TabPane
         :aria-labelledby="`tab-${tab.slug}`"
         :class="{ 'show active': isSelected(tab.slug) }"
       >
         <component :is="tab.slot" />
-      </tab-pane>
+      </TabPane>
     </template>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
-  <form-field :error="error" class="form-group">
+  <FormField :error="error" class="form-group">
     <slot />
-  </form-field>
+  </FormField>
 </template>
 
 <script>

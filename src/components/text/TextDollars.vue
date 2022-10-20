@@ -1,9 +1,9 @@
 <template>
-  <text-numeric :value="value" format="0,0.00">
+  <TextNumeric :value="value" format="0,0.00">
     <template v-if="symbol">
       {{ symbol }}
     </template>
-  </text-numeric>
+  </TextNumeric>
 </template>
 
 <script>

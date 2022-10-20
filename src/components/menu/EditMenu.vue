@@ -29,7 +29,7 @@
       <i class="fa fa-ellipsis-h" />
     </button>
     <div class="dropdown-menu dropdown-menu-right" role="menu">
-      <dropdown-items :items="items" />
+      <DropdownItems :items="items" />
     </div>
   </div>
 </template>

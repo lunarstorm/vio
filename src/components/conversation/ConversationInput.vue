@@ -1,8 +1,8 @@
 <template>
   <div class="media pb-3">
-    <avatar :style="params.avatar.css" class="mr-2">
+    <Avatar :style="params.avatar.css" class="mr-2">
       {{ params.avatar.initials }}
-    </avatar>
+    </Avatar>
     <div class="media-body">
       <div class="publisher keep-focus focus">
         <form method="POST" @submit.prevent="submit">

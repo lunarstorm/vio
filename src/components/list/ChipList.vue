@@ -2,9 +2,9 @@
   <ul class="list-inline">
     <template v-for="(item, index) in itemsParsed" :key="index">
       <li v-if="item.value" class="list-inline-item">
-        <text-chip :label="item.label">
+        <TextChip :label="item.label">
           {{ item.value }}
-        </text-chip>
+        </TextChip>
       </li>
     </template>
   </ul>

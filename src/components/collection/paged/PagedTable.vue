@@ -8,18 +8,18 @@
         <div class="text-muted mr-auto">
           <template v-if="meta.total > 0">
             Showing
-            <text-numeric :value="meta.from" />
+            <TextNumeric :value="meta.from" />
             to
-            <text-numeric :value="meta.to" />
+            <TextNumeric :value="meta.to" />
             of
-            <text-numeric :value="meta.total" />
+            <TextNumeric :value="meta.total" />
           </template>
           <template v-else>
             No items
           </template>
         </div>
         <div>
-          <paginator v-if="meta.total > 0" :page="page" />
+          <Paginator v-if="meta.total > 0" :page="page" />
         </div>
       </div>
     </div>
@@ -54,12 +54,12 @@
         <div class="d-flex align-items-center">
           <div class="align-middle text-muted">
             Page
-            <text-numeric :value="meta.current_page" />
+            <TextNumeric :value="meta.current_page" />
             of
-            <text-numeric :value="meta.last_page" />
+            <TextNumeric :value="meta.last_page" />
           </div>
           <div class="ml-auto">
-            <paginator v-if="meta.total > 0" :page="page" />
+            <Paginator v-if="meta.total > 0" :page="page" />
           </div>
         </div>
       </div>

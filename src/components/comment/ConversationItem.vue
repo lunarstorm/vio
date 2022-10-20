@@ -4,15 +4,15 @@
       <div
         class="conversation-avatar"
       >
-        <avatar :style="comment.avatar">
+        <Avatar :style="comment.avatar">
           {{ comment.initials }}
-        </avatar>
+        </Avatar>
       </div>
       <div class="conversation-message">
         <div class="conversation-meta">
           <strong class="ml-1">{{ comment.author }}</strong>
           <span class="time ml-1">
-            <text-time-ago v-if="comment.isWithinCutoff" :value="comment.date" />
+            <TextTimeAgo v-if="comment.isWithinCutoff" :value="comment.date" />
             <span v-else>{{ comment.dateString }}</span>
           </span>
         </div>
@@ -22,7 +22,7 @@
               method="POST"
               @submit.prevent="save"
             >
-              <input-textarea v-model="comment.body" rows="1" />
+              <InputTextarea v-model="comment.body" rows="1" />
 
               <div class="mt-2">
                 <button
@@ -103,7 +103,7 @@
         </div>
 
         <div v-if="showReplies">
-          <comment-replies :params="replyThreadParams" />
+          <CommentReplies :params="replyThreadParams" />
         </div>
       </div>
     </div>

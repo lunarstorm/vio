@@ -16,7 +16,7 @@
             :items="items"
           />
           <td width="10" class="text-right">
-            <dot-menu>
+            <DotMenu>
               <template #items>
                 <a
                   href="#"
@@ -26,7 +26,7 @@
                   <i class="fa fa-times" /> Remove
                 </a>
               </template>
-            </dot-menu>
+            </DotMenu>
           </td>
         </tr>
       </template>

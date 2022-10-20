@@ -1,5 +1,5 @@
 <template>
-  <modal size="lg" :center="true" :scroll="false">
+  <Modal size="lg" :center="true" :scroll="false">
     <template #title>
       <slot name="title">
         Sort Items
@@ -7,7 +7,7 @@
     </template>
     <template #default>
       <table class="table">
-        <vue-draggable
+        <VueDraggable
           :list="modelValue"
           :item-key="itemKey"
           :group="group"
@@ -27,7 +27,7 @@
               </td>
             </tr>
           </template>
-        </vue-draggable>
+        </VueDraggable>
       </table>
     </template>
     <template #footer="{ close }">
@@ -35,7 +35,7 @@
         Dismiss
       </button>
     </template>
-  </modal>
+  </Modal>
 </template>
 
 <script>

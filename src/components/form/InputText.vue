@@ -8,7 +8,7 @@
     v-bind="$attrs"
     @input="$emit('update:modelValue', $event.target.value)"
   >
-  <form-error v-model="error" />
+  <FormError v-model="error" />
 </template>
 
 <script>

@@ -4,7 +4,7 @@
       <div class="activity-stream">
         <ul class="activities">
           <li v-for="item in items" class="stream-item">
-            <feed-item :item="item" />
+            <FeedItem :item="item" />
           </li>
         </ul>
 

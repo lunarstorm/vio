@@ -13,7 +13,7 @@
       </div>
       <div v-else class="story-content">
         <small :title="item.dateString" class="text-muted">
-          <time-ago
+          <TimeAgo
             v-if="item.isWithinCutoff"
             :value="item.date"
           />
@@ -21,7 +21,7 @@
         </small>
 
         <div v-if="item.metaData.object" class="object-content">
-          <feed-item-object :object="item.metaData.object" />
+          <FeedItemObject :object="item.metaData.object" />
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
         <div class="clearfix" />
 
         <small :title="child.dateString" class="text-muted">
-          <time-ago
+          <TimeAgo
             v-if="child.isWithinCutoff"
             :value="child.date"
           />
@@ -55,7 +55,7 @@
         </small>
 
         <div v-if="child.metaData.object" class="object-content">
-          <feed-item-object :object="child.metaData.object" />
+          <FeedItemObject :object="child.metaData.object" />
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
       <div class="clearfix" />
 
       <small class="text-muted">
-        <time-ago
+        <TimeAgo
           v-if="item.isWithinCutoff"
           :value="item.date"
         />
@@ -99,7 +99,7 @@
 
     <div v-if="expanded">
       <div v-for="child in item.stories">
-        <feed-item :item="child" />
+        <FeedItem :item="child" />
       </div>
     </div>
   </div>

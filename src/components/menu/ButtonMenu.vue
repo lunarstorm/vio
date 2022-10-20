@@ -10,7 +10,7 @@
     </button>
     <div :class="cssDropdownMenu" class="dropdown-menu" role="menu">
       <slot name="items">
-        <dropdown-items :items="items" />
+        <DropdownItems :items="items" />
       </slot>
     </div>
   </div>

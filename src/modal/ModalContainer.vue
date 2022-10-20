@@ -1,7 +1,7 @@
 <template>
   <teleport to="#externals">
     <div id="vio-modals" ref="modals">
-      <modal
+      <Modal
         v-for="(item, index) in data.items"
         :key="index"
         :data="item"

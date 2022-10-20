@@ -10,7 +10,7 @@
           v-for="(message, index) in stack[Message.POS_TOP_LEFT]"
           :key="index"
         >
-          <toast-message :message="message" />
+          <ToastMessage :message="message" />
         </template>
       </div>
 
@@ -19,7 +19,7 @@
           v-for="(message, index) in stack[Message.POS_TOP]"
           :key="index"
         >
-          <toast-message :message="message" />
+          <ToastMessage :message="message" />
         </template>
       </div>
 
@@ -28,7 +28,7 @@
           v-for="(message, index) in stack[Message.POS_TOP_RIGHT]"
           :key="index"
         >
-          <toast-message :message="message" />
+          <ToastMessage :message="message" />
         </template>
       </div>
 
@@ -37,7 +37,7 @@
           v-for="(message, index) in stack[Message.POS_BOTTOM_LEFT]"
           :key="index"
         >
-          <toast-message :message="message" />
+          <ToastMessage :message="message" />
         </template>
       </div>
 
@@ -46,7 +46,7 @@
           v-for="(message, index) in stack[Message.POS_BOTTOM]"
           :key="index"
         >
-          <toast-message :message="message" />
+          <ToastMessage :message="message" />
         </template>
       </div>
 
@@ -55,7 +55,7 @@
           v-for="(message, index) in stack[Message.POS_BOTTOM_RIGHT]"
           :key="index"
         >
-          <toast-message :message="message" />
+          <ToastMessage :message="message" />
         </template>
       </div>
     </div>

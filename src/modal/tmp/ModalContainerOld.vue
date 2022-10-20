@@ -3,7 +3,7 @@
     <div id="ix-modals">
       <div v-if="data.items.length > 0" class="io-modal-mask" />
       <div ref="modals">
-        <modal
+        <Modal
           v-for="(item, index) in data.items"
           :key="index"
           :data="item"

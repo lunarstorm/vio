@@ -25,7 +25,7 @@
           <th v-if="rowControls" width="30" />
         </tr>
       </thead>
-      <vue-draggable
+      <VueDraggable
         :list="modelValue"
         :item-key="itemKey"
         :group="group"
@@ -99,7 +99,7 @@
             </td>
           </tr>
         </template>
-      </vue-draggable>
+      </VueDraggable>
       <tfoot>
         <tr v-if="!!$slots.foot">
           <td />

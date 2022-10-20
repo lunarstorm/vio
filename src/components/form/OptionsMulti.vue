@@ -1,5 +1,5 @@
 <template>
-  <multi-select
+  <MultiSelect
     ref="multiselect"
     v-model="modelValue"
     :options="optionsNormalized"
@@ -12,7 +12,7 @@
     <template v-for="(_, slot) of $slots" #[slot]="scope">
       <slot :name="slot" v-bind="scope" />
     </template>
-  </multi-select>
+  </MultiSelect>
 </template>
 
 <script>

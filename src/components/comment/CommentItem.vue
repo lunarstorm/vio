@@ -21,7 +21,7 @@
               </small>
 
               <small :title="comment.dateString" class="ml-2 text-muted">
-                <time-ago
+                <TimeAgo
                   v-if="comment.isWithinCutoff"
                   :value="comment.date"
                 />
@@ -40,7 +40,7 @@
 
           <div v-if="isEdit">
             <form method="POST" @submit.prevent="save">
-              <input-textarea v-model="comment.body" rows="1" />
+              <InputTextarea v-model="comment.body" rows="1" />
 
               <div class="mt-2">
                 <button
@@ -95,7 +95,7 @@
             </a>
           </div>
           <div v-if="showReplies">
-            <comment-replies :params="replyThreadParams" />
+            <CommentReplies :params="replyThreadParams" />
           </div>
         </div>
       </div>

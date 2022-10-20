@@ -15,7 +15,7 @@
 <script>
 import FormOptions from 'vio/helpers/FormOptions';
 import { toRefs } from 'vue';
-import InputCheckbox from 'vio/components/form/InputCheckbox';
+import InputCheckbox from 'vio/components/form/InputCheckbox.vue';
 
 export default {
     name: 'OptionsCheckbox',

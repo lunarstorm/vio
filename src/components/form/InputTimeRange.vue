@@ -20,8 +20,8 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import {toRefs} from 'vue';
-import InputGroup from './InputGroup';
-import InputTime from './InputTime';
+import InputGroup from './InputGroup.vue';
+import InputTime from './InputTime.vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 

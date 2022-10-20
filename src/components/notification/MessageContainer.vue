@@ -63,8 +63,7 @@
 </template>
 
 <script>
-import { ref, watchEffect } from 'vue';
-import ToastMessage from 'vio/components/notification/Toast';
+import ToastMessage from 'vio/components/notification/Toast.vue';
 import Messages from 'vio/helpers/Messages';
 import Message from 'vio/helpers/Message';
 

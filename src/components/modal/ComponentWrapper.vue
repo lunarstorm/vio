@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import Modal from 'vio/components/modal/Modal';
-import Spinner from 'vio/components/spinner/Spinner';
-import { reactive, ref, toRefs } from 'vue';
+import Modal from 'vio/components/modal/Modal.vue';
+import Spinner from 'vio/components/spinner/Spinner.vue';
+import { reactive, ref } from 'vue';
 
 export default {
     name: 'ComponentWrapper',

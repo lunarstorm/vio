@@ -70,7 +70,7 @@
 
 <script>
 import {toRefs} from 'vue';
-import InputText from 'vio/components/form/InputText';
+import InputText from 'vio/components/form/InputText.vue';
 
 export default {
     name: 'InputAddress',

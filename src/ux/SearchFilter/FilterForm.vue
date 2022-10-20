@@ -49,10 +49,10 @@
 </template>
 
 <script>
-import InputText from 'vio/components/form/InputText';
+import InputText from 'vio/components/form/InputText.vue';
 import InputDate from 'vio/components/form/InputDate';
 import InputCheckbox from 'vio/components/form/InputCheckbox';
-import FormGroup from 'vio/components/form/FormGroup';
+import FormGroup from 'vio/components/form/FormGroup.vue';
 import FilterField from 'vio/ux/SearchFilter/FilterField';
 import Metadata from 'vio/helpers/Metadata';
 import OptionsRadio from 'vio/components/form/OptionsRadio';

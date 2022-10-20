@@ -49,7 +49,7 @@
 
 <script>
 import Message from 'vio/helpers/Message';
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 
 export default {
     name: 'Toast',

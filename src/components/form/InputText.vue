@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import FormError from 'vio/components/form/FormError';
+import FormError from 'vio/components/form/FormError.vue';
 
 export default {
     name: 'InputText',

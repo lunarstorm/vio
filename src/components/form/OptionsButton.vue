@@ -35,17 +35,13 @@
 
 <script>
 import {toRefs} from 'vue';
-import FormOptions from 'vio/helpers/FormOptions';
-import InputRadio from 'vio/components/form/InputRadio';
-import DropdownItem from '../menu/DropdownItem';
-import FauxCheckbox from './FauxCheckbox';
+import FormOptions from 'vio/helpers/FormOptions.vue';
+import FauxCheckbox from './FauxCheckbox.vue';
 import _ from 'lodash';
 
 export default {
     name: 'OptionsButton',
     components: {
-        InputRadio,
-        DropdownItem,
         FauxCheckbox,
     },
     inheritAttrs: false,

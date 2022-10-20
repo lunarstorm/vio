@@ -6,7 +6,7 @@
 
 <script>
 import { inject } from 'vue';
-import FormField from 'vio/components/form/FormField';
+import FormField from 'vio/components/form/FormField.vue';
 
 export default {
     name: 'FormGroup',

@@ -82,15 +82,15 @@
 <script>
 import { ref, watch, watchEffect, toRefs, defineAsyncComponent } from 'vue';
 import BatchSelector from 'vio/helpers/BatchSelector';
-import InfiniteList from './InfiniteList';
+import InfiniteList from './InfiniteList.vue';
 const ContextMenu = defineAsyncComponent(() =>
-    import('vio/components/menu/ContextMenu'),
+    import('vio/components/menu/ContextMenu.vue'),
 );
 const FauxCheckbox = defineAsyncComponent(() =>
-    import('vio/components/form/FauxCheckbox'),
+    import('vio/components/form/FauxCheckbox.vue'),
 );
 const ButtonMenu = defineAsyncComponent(() =>
-    import('vio/components/menu/ButtonMenu'),
+    import('vio/components/menu/ButtonMenu.vue'),
 );
 
 export default {

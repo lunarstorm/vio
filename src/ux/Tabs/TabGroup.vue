@@ -36,7 +36,7 @@
 
 <script>
 import { ref } from '@vue/reactivity';
-import TabPane from './TabPane';
+import TabPane from './TabPane.vue';
 
 export default {
     name: 'TabGroup',

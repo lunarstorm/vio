@@ -70,7 +70,7 @@
 <script>
 import { ref, watch, watchEffect, toRefs, defineAsyncComponent } from 'vue';
 import BatchSelector from 'vio/helpers/BatchSelector';
-import InfiniteTable from './InfiniteTable';
+import InfiniteTable from './InfiniteTable.vue';
 
 const ContextMenu = defineAsyncComponent(() =>
     import('vio/components/menu/ContextMenu'),

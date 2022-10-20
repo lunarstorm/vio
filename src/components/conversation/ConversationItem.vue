@@ -93,8 +93,8 @@
 
 <script>
 import { computed, reactive, ref } from 'vue';
-import CommentReplies from './ConversationThread';
-import InputTextarea from '../form/InputTextarea';
+import CommentReplies from './ConversationThread.vue';
+import InputTextarea from '../form/InputTextarea.vue';
 import Avatar from 'vio/components/comment/Avatar';
 import TextTimeAgo from 'vio/components/text/TextTimeAgo';
 

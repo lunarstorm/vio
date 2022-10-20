@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import InfiniteList from './InfiniteList';
+import InfiniteList from './InfiniteList.vue';
 
 export default {
     ...InfiniteList,

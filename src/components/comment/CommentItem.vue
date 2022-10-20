@@ -108,7 +108,7 @@ import { toRefs, reactive, ref, computed } from 'vue';
 import api from 'io/api';
 import TimeAgo from 'components/ui/etc/TimeAgo.vue';
 import CommentReplies from './CommentThread.vue';
-import InputTextarea from '../form/InputTextarea';
+import InputTextarea from '../form/InputTextarea.vue';
 
 export default {
     name: 'CommentItem',

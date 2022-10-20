@@ -16,11 +16,11 @@
 <script>
 import {defineAsyncComponent, toRefs} from 'vue';
 
-const DropdownAction = defineAsyncComponent(() => import('./DropdownAction'));
-const DropdownLink = defineAsyncComponent(() => import('./DropdownLink'));
-const DropdownDivider = defineAsyncComponent(() => import('./DropdownDivider'));
-const DropdownText = defineAsyncComponent(() => import('./DropdownText'));
-const DropdownHeader = defineAsyncComponent(() => import('./DropdownHeader'));
+const DropdownAction = defineAsyncComponent(() => import('./DropdownAction.vue'));
+const DropdownLink = defineAsyncComponent(() => import('./DropdownLink.vue'));
+const DropdownDivider = defineAsyncComponent(() => import('./DropdownDivider.vue'));
+const DropdownText = defineAsyncComponent(() => import('./DropdownText.vue'));
+const DropdownHeader = defineAsyncComponent(() => import('./DropdownHeader.vue'));
 
 export default {
     name: 'DropdownItems',

@@ -20,7 +20,7 @@
 
 <script>
 import {toRefs} from 'vue';
-import InputGroup from './InputGroup';
+import InputGroup from './InputGroup.vue';
 import InputDate from 'vio/components/form/InputDate';
 
 export default {

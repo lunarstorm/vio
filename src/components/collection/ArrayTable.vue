@@ -47,7 +47,7 @@
 
 <script>
 import _ from 'lodash';
-import DotMenu from 'vio/components/menu/DotMenu';
+import DotMenu from 'vio/components/menu/DotMenu.vue';
 
 export default {
     name: 'ArrayTable',

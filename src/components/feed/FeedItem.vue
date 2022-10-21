@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import {toRefs, ref, defineAsyncComponent, inject} from 'vue';
+import { toRefs, ref, defineAsyncComponent, inject } from 'vue';
 import TimeAgo from 'vio/components/text/TextTimeAgo.vue';
 import _ from 'lodash';
 

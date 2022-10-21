@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import {ref, toRefs, provide, defineAsyncComponent} from 'vue';
+import { ref, toRefs, provide, defineAsyncComponent } from 'vue';
 
 const FeedItem = defineAsyncComponent(() => import('./FeedItem.vue'));
 

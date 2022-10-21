@@ -38,7 +38,7 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import Ui from 'vio/Ui';
-import {defineAsyncComponent, reactive, toRefs} from 'vue';
+import { defineAsyncComponent, reactive, toRefs } from 'vue';
 
 var $body = $('body');
 var $main = $('.io-viewport').first();

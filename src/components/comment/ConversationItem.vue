@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import {computed, reactive, ref} from 'vue';
+import { computed, reactive, ref } from 'vue';
 import api from 'io/api';
 import CommentReplies from './ConversationThread.vue';
 import InputTextarea from '../form/InputTextarea.vue';

@@ -21,7 +21,7 @@ import $ from 'jquery';
 import _ from 'lodash';
 import Ui from 'vio/Ui';
 import Modal from './Modal.vue';
-import {provide, reactive, ref, unref, watch} from 'vue';
+import { provide, reactive, ref, unref, watch } from 'vue';
 import Url from 'url-parse';
 
 var $body = $('body');

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import {toRefs, ref} from 'vue';
+import { toRefs, ref } from 'vue';
 
 export default {
     name: 'TextChip',

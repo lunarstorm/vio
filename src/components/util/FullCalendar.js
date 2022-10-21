@@ -1,5 +1,5 @@
 import '@fullcalendar/core/vdom';
-import {Calendar} from '@fullcalendar/core';
+import { Calendar } from '@fullcalendar/core';
 import {
     defineComponent,
     h,
@@ -36,6 +36,6 @@ export default defineComponent({
             calendar.value.destroy();
         });
 
-        return () => h('div', {ref: el});
+        return () => h('div', { ref: el });
     },
 });

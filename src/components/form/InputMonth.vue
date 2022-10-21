@@ -11,7 +11,7 @@
 <script>
 import flatpickr from 'flatpickr';
 import monthSelectPlugin from 'flatpickr/dist/plugins/monthSelect';
-import {toRefs} from 'vue';
+import { toRefs } from 'vue';
 
 export default {
     name: 'InputMonth',

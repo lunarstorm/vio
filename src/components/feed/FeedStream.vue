@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {toRefs, provide, defineAsyncComponent} from 'vue';
+import { toRefs, provide, defineAsyncComponent } from 'vue';
 
 const FeedItem = defineAsyncComponent(() => import('./FeedItem.vue'));
 

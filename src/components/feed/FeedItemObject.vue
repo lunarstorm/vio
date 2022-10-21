@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {inject, ref, toRefs} from 'vue';
+import { inject, ref, toRefs } from 'vue';
 
 export default {
     name: 'FeedItemObject',

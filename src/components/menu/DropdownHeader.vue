@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {ref, toRefs} from 'vue';
+import { ref, toRefs } from 'vue';
 
 export default {
     name: 'DropdownHeader',

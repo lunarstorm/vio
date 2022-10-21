@@ -1,4 +1,4 @@
-import {createApp, defineAsyncComponent, reactive, ref} from 'vue';
+import { createApp, defineAsyncComponent, reactive, ref } from 'vue';
 
 class Pagination {
     constructor() {

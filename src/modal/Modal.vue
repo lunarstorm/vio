@@ -50,7 +50,7 @@
 <script>
 import $ from 'jquery';
 import _ from 'lodash';
-import {defineAsyncComponent, reactive, ref, toRefs} from 'vue';
+import { defineAsyncComponent, reactive, ref, toRefs } from 'vue';
 
 export default {
     name: 'Modal',

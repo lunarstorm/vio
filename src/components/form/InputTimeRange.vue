@@ -19,7 +19,7 @@
 <script>
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import {toRefs} from 'vue';
+import { toRefs } from 'vue';
 import InputGroup from './InputGroup.vue';
 import InputTime from './InputTime.vue';
 

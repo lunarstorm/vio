@@ -1,4 +1,4 @@
-import {h, render} from 'vue';
+import { h, render } from 'vue';
 
 class ComponentHelper {
 

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {toRefs} from 'vue';
+import { toRefs } from 'vue';
 import FormOptions from 'vio/helpers/FormOptions';
 import FauxCheckbox from './FauxCheckbox.vue';
 import _ from 'lodash';

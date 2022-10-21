@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import {toRefs} from 'vue';
+import { toRefs } from 'vue';
 import InputText from 'vio/components/form/InputText.vue';
 
 export default {

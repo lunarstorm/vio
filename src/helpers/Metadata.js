@@ -1,4 +1,4 @@
-import {reactive, watch} from 'vue';
+import { reactive, watch } from 'vue';
 import _ from 'lodash';
 
 class Metadata {

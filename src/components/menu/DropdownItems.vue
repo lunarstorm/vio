@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {defineAsyncComponent, toRefs} from 'vue';
+import { defineAsyncComponent, toRefs } from 'vue';
 
 const DropdownAction = defineAsyncComponent(() => import('./DropdownAction.vue'));
 const DropdownLink = defineAsyncComponent(() => import('./DropdownLink.vue'));

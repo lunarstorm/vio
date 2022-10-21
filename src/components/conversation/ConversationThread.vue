@@ -72,7 +72,7 @@
 import { defineAsyncComponent, provide, reactive, ref, toRefs } from 'vue';
 import _ from 'lodash';
 import http from 'vio/helpers/Http';
-import Spinner from 'vio/components/spinner/Spinner';
+import Spinner from 'vio/components/spinner/Spinner.vue';
 import Social from 'vio/helpers/Social';
 
 const ConversationInput = defineAsyncComponent(() =>

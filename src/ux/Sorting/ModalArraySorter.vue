@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Modal from 'vio/components/modal/Modal';
+import Modal from 'vio/components/modal/Modal.vue';
 import VueDraggable from 'vuedraggable';
 
 export default {

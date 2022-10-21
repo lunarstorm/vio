@@ -1,6 +1,6 @@
 import { defineAsyncComponent, h, render } from 'vue';
 
-const VioDialog = defineAsyncComponent(() => import('vio/components/modal/Dialog'));
+const VioDialog = defineAsyncComponent(() => import('vio/components/modal/Dialog.vue'));
 
 class Dialog {
     constructor(config) {

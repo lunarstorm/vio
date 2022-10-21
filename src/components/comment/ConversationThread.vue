@@ -103,7 +103,7 @@ import _ from 'lodash';
 import io from 'io/app';
 import api from 'vio/Api';
 import $ from 'jquery';
-import Spinner from 'vio/components/spinner/Spinner';
+import Spinner from 'vio/components/spinner/Spinner.vue';
 
 const ConversationInput = defineAsyncComponent(() => import('./ConversationInput.vue'));
 const ConversationItem = defineAsyncComponent(() => import('./ConversationItem.vue'));

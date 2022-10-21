@@ -95,8 +95,8 @@
 import { computed, reactive, ref } from 'vue';
 import CommentReplies from './ConversationThread.vue';
 import InputTextarea from '../form/InputTextarea.vue';
-import Avatar from 'vio/components/comment/Avatar';
-import TextTimeAgo from 'vio/components/text/TextTimeAgo';
+import Avatar from 'vio/components/comment/Avatar.vue';
+import TextTimeAgo from 'vio/components/text/TextTimeAgo.vue';
 
 export default {
     name: 'ConversationItem',

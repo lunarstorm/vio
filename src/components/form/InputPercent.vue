@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import InputGroup from 'vio/components/form/InputGroup';
+import InputGroup from 'vio/components/form/InputGroup.vue';
 
 export default {
     name: 'InputPercent',

@@ -53,7 +53,7 @@ import io from 'io/app';
 import autosize from 'vio/directives/autosize';
 import $ from 'jquery';
 import {reactive, ref, toRefs} from 'vue';
-import Avatar from 'vio/components/comment/Avatar';
+import Avatar from 'vio/components/comment/Avatar.vue';
 
 export default {
     name: 'ConversationInput',

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import TextChip from 'vio/components/text/TextChip';
+import TextChip from 'vio/components/text/TextChip.vue';
 import FormOptions from 'vio/helpers/FormOptions';
 
 export default {

@@ -50,14 +50,14 @@
 
 <script>
 import InputText from 'vio/components/form/InputText.vue';
-import InputDate from 'vio/components/form/InputDate';
-import InputCheckbox from 'vio/components/form/InputCheckbox';
+import InputDate from 'vio/components/form/InputDate.vue';
+import InputCheckbox from 'vio/components/form/InputCheckbox.vue';
 import FormGroup from 'vio/components/form/FormGroup.vue';
-import FilterField from 'vio/ux/SearchFilter/FilterField';
+import FilterField from 'vio/ux/SearchFilter/FilterField.vue';
 import Metadata from 'vio/helpers/Metadata';
-import OptionsRadio from 'vio/components/form/OptionsRadio';
-import OptionsMulti from 'vio/components/form/OptionsMulti';
-import ButtonSubmit from 'vio/components/form/ButtonSubmit';
+import OptionsRadio from 'vio/components/form/OptionsRadio.vue';
+import OptionsMulti from 'vio/components/form/OptionsMulti.vue';
+import ButtonSubmit from 'vio/components/form/ButtonSubmit.vue';
 
 export default {
     name: 'FilterForm',

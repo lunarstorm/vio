@@ -16,7 +16,7 @@
 <script>
 import FormOptions from 'vio/helpers/FormOptions';
 import {toRefs} from 'vue';
-import InputRadio from 'vio/components/form/InputRadio';
+import InputRadio from 'vio/components/form/InputRadio.vue';
 
 export default {
     name: 'OptionsRadio',

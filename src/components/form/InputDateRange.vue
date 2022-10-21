@@ -21,7 +21,7 @@
 <script>
 import {toRefs} from 'vue';
 import InputGroup from './InputGroup.vue';
-import InputDate from 'vio/components/form/InputDate';
+import InputDate from 'vio/components/form/InputDate.vue';
 
 export default {
     name: 'InputDateRange',

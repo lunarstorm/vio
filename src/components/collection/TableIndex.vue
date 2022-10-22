@@ -72,21 +72,17 @@ import { ref, watch, watchEffect, toRefs, defineAsyncComponent } from 'vue';
 import BatchSelector from 'vio/helpers/BatchSelector';
 import InfiniteTable from './InfiniteTable.vue';
 
-const ContextMenu = defineAsyncComponent(() =>
-    import('vio/components/menu/ContextMenu'),
-);
 const FauxCheckbox = defineAsyncComponent(() =>
-    import('vio/components/form/FauxCheckbox'),
+    import('vio/components/form/FauxCheckbox.vue'),
 );
 const ButtonMenu = defineAsyncComponent(() =>
-    import('vio/components/menu/ButtonMenu'),
+    import('vio/components/menu/ButtonMenu.vue'),
 );
 
 export default {
     name: 'TableIndex',
     comments: true,
     components: {
-        ContextMenu,
         InfiniteTable,
         FauxCheckbox,
         ButtonMenu,

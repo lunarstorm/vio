@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { ref } from '@vue/reactivity';
+import { ref } from 'vue';
 import TabPane from './TabPane.vue';
 
 export default {

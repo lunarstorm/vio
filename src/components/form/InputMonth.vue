@@ -43,7 +43,7 @@ export default {
         this.FP = flatpickr($field, {
             ...this.options,
             allowInput: true,
-            plugins:[new monthSelectPlugin({
+            plugins: [new monthSelectPlugin({
                 dateFormat: 'Y-m',
             })],
         });

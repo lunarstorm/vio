@@ -73,15 +73,15 @@ class SearchFilter {
     }
 
     clear(key) {
-        this.data.values[key] = '';
+        this.set(key, '');
     }
 
     reset(key) {
-        this.data.values[key] = _.get(this.data.defaults, [key], '');
+        this.set(key, _.get(this.data.defaults, [key], ''));
     }
 
     get(key) {
-        return this.data.values[key];
+        return _.get(this.data.values, key);
     }
 
     resetAll() {

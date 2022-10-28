@@ -81,7 +81,7 @@ export default {
     setup(props) {
         console.log(props);
         props.filterModel.map(attr => {
-            if(attr.type === 'range' && attr.range ) props.filter.data.values[attr.key] = attr.range;
+            if(attr.type === 'range' && attr.range) props.filter.data.values[attr.key] = attr.range;
         });
         return {
             ...props,

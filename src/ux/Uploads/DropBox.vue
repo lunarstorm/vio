@@ -52,7 +52,7 @@ export default {
         });
 
         drop.on('removedfile', (file) => {
-            if( typeof this.onRemove === 'function') {
+            if(typeof this.onRemove === 'function') {
                 this.onRemove(file);
             }
         });

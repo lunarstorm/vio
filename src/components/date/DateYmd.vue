@@ -3,17 +3,12 @@
 </template>
 
 <script>
-import { DateTime } from 'luxon';
 import Date from 'vio/helpers/Date';
 
 export default {
-    name: 'DateLocal',
+    name: 'DateYmd',
     props: {
         date: [String, Number],
-        format: {
-            type: String,
-            default: DateTime.DATETIME_FULL,
-        },
     },
     setup(props) {
         const dt = Date.parse(props.date);
@@ -24,7 +19,7 @@ export default {
     },
     computed: {
         dateFormatted() {
-            return this.dt.toLocaleString(this.format);
+            return this.dt.toISODate();
         },
     },
 };

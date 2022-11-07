@@ -2,7 +2,7 @@
   <div class="form-group">
     <label>{{ label }}</label>
     <small class="ml-1">
-      <a href="#" @click.prevent="$emit('update:modelValue', null)"> clear </a>
+      <a href="#" @click.prevent="$emit('update:modelValue', resetValue)"> clear </a>
     </small>
     <div>
       <slot />
@@ -17,6 +17,10 @@ export default {
     props: {
         label: String,
         modelValue: [String, Number, Boolean, Array],
+        resetValue: {
+            type: [String, Number, Boolean, Array],
+            default: '',
+        },
     },
     emits: ['update:modelValue'],
     setup(props) {},

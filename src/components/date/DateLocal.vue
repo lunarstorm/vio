@@ -11,7 +11,7 @@ export default {
     props: {
         date: [String, Number],
         format: {
-            type: String,
+            type: [String, Object],
             default: DateTime.DATETIME_FULL,
         },
     },

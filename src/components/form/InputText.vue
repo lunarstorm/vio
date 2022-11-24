@@ -8,11 +8,12 @@
     v-bind="$attrs"
     @input="$emit('update:modelValue', $event.target.value)"
   >
-  <FormError v-model="error" />
+  <FormError v-model="errorModel" />
 </template>
 
 <script>
 import FormError from 'vio/components/form/FormError.vue';
+import { ref } from 'vue';
 
 export default {
     name: 'InputText',
@@ -27,7 +28,10 @@ export default {
     },
     emits: ['update:modelValue'],
     setup(props) {
+        const errorModel = ref(props.error);
+
         return {
+            errorModel,
             options: props.options,
         };
     },
@@ -38,7 +42,11 @@ export default {
     },
     mounted() {},
     unmounted() {},
-    methods: {},
+    methods: {
+        focus(){
+            this.$refs.field?.focus();
+        },
+    },
 };
 </script>
 

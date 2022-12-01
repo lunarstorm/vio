@@ -2,6 +2,7 @@ import { defineAsyncComponent, h, ref, render } from 'vue';
 import Message from 'vio/helpers/Message';
 
 const MessageContainer = defineAsyncComponent(() => import('vio/components/notification/MessageContainer.vue'));
+
 class Messages {
 
     constructor() {
@@ -69,9 +70,12 @@ class Messages {
         };
     }
 
-    setApp(app) {
+    setApp(app, shouldMount) {
         this.app = app;
-        this.mount();
+
+        if(shouldMount){
+            this.mount();
+        }
     }
 
     mount() {

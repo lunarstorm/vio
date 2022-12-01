@@ -6,7 +6,12 @@ import Metadata from 'vio/helpers/Metadata';
 
 export default {
     install: (app, options) => {
-        Messages.setApp(app);
+        options = {
+            mountMessageContainer: true,
+            ...options,
+        };
+
+        Messages.setApp(app, options.mountMessageContainer);
         Modal.app = app;
         Dialog.app = app;
 

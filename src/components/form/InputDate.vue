@@ -49,7 +49,11 @@ export default {
             this.FP.destroy();
         }
     },
-    methods: {},
+    methods: {
+        focus(){
+            this.$refs.field?.focus();
+        },
+    },
 };
 </script>
 

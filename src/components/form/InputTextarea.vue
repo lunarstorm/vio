@@ -30,7 +30,11 @@ export default {
     },
     mounted() {},
     unmounted() {},
-    methods: {},
+    methods: {
+        focus(){
+            this.$refs.field?.focus();
+        },
+    },
 };
 </script>
 

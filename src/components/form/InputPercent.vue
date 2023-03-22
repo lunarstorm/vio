@@ -6,70 +6,55 @@
       type="text"
       class="form-control"
       v-bind="$attrs"
-      @input="$emit('update:modelValue', valueOut($event.target.value))"
+      @input="updateModelValue($event.target.value)"
     >
     <template #after>
       %
     </template>
   </InputGroup>
 </template>
-
-<script>
+  
+<script setup>
+import { ref } from 'vue';
 import InputGroup from 'vio/components/form/InputGroup.vue';
-
-export default {
-    name: 'InputPercent',
-    components: {
-        InputGroup,
-    },
-    inheritAttrs: false,
-    props: {
-        modelValue: [String, Number],
-        label: [String],
-        error: [Array, String],
-        asInteger: Boolean,
-    },
-    emits: ['update:modelValue'],
-    setup(props) {
-        return {
-            options: props.options,
-        };
-    },
-    computed: {
-        ref() {
-            return this.$refs.field;
-        },
-    },
-    mounted() {},
-    unmounted() {},
-    methods: {
-        valueIn(value){
-            if(this.asInteger){
-                return value;
-            }
-
-            return this.decimalToPercent(value);
-        },
-        valueOut(value){
-            if(this.asInteger){
-                return value;
-            }
-
-            return this.percentToDecimal(value);
-        },
-        decimalToPercent(value) {
-            if (!value) {
-                return null;
-            }
-
-            return Math.round(value * 100);
-        },
-        percentToDecimal(value) {
-            return value / 100;
-        },
-    },
-};
+  
+const props = defineProps({
+    modelValue: [String, Number],
+    label: [String],
+    error: [Array, String],
+    asInteger: Boolean,
+});
+  
+const emit = defineEmits(['update:modelValue']);
+  
+const field = ref(null);
+  
+function valueIn(value) {
+    if (props.asInteger) {
+        return value;
+    }
+    return decimalToPercent(value);
+}
+  
+function valueOut(value) {
+    if (props.asInteger) {
+        return value;
+    }
+    return percentToDecimal(value);
+}
+  
+function decimalToPercent(value) {
+    if (!value) {
+        return null;
+    }
+    return Math.round(value * 100);
+}
+  
+function percentToDecimal(value) {
+    return value / 100;
+}
+  
+function updateModelValue(value) {
+    emit('update:modelValue', valueOut(value));
+}
 </script>
-
-<style scoped>
-</style>

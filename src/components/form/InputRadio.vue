@@ -1,58 +1,49 @@
 <template>
   <label v-if="inline" class="radio-inline">
     <input
-      v-model="modelValue"
+      v-model="localModelValue"
       :value="value"
       :name="name"
       type="radio"
       class="mr-1"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="onInput"
     >
     <slot />
   </label>
   <div v-else class="radio">
     <label>
       <input
-        v-model="modelValue"
+        v-model="localModelValue"
         :value="value"
         :name="name"
         type="radio"
         class="mr-1"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="onInput"
       >
       <slot />
     </label>
   </div>
 </template>
 
-<script>
-import { toRefs } from 'vue';
+<script setup>
+import { ref, watchEffect } from 'vue';
 
-export default {
-    name: 'InputRadio',
-    components: {},
-    inheritAttrs: true,
-    props: {
-        name: String,
-        modelValue: [String, Number, Boolean],
-        value: [String, Number, Boolean],
-        inline: Boolean,
-    },
-    emits: ['update:modelValue'],
-    setup(props) {
-        let propRefs = toRefs(props);
+const props = defineProps({
+    name: String,
+    modelValue: [String, Number, Boolean],
+    value: [String, Number, Boolean],
+    inline: Boolean,
+});
 
-        return {
-            value: propRefs.value,
-            inline: propRefs.inline,
-        };
-    },
-    computed: {},
-    mounted() {},
-    unmounted() {},
-    methods: {},
-};
+const emit = defineEmits(['update:modelValue']);
+
+const localModelValue = ref(props.modelValue);
+
+watchEffect(() => {
+    localModelValue.value = props.modelValue;
+});
+
+function onInput(event) {
+    emit('update:modelValue', event.target.value);
+}
 </script>
-
-<style scoped>
-</style>

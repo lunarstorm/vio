@@ -25,46 +25,28 @@
   </div>
 </template>
 
-<script>
-import { toRefs } from 'vue';
+<script setup>
+import { computed } from 'vue';
 
-export default {
-    name: 'InputCheckbox',
-    components: {},
-    inheritAttrs: false,
-    props: {
-        name: String,
-        modelValue: [String, Number, Boolean, Array],
-        value: {
-            type: [String, Number, Boolean],
-            default: true,
-        },
-        inline: Boolean,
+const props = defineProps({
+    name: String,
+    modelValue: [String, Number, Boolean, Array],
+    value: {
+        type: [String, Number, Boolean],
+        default: true,
     },
-    emits: ['update:modelValue'],
-    setup(props) {
-        let propRefs = toRefs(props);
+    inline: Boolean,
+});
 
-        return {
-            value: propRefs.value,
-            inline: propRefs.inline,
-        };
+const emit = defineEmits(['update:modelValue']);
+
+const model = computed({
+    get() {
+        return props.modelValue;
     },
-    computed: {
-        model: {
-            get() {
-                return this.modelValue;
-            },
-            set(value) {
-                this.$emit('update:modelValue', value);
-            },
-        },
+    set(value) {
+        emit('update:modelValue', value);
     },
-    mounted() {},
-    unmounted() {},
-    methods: {},
-};
+});
 </script>
 
-<style scoped>
-</style>

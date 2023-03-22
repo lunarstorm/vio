@@ -1,5 +1,5 @@
-import $ from 'jquery';
 import autosize from 'autosize';
+import $ from 'jquery';
 
 export default {
     name: 'autosize',

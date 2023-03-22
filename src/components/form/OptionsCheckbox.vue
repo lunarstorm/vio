@@ -2,7 +2,7 @@
   <InputCheckbox
     v-for="(opt, index) in optionsParsed"
     :key="index"
-    v-model="model"
+    v-model="localModel"
     :value="opt.value"
     :inline="inline"
   >
@@ -11,60 +11,39 @@
     </slot>
   </InputCheckbox>
 </template>
-
-<script>
-import FormOptions from 'vio/helpers/FormOptions';
-import { toRefs } from 'vue';
+  
+<script setup>
+import { ref, watchEffect, computed } from 'vue';
 import InputCheckbox from 'vio/components/form/InputCheckbox.vue';
-
-export default {
-    name: 'OptionsCheckbox',
-    components: {
-        InputCheckbox,
+import FormOptions from 'vio/helpers/FormOptions';
+  
+const props = defineProps({
+    name: String,
+    modelValue: [String, Number, Array],
+    options: {
+        type: [Array, Object],
+        default: [],
     },
-    inheritAttrs: true,
-    props: {
-        name: String,
-        modelValue: [String, Number, Array],
-        options: {
-            type: [Array, Object],
-            default: [],
-        },
-        inline: Boolean,
-    },
-    emits: ['update:modelValue'],
-    setup(props) {
-        return {
-            options: toRefs(props).options,
-            inline: props.inline,
-        };
-    },
-    computed: {
-        optionsParsed() {
-            return FormOptions.normalize(this.options);
-        },
-        model: {
-            get() {
-                return this.modelValue;
-            },
-            set(value) {
-                this.$emit('update:modelValue', value);
-            },
-        },
-    },
-    mounted() {},
-    unmounted() {},
-    methods: {
-        change($event) {
-            console.log(
-                'Options Checkbox change',
-                $event.target.value,
-                this.modelValue,
-            );
-        },
-    },
-};
+    inline: Boolean,
+});
+  
+const emit = defineEmits(['update:modelValue']);
+  
+const localModel = ref(props.modelValue);
+  
+watchEffect(() => {
+    localModel.value = props.modelValue;
+});
+  
+const optionsParsed = computed(() => {
+    return FormOptions.normalize(props.options);
+});
+  
+function change($event) {
+    console.log('Options Checkbox change', $event.target.value, localModel.value);
+}
+  
+watchEffect(() => {
+    emit('update:modelValue', localModel.value);
+});
 </script>
-
-<style scoped>
-</style>

@@ -34,10 +34,10 @@
 </template>
 
 <script>
-import { toRefs } from 'vue';
-import FormOptions from 'vio/helpers/FormOptions';
-import FauxCheckbox from './FauxCheckbox.vue';
 import _ from 'lodash';
+import { toRefs } from 'vue';
+import FauxCheckbox from './FauxCheckbox.vue';
+import FormOptions from 'vio/helpers/FormOptions';
 
 export default {
     name: 'OptionsButton',

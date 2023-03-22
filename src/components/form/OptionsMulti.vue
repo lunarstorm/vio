@@ -1,92 +1,92 @@
 <template>
   <MultiSelect
     ref="multiselect"
-    v-model="modelValue"
+    v-model="localModelValue"
     :options="optionsNormalized"
     :searchable="true"
     :placeholder="_placeholder"
     :close-on-select="true"
     v-bind="$attrs"
-    @change="$emit('update:modelValue', $event)"
+    @change="onChange"
   >
     <template v-for="(_, slot) of $slots" #[slot]="scope">
       <slot :name="slot" v-bind="scope" />
     </template>
   </MultiSelect>
 </template>
-
-<script>
+  
+<script setup>
 import '@vueform/multiselect/themes/default.scss';
 import MultiSelect from '@vueform/multiselect';
-import FormOptions from 'vio/helpers/FormOptions';
 import _ from 'lodash';
-
-export default {
-    name: 'OptionsMulti',
-    components: {
-        MultiSelect,
+import { ref, computed, watchEffect } from 'vue';
+import FormOptions from 'vio/helpers/FormOptions';
+  
+const props = defineProps({
+    modelValue: [String, Number, Array, Object],
+    placeholder: [String, Number],
+    options: {
+        type: [Array, Object, Function],
+        defaultValue: [],
     },
-    inheritAttrs: false,
-    props: {
-        modelValue: [String, Number, Array, Object],
-        placeholder: [String, Number],
-        options: {
-            type: [Array, Object, Function],
-            defaultValue: [],
-        },
-        async: Boolean,
-        clearOption: {
-            type: Boolean,
-            defaultValue: true,
-        },
-        error: [Array, String],
-        valueMustExist: Boolean,
+    async: Boolean,
+    clearOption: {
+        type: Boolean,
+        defaultValue: true,
     },
-    emits: ['update:modelValue'],
-    setup(props) {
-        return {};
-    },
-    computed: {
-        optionsNormalized() {
-            if (this.async) {
-                return this.options;
-            }
+    error: [Array, String],
+    valueMustExist: Boolean,
+});
 
-            return FormOptions.normalize(this.options);
-        },
-        selectedValueExists() {
-            if (!this.modelValue) {
-                return true;
-            }
+const emit = defineEmits(['update:modelValue']);
 
-            let opts = this.optionsNormalized;
-            let index = _.findIndex(opts, (item) => {
-                if (!item) {
-                    return false;
-                }
+const multiselect = ref(null);
 
-                return item.value == this.modelValue;
-            });
+const localModelValue = ref(props.modelValue);
 
-            return index > -1;
-        },
-        _placeholder() {
-            if (!this.selectedValueExists && !this.valueMustExist) {
-                return `${this.modelValue}`;
-            }
+watchEffect(() => {
+    localModelValue.value = props.modelValue;
+});
 
-            return this.placeholder;
-        },
-    },
-    mounted() {},
-    unmounted() {},
-    methods: {
-        clear() {
-            this.$refs.multiselect.clear();
-        },
-    },
-};
+const optionsNormalized = computed(() => {
+    if (props.async) {
+        return props.options;
+    }
+
+    return FormOptions.normalize(props.options);
+});
+
+const selectedValueExists = computed(() => {
+    if (!props.modelValue) {
+        return true;
+    }
+
+    let opts = optionsNormalized.value;
+    let index = _.findIndex(opts, (item) => {
+        if (!item) {
+            return false;
+        }
+
+        return item.value == props.modelValue;
+    });
+
+    return index > -1;
+});
+
+const _placeholder = computed(() => {
+    if (!selectedValueExists.value && !props.valueMustExist) {
+        return `${props.modelValue}`;
+    }
+
+    return props.placeholder;
+});
+
+function onChange(value) {
+    emit('update:modelValue', value);
+}
+
+function clear() {
+    multiselect.value.clear();
+}
 </script>
-
-<style scoped>
-</style>
+  

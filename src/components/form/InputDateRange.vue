@@ -1,9 +1,9 @@
 <template>
   <InputGroup class="input-group input-group-alt">
     <InputDate
-      v-model="from"
+      :v-model="localFrom"
       :placeholder="labelFrom"
-      @change="$emit('update:from', $event.target.value)"
+      @change="$emit('update:from', $event)"
     />
     <div class="input-group-prepend input-group-append">
       <div class="input-group-text">
@@ -11,64 +11,37 @@
       </div>
     </div>
     <InputDate
-      v-model="to"
+      :v-model="localTo"
       :placeholder="labelTo"
-      @change="$emit('update:to', $event.target.value)"
+      @change="$emit('update:to', $event)"
     />
   </InputGroup>
 </template>
 
-<script>
-import { toRefs } from 'vue';
+<script setup>
+import { defineProps, defineEmits, ref } from 'vue';
 import InputGroup from './InputGroup.vue';
 import InputDate from 'vio/components/form/InputDate.vue';
 
-export default {
-    name: 'InputDateRange',
-    components: {
-        InputGroup,
-        InputDate,
+const props = defineProps({
+    from: [String, Object],
+    to: [String, Object],
+    labelFrom: {
+        type: String,
+        default: 'Start Date',
     },
-    props: {
-        from: [String, Object],
-        to: [String, Object],
-        labelFrom: {
-            type: String,
-            default: 'Start Date',
-        },
-        labelTo: {
-            type: String,
-            default: 'End Date',
-        },
-        options: {
-            type: Object,
-            default: {},
-        },
+    labelTo: {
+        type: String,
+        default: 'End Date',
     },
-    emits: [
-        'update:from',
-        'update:to',
-    ],
-    setup(props) {
-        let propRefs = toRefs(props);
+    options: {
+        type: Object,
+        default: () => {},
+    },
+});
 
-        return {
-            options: propRefs.options,
-        };
-    },
-    computed: {},
-    created() {
-    },
-    mounted() {
-    },
-    updated() {
-    },
-    unmounted() {
-    },
-    methods: {},
-};
+const localFrom = ref(props.from);
+const localTo = ref(props.to);
+
+const emit = defineEmits(['update:from', 'update:to']);
 </script>
-
-<style scoped>
-
-</style>

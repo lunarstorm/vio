@@ -1,9 +1,9 @@
 <template>
   <select
-    v-model="modelValue"
+    v-model="localModelValue"
     :name="name"
     class="form-control"
-    @change="$emit('update:modelValue', $event.target.value)"
+    @change="onChange"
   >
     <option v-if="placeholder" :value="null" disabled>
       {{ placeholder }}
@@ -14,49 +14,43 @@
   </select>
 </template>
 
-<script>
+<script setup>
+import { ref, watchEffect, computed } from 'vue';
 import FormOptions from 'vio/helpers/FormOptions';
-import { toRefs } from 'vue';
 
-export default {
-    name: 'OptionsSelect',
-    components: {},
-    inheritAttrs: true,
-    props: {
-        name: {
-            type: String,
-            default: '',
-        },
-        caption: {
-            type: Boolean,
-            default: true,
-        },
-        placeholder: {
-            type: String,
-            default: 'Select an option',
-        },
-        modelValue: [String, Number],
-        options: {
-            type: [Array, Object],
-            default: [],
-        },
+const props = defineProps({
+    name: {
+        type: String,
+        default: '',
     },
-    setup(props) {
-        return {
-            options: toRefs(props).options,
-            caption: props.caption,
-        };
+    caption: {
+        type: Boolean,
+        default: true,
     },
-    computed: {
-        optionsParsed() {
-            return FormOptions.normalize(this.options);
-        },
+    placeholder: {
+        type: String,
+        default: 'Select an option',
     },
-    mounted() {},
-    unmounted() {},
-    methods: {},
-};
+    modelValue: [String, Number],
+    options: {
+        type: [Array, Object],
+        default: [],
+    },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const localModelValue = ref(props.modelValue);
+
+watchEffect(() => {
+    localModelValue.value = props.modelValue;
+});
+
+const optionsParsed = computed(() => {
+    return FormOptions.normalize(props.options);
+});
+
+function onChange(event) {
+    emit('update:modelValue', event.target.value);
+}
 </script>
-
-<style scoped>
-</style>

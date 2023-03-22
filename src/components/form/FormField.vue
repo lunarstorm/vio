@@ -1,31 +1,21 @@
 <template>
   <div>
     <slot />
-    <FormError v-model="error" />
+    <FormError v-model="localError" />
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, watchEffect } from 'vue';
 import FormError from 'vio/components/form/FormError.vue';
 
-export default {
-    name: 'FormField',
-    components: {
-        FormError,
-    },
-    inheritAttrs: true,
-    props: {
-        error: [Array, String, Number],
-    },
-    setup(props) {
-        return {};
-    },
-    computed: {},
-    mounted() {},
-    unmounted() {},
-    methods: {},
-};
-</script>
+const props = defineProps({
+    error: [Array, String, Number],
+});
 
-<style scoped>
-</style>
+const localError = ref(props.error);
+
+watchEffect(() => {
+    localError.value = props.error;
+});
+</script>

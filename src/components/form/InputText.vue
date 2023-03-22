@@ -6,49 +6,36 @@
     type="text"
     class="form-control"
     v-bind="$attrs"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @input="onInput"
   >
   <FormError v-model="errorModel" />
 </template>
-
-<script>
+  
+<script setup>
+import { ref, watchEffect } from 'vue';
 import FormError from 'vio/components/form/FormError.vue';
-import { ref } from 'vue';
-
-export default {
-    name: 'InputText',
-    components: {
-        FormError,
-    },
-    inheritAttrs: false,
-    props: {
-        modelValue: [String, Number],
-        label: [String],
-        error: [Array, String],
-    },
-    emits: ['update:modelValue'],
-    setup(props) {
-        const errorModel = ref(props.error);
-
-        return {
-            errorModel,
-            options: props.options,
-        };
-    },
-    computed: {
-        ref() {
-            return this.$refs.field;
-        },
-    },
-    mounted() {},
-    unmounted() {},
-    methods: {
-        focus(){
-            this.$refs.field?.focus();
-        },
-    },
-};
+  
+const props = defineProps({
+    modelValue: [String, Number],
+    label: [String],
+    error: [Array, String],
+});
+  
+const emit = defineEmits(['update:modelValue']);
+  
+const field = ref(null);
+const errorModel = ref(props.error);
+  
+watchEffect(() => {
+    errorModel.value = props.error;
+});
+  
+function onInput(event) {
+    emit('update:modelValue', event.target.value);
+}
+  
+function focus() {
+    field.value?.focus();
+}
 </script>
-
-<style scoped>
-</style>
+  

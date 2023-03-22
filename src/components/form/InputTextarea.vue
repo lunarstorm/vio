@@ -4,39 +4,28 @@
     v-autosize
     :value="modelValue"
     class="form-control"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @input="onInput"
   />
 </template>
-
-<script>
-import autosize from 'vio/directives/autosize';
-
-export default {
-    name: 'InputTextarea',
-    directives: { autosize },
-    components: {},
-    inheritAttrs: true,
-    props: {
-        modelValue: [String, Number],
-    },
-    emits: ['update:modelValue'],
-    setup(props) {
-        return {};
-    },
-    computed: {
-        ref() {
-            return this.$refs.field;
-        },
-    },
-    mounted() {},
-    unmounted() {},
-    methods: {
-        focus(){
-            this.$refs.field?.focus();
-        },
-    },
-};
+  
+<script setup>
+import { ref } from 'vue';
+import { default as vAutosize } from 'vio/directives/autosize';
+  
+const props = defineProps({
+    modelValue: [String, Number],
+});
+  
+const emit = defineEmits(['update:modelValue']);
+  
+const field = ref(null);
+  
+function onInput(event) {
+    emit('update:modelValue', event.target.value);
+}
+  
+function focus() {
+    field.value?.focus();
+}
 </script>
-
-<style scoped>
-</style>
+  

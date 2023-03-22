@@ -16,36 +16,29 @@
   </div>
 </template>
 
-<script>
-export default {
-    name: 'InputGroup',
-    components: {},
-    inheritAttrs: true,
-    props: {
-        alt: {
-            type: Boolean,
-            default: true,
-        },
-    },
-    setup(props) {
-        return {};
-    },
-    computed: {
-        classes() {
-            let c = [];
+<script setup>
+import { computed } from 'vue';
 
-            if (this.alt) {
-                c.push('input-group-alt');
-            }
-
-            return c;
-        },
+const props = defineProps({
+    alt: {
+        type: Boolean,
+        default: true,
     },
-    mounted() {},
-    unmounted() {},
-    methods: {},
-};
+});
+
+const classes = computed(() => {
+    let c = [];
+
+    if (props.alt) {
+        c.push('input-group-alt');
+    }
+
+    return c;
+});
 </script>
 
-<style scoped>
-</style>
+<script>
+export default {
+    inheritAttrs: false,
+};
+</script>

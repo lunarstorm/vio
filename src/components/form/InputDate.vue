@@ -7,55 +7,48 @@
     @change="$emit('update:modelValue', $event.target.value)"
   >
 </template>
-
-<script>
+  
+<script setup>
 import flatpickr from 'flatpickr';
-
+import { ref, onMounted, onUpdated, onUnmounted } from 'vue';
+  
 const DATE_FORMAT = 'yyyy-MM-dd';
-
-export default {
-    name: 'InputDate',
-    components: {},
-    props: {
-        modelValue: [String, Object],
-        options: {
-            type: Object,
-            default: {},
-        },
+  
+const props = defineProps({
+    modelValue: [String, Object],
+    options: {
+        type: Object,
+        default: {},
     },
-    emits: ['update:modelValue'],
-    setup(props) {
-        let FP = null;
-
-        return {
-            FP,
-        };
-    },
-    computed: {},
-    created() { },
-    mounted() {
-        let $field = this.$refs.field;
-
-        this.FP = flatpickr($field, {
-            allowInput: true,
-            ...this.options,
-        });
-    },
-    updated() {
-        this.FP.setDate(this.modelValue, true);
-    },
-    unmounted() {
-        if (this.FP) {
-            this.FP.destroy();
-        }
-    },
-    methods: {
-        focus(){
-            this.$refs.field?.focus();
-        },
-    },
-};
+});
+  
+const emit = defineEmits(['update:modelValue']);
+  
+const field = ref(null);
+let FP = null;
+  
+onMounted(() => {
+    FP = flatpickr(field.value, {
+        allowInput: true,
+        ...props.options,
+    });
+});
+  
+onUpdated(() => {
+    FP.setDate(props.modelValue, true);
+});
+  
+onUnmounted(() => {
+    if (FP) {
+        FP.destroy();
+    }
+});
+  
+function focus() {
+    field.value?.focus();
+}
 </script>
-
-<style scoped>
-</style>
+  
+  <style scoped>
+  </style>
+  

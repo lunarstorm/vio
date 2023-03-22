@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import { toRefs } from 'vue';
 import numeral from 'numeral';
+import { toRefs } from 'vue';
 
 export default {
     name: 'TextNumeric',

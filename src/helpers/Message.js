@@ -1,6 +1,6 @@
+import _ from 'lodash';
 import { reactive } from 'vue';
 import Messages from 'vio/helpers/Messages';
-import _ from 'lodash';
 
 const LEVEL_INFO = 'info',
     LEVEL_SUCCESS = 'success',

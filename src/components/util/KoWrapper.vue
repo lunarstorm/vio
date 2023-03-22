@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
 import ko from 'knockout';
+import { reactive, ref } from 'vue';
 import 'knockout-mapping';
 
 export default {

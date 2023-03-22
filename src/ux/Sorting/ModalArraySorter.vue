@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import Modal from 'vio/components/modal/Modal.vue';
 import VueDraggable from 'vuedraggable';
+import Modal from 'vio/components/modal/Modal.vue';
 
 export default {
     name: 'ModalArraySorter',

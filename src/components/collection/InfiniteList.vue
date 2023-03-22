@@ -35,9 +35,9 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import { ref, toRefs } from 'vue';
 import Ui from 'vio/Ui';
-import _ from 'lodash';
 
 export default {
     name: 'InfiniteList',

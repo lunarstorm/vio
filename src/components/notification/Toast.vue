@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import Message from 'vio/helpers/Message';
 import { ref, watch } from 'vue';
+import Message from 'vio/helpers/Message';
 
 export default {
     name: 'Toast',

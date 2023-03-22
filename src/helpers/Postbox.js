@@ -1,5 +1,5 @@
-import { reactive, watch, getCurrentInstance, onUnmounted } from 'vue';
 import _ from 'lodash';
+import { reactive, watch, getCurrentInstance, onUnmounted } from 'vue';
 
 class Postbox {
     constructor(defaults) {

@@ -19,10 +19,10 @@
 
 <script>
 import $ from 'jquery';
-import Ui from 'vio/Ui';
-import { ref } from 'vue';
 import _ from 'lodash';
+import { ref } from 'vue';
 import Modal from 'vio/helpers/Modal';
+import Ui from 'vio/Ui';
 
 export default {
     name: 'AffixBottom',

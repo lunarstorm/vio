@@ -1,7 +1,7 @@
 import { h, ref, render, watch } from 'vue';
 
-import VioModal from 'vio/components/modal/Modal.vue';
 import ComponentWrapper from 'vio/components/modal/ComponentWrapper.vue';
+import VioModal from 'vio/components/modal/Modal.vue';
 
 class Modal {
 

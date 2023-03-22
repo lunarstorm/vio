@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import autosize from 'vio/directives/autosize';
 import { reactive, ref, toRefs } from 'vue';
 import Avatar from 'vio/components/comment/Avatar.vue';
+import autosize from 'vio/directives/autosize';
 import Social from 'vio/helpers/Social';
 
 export default {

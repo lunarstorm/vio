@@ -1,6 +1,6 @@
+import io from 'io/app';
 import $ from 'jquery';
 import _ from 'lodash';
-import io from 'io/app';
 import 'io/ui/messages';
 
 class Api {

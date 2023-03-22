@@ -111,10 +111,10 @@
 </template>
 
 <script>
-import { computed, reactive, ref } from 'vue';
 import api from 'io/api';
-import CommentReplies from './ConversationThread.vue';
+import { computed, reactive, ref } from 'vue';
 import InputTextarea from '../form/InputTextarea.vue';
+import CommentReplies from './ConversationThread.vue';
 import Avatar from 'vio/components/comment/Avatar.vue';
 import TextTimeAgo from 'vio/components/text/TextTimeAgo.vue';
 

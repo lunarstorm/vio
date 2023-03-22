@@ -49,15 +49,15 @@
 </template>
 
 <script>
-import InputText from 'vio/components/form/InputText.vue';
-import InputDate from 'vio/components/form/InputDate.vue';
-import InputCheckbox from 'vio/components/form/InputCheckbox.vue';
-import FormGroup from 'vio/components/form/FormGroup.vue';
-import FilterField from 'vio/ux/SearchFilter/FilterField.vue';
-import Metadata from 'vio/helpers/Metadata';
-import OptionsRadio from 'vio/components/form/OptionsRadio.vue';
-import OptionsMulti from 'vio/components/form/OptionsMulti.vue';
 import ButtonSubmit from 'vio/components/form/ButtonSubmit.vue';
+import FormGroup from 'vio/components/form/FormGroup.vue';
+import InputCheckbox from 'vio/components/form/InputCheckbox.vue';
+import InputDate from 'vio/components/form/InputDate.vue';
+import InputText from 'vio/components/form/InputText.vue';
+import OptionsMulti from 'vio/components/form/OptionsMulti.vue';
+import OptionsRadio from 'vio/components/form/OptionsRadio.vue';
+import Metadata from 'vio/helpers/Metadata';
+import FilterField from 'vio/ux/SearchFilter/FilterField.vue';
 
 export default {
     name: 'FilterForm',

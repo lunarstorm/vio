@@ -106,9 +106,9 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import { toRefs, ref, defineAsyncComponent, inject } from 'vue';
 import TimeAgo from 'vio/components/text/TextTimeAgo.vue';
-import _ from 'lodash';
 
 const FeedItem = defineAsyncComponent(() => import('./FeedItem.vue'));
 const FeedItemObject = defineAsyncComponent(() => import('./FeedItemObject.vue'));

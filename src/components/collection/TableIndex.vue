@@ -69,8 +69,8 @@
 
 <script>
 import { ref, watch, watchEffect, toRefs, defineAsyncComponent } from 'vue';
-import BatchSelector from 'vio/helpers/BatchSelector';
 import InfiniteTable from './InfiniteTable.vue';
+import BatchSelector from 'vio/helpers/BatchSelector';
 
 const FauxCheckbox = defineAsyncComponent(() =>
     import('vio/components/form/FauxCheckbox.vue'),

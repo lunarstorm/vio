@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import { toRefs } from 'vue';
 import { DateTime } from 'luxon';
+import { toRefs } from 'vue';
 import Date from 'vio/helpers/Date';
 
 const DATE_FORMAT = 'yyyy-MM-dd';

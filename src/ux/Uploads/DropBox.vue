@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import { Dropzone } from 'dropzone';
+import { ref } from 'vue';
 import 'dropzone/dist/dropzone.css';
 
 let drop = null;

@@ -1,8 +1,8 @@
 import Dialog from 'vio/helpers/Dialog';
-import Modal from 'vio/helpers/Modal';
-import Messages from 'vio/helpers/Messages';
 import Http from 'vio/helpers/Http';
+import Messages from 'vio/helpers/Messages';
 import Metadata from 'vio/helpers/Metadata';
+import Modal from 'vio/helpers/Modal';
 
 export default {
     install: (app, options) => {

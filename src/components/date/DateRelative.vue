@@ -4,8 +4,8 @@
 
 <script>
 import { DateTime } from 'luxon';
-import Date from 'vio/helpers/Date';
 import { ref, watchEffect } from 'vue';
+import Date from 'vio/helpers/Date';
 
 let interval = null;
 

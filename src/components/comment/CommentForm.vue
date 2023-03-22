@@ -40,11 +40,11 @@
 </template>
 
 <script>
-import io from 'io/app';
 import api from 'io/api';
-import autosize from 'vio/directives/autosize';
+import io from 'io/app';
 import $ from 'jquery';
 import { reactive, watch, toRefs, ref } from 'vue';
+import autosize from 'vio/directives/autosize';
 
 export default {
     name: 'CommentForm',

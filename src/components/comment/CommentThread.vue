@@ -84,6 +84,9 @@
 </template>
 
 <script>
+import io from 'io/app';
+import $ from 'jquery';
+import _ from 'lodash';
 import {
     defineAsyncComponent,
     reactive,
@@ -91,10 +94,7 @@ import {
     toRefs,
     provide,
 } from 'vue';
-import _ from 'lodash';
-import io from 'io/app';
 import api from 'vio/Api';
-import $ from 'jquery';
 import Spinner from 'vio/components/spinner/Spinner.vue';
 
 const CommentForm = defineAsyncComponent(() => import('./CommentForm.vue'));

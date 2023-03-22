@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import _ from 'lodash';
+import { ref } from 'vue';
 
 export default {
     name: 'LinkAddress',

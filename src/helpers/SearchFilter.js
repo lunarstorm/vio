@@ -1,5 +1,5 @@
-import { reactive, watch } from 'vue';
 import _ from 'lodash';
+import { reactive, watch } from 'vue';
 
 class SearchFilter {
     constructor(defaults) {

@@ -130,9 +130,9 @@
 
 <script>
 import _ from 'lodash';
-import VueDraggable from 'vuedraggable';
 import { v4 as uuidv4 } from 'uuid';
 import { ref, watch, watchEffect } from 'vue';
+import VueDraggable from 'vuedraggable';
 import BatchSelector from 'vio/helpers/BatchSelector';
 
 export default {

@@ -16,9 +16,9 @@
 <script>
 import $ from 'jquery';
 import _ from 'lodash';
-import Modal from './Modal.vue';
-import { defineAsyncComponent, provide, reactive, resolveComponent, watch } from 'vue';
 import Url from 'url-parse';
+import { defineAsyncComponent, provide, reactive, resolveComponent, watch } from 'vue';
+import Modal from './Modal.vue';
 import ModalHelper from 'vio/helpers/Modal';
 
 var scrollPosition = null;

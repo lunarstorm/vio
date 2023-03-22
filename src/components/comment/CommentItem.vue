@@ -104,11 +104,11 @@
 </template>
 
 <script>
-import { toRefs, reactive, ref, computed } from 'vue';
-import api from 'io/api';
 import TimeAgo from 'components/ui/etc/TimeAgo.vue';
-import CommentReplies from './CommentThread.vue';
+import api from 'io/api';
+import { toRefs, reactive, ref, computed } from 'vue';
 import InputTextarea from '../form/InputTextarea.vue';
+import CommentReplies from './CommentThread.vue';
 
 export default {
     name: 'CommentItem',

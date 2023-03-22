@@ -81,8 +81,9 @@
 
 <script>
 import { ref, watch, watchEffect, toRefs, defineAsyncComponent } from 'vue';
-import BatchSelector from 'vio/helpers/BatchSelector';
 import InfiniteList from './InfiniteList.vue';
+import BatchSelector from 'vio/helpers/BatchSelector';
+
 const ContextMenu = defineAsyncComponent(() =>
     import('vio/components/menu/ContextMenu.vue'),
 );

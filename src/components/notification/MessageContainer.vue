@@ -64,8 +64,8 @@
 
 <script>
 import ToastMessage from 'vio/components/notification/Toast.vue';
-import Messages from 'vio/helpers/Messages';
 import Message from 'vio/helpers/Message';
+import Messages from 'vio/helpers/Messages';
 
 export default {
     name: 'MessageContainer',

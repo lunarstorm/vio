@@ -14,16 +14,11 @@
   </button>
 </template>
 
-<script>
-export default {
-    name: 'ButtonSubmit',
-    inheritAttrs: true,
-    props: {
-        busy: Boolean,
+<script setup>
+defineProps({
+    busy: {
+        type: Boolean,
+        default: false,
     },
-};
+});
 </script>
-
-<style scoped>
-
-</style>

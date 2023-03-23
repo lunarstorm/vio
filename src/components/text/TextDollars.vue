@@ -6,26 +6,14 @@
   </TextNumeric>
 </template>
 
-<script>
+<script setup>
 import TextNumeric from 'vio/components/text/TextNumeric.vue';
 
-export default {
-    name: 'TextDollars',
-    components: {
-        TextNumeric,
+const props = defineProps({
+    value: [String, Number],
+    symbol: {
+        type: [String, Boolean],
+        default: '$',
     },
-    props: {
-        value: [String, Number],
-        symbol: {
-            type: [String, Boolean],
-            default: '$',
-        },
-    },
-    setup(props) {},
-    computed: {},
-    methods: {},
-};
+});
 </script>
-
-<style scoped>
-</style>

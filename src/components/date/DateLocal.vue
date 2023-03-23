@@ -1,31 +1,24 @@
 <template>
   <span ref="el" :title="dateFormatted">{{ dateFormatted }}</span>
 </template>
-
-<script>
+  
+<script setup>
 import { DateTime } from 'luxon';
+import { computed } from 'vue';
 import Date from 'vio/helpers/Date';
-
-export default {
-    name: 'DateLocal',
-    props: {
-        date: [String, Number],
-        format: {
-            type: [String, Object],
-            default: DateTime.DATETIME_FULL,
-        },
+  
+const props = defineProps({
+    date: [String, Number],
+    format: {
+        type: [String, Object],
+        default: DateTime.DATETIME_FULL,
     },
-    setup(props) {
-        const dt = Date.parse(props.date);
-
-        return {
-            dt,
-        };
-    },
-    computed: {
-        dateFormatted() {
-            return this.dt.toLocaleString(this.format);
-        },
-    },
-};
+});
+  
+const dt = Date.parse(props.date);
+  
+const dateFormatted = computed(() => {
+    return dt.toLocaleString(props.format);
+});
 </script>
+  

@@ -22,62 +22,47 @@
   </div>
 </template>
 
-<script>
-import { ref, toRefs } from 'vue';
+<script setup>
+import { ref, computed } from 'vue';
 
-export default {
-    name: 'TextLong',
-    props: {
-        expanded: {
-            type: Boolean,
-            default: false,
-        },
-        maxChars: {
-            type: Number,
-            default: 100,
-        },
-        text: String,
+const props = defineProps({
+    expanded: {
+        type: Boolean,
+        default: false,
     },
-    setup(props) {
-        return {
-            maxChars: ref(props.maxChars),
-            expanded: ref(props.expanded),
-            text: toRefs(props).text,
-        };
+    maxChars: {
+        type: Number,
+        default: 100,
     },
-    computed: {
-        length() {
-            return this.text ? this.text.length : 0;
-        },
-        isNotLong() {
-            return !this.isTooLong;
-        },
-        isTooLong() {
-            return this.maxChars < this.length;
-        },
-        textShort() {
-            if (this.isTooLong) {
-                let shortened = this.text.slice(0, this.maxChars).trim() + '...';
-                return this.nl2br(shortened);
-            }
+    text: String,
+});
 
-            return this.textFull;
-        },
-        textFull() {
-            return this.nl2br(this.text);
-        },
-    },
-    methods: {
-        toggle() {
-            this.expanded = !this.expanded;
-            return false;
-        },
-        nl2br(text) {
-            return text ? text.replace(/\n/g, '<br />') : '';
-        },
-    },
-};
+const expanded = ref(props.expanded);
+const maxChars = ref(props.maxChars);
+
+const length = computed(() => props.text ? props.text.length : 0);
+const isNotLong = computed(() => !isTooLong.value);
+const isTooLong = computed(() => maxChars.value < length.value);
+
+const textShort = computed(() => {
+    if (isTooLong.value) {
+        let shortened = props.text.slice(0, maxChars.value).trim() + '...';
+        return nl2br(shortened);
+    }
+    return textFull.value;
+});
+
+const textFull = computed(() => {
+    return nl2br(props.text);
+});
+
+function toggle() {
+    expanded.value = !expanded.value;
+    return false;
+}
+
+function nl2br(text) {
+    return text ? text.replace(/\n/g, '<br />') : '';
+}
 </script>
-
-<style scoped>
-</style>
+ 

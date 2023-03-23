@@ -70,12 +70,10 @@
 
 <script>
 import { toRefs } from 'vue';
-import InputText from 'vio/components/form/InputText.vue';
 
 export default {
     name: 'InputAddress',
     components: {
-        InputText,
     },
     props: {
         line1: String,
@@ -87,7 +85,7 @@ export default {
         country: String,
         options: {
             type: Object,
-            default: {},
+            default: () => {},
         },
     },
     emits: [
@@ -119,7 +117,3 @@ export default {
     methods: {},
 };
 </script>
-
-<style scoped>
-
-</style>

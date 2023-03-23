@@ -13,16 +13,11 @@
   </button>
 </template>
 
-<script>
-export default {
-    name: 'ButtonSpin',
-    inheritAttrs: true,
-    props: {
-        busy: Boolean,
+<script setup>
+defineProps({
+    busy: {
+        type: Boolean,
+        default: false,
     },
-};
+});
 </script>
-
-<style scoped>
-
-</style>

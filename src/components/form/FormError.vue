@@ -3,38 +3,21 @@
     {{ errorText }}
   </div>
 </template>
-
-<script>
+  
+<script setup>
 import _ from 'lodash';
-import { toRefs } from 'vue';
+import { computed } from 'vue';
+  
+const props = defineProps({
+    modelValue: [Array, String, Number],
+});
 
-export default {
-    name: 'FormError',
-    components: {},
-    inheritAttrs: true,
-    props: {
-        modelValue: [Array, String, Number],
-    },
-    setup(props) {
-        const pRefs = toRefs(props);
-        return {
-            error: pRefs.modelValue,
-        };
-    },
-    computed: {
-        errorText() {
-            if (_.isArray(this.error)) {
-                return this.error.join(', ');
-            }
-
-            return this.error;
-        },
-    },
-    mounted() {},
-    unmounted() {},
-    methods: {},
-};
+const errorText = computed(() => {
+    if (_.isArray(props.modelValue)) {
+        return props.modelValue.join(', ');
+    }
+  
+    return props.modelValue;
+});
 </script>
-
-<style scoped>
-</style>
+  

@@ -1,33 +1,20 @@
 <template>
   <span ref="el" :title="title">{{ dateFormatted }}</span>
 </template>
-
-<script>
+  
+<script setup>
 import { DateTime } from 'luxon';
+import { computed } from 'vue';
 import Date from 'vio/helpers/Date';
-
-export default {
-    name: 'DateRelative',
-    props: {
-        value: [String, Number],
-    },
-    setup(props) {
-        const dt = Date.parse(props.value);
-
-        return {
-            dt,
-        };
-    },
-    computed: {
-        dateFormatted() {
-            return this.dt.toRelative();
-        },
-        title() {
-            return this.dt.toLocaleString(DateTime.DATETIME_FULL);
-        },
-    },
-};
+  
+const props = defineProps({
+    value: [String, Number],
+});
+  
+const dt = Date.parse(props.value);
+  
+const dateFormatted = computed(() => dt.toRelative());
+  
+const title = computed(() => dt.toLocaleString(DateTime.DATETIME_FULL));
 </script>
-
-<style scoped>
-</style>
+  

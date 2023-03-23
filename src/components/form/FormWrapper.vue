@@ -5,28 +5,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { provide } from 'vue';
 import Form from 'vio/helpers/Form';
 
-export default {
-    name: 'FormWrapper',
-    components: {},
-    inheritAttrs: true,
-    props: {
-        form: [Form],
-    },
-    setup(props) {
-        provide('form', props.form);
+const props = defineProps({
+    form: [Form],
+});
 
-        return {};
-    },
-    computed: {},
-    mounted() {},
-    unmounted() {},
-    methods: {},
-};
+provide('form', props.form);
 </script>
-
-<style scoped>
-</style>

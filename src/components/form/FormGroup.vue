@@ -3,33 +3,15 @@
     <slot />
   </FormField>
 </template>
-
-<script>
+  
+<script setup>
 import { inject } from 'vue';
 import FormField from 'vio/components/form/FormField.vue';
-
-export default {
-    name: 'FormGroup',
-    components: {
-        FormField,
-    },
-    inheritAttrs: true,
-    props: {
-        error: [Array, String, Number],
-    },
-    setup(props) {
-        const form = inject('form', null);
-
-        return {
-            form,
-        };
-    },
-    computed: {},
-    mounted() {},
-    unmounted() {},
-    methods: {},
-};
+  
+const props = defineProps({
+    error: [Array, String, Number],
+});
+  
+const form = inject('form', null);
 </script>
-
-<style scoped>
-</style>
+  

@@ -1,26 +1,19 @@
 <template>
   <span ref="el" :title="dateFormatted">{{ dateFormatted }}</span>
 </template>
-
-<script>
+  
+<script setup>
+import { computed } from 'vue';
 import Date from 'vio/helpers/Date';
-
-export default {
-    name: 'DateYmd',
-    props: {
-        date: [String, Number],
-    },
-    setup(props) {
-        const dt = Date.parse(props.date);
-
-        return {
-            dt,
-        };
-    },
-    computed: {
-        dateFormatted() {
-            return this.dt.toISODate();
-        },
-    },
-};
+  
+const props = defineProps({
+    date: [String, Number],
+});
+  
+const dt = Date.parse(props.date);
+  
+const dateFormatted = computed(() => {
+    return dt.toISODate();
+});
 </script>
+  

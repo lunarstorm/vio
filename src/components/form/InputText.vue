@@ -37,5 +37,9 @@ function onInput(event) {
 function focus() {
     field.value?.focus();
 }
+
+defineExpose({
+    focus,
+});
 </script>
   

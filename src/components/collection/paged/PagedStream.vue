@@ -1,8 +1,8 @@
 <template>
   <div class="table-responsive">
     <table class="table" v-bind="$attrs">
+      <slot name="head" :page="page_" />
       <template v-if="items && items.length > 0">
-        <slot name="head" :page="page_" />
         <slot name="body" :page="page_">
           <tbody>
             <template v-for="(item, index) in items" :key="item.id">
@@ -18,7 +18,7 @@
       </template>
       <tbody v-else>
         <tr>
-          <td class="p-4 text-center text-muted">
+          <td colspan="100" class="p-4 text-center text-muted">
             No Items
           </td>
         </tr>
@@ -81,6 +81,9 @@ export default {
         hasMore(){
             return !!this.nextUrl;
         },
+    },
+    updated(){
+        this.page_ = this.page;
     },
     methods: {
         loadMore() {

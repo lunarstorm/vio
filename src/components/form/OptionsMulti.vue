@@ -82,7 +82,7 @@ const _placeholder = computed(() => {
 });
 
 function onChange(value) {
-    emit('update:modelValue', value);
+    emit('update:modelValue', value ?? null);
 }
 
 function clear() {

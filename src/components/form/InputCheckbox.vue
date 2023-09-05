@@ -25,6 +25,12 @@
   </div>
 </template>
 
+<script>
+export default {
+    inheritAttrs: false,
+}
+</script>
+
 <script setup>
 import { computed } from 'vue';
 
